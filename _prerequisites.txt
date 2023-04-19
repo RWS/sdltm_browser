@@ -1,0 +1,9 @@
+Please read this document as you're building the app.
+
+1a. At "Downloading QT" -> use this link: https://download.qt.io/archive/qt/5.12/5.12.12/qt-opensource-windows-x86-5.12.12.exe
+1b. At "Select components" -> select MSVC 2017 64-bit and MSVC 2017 32-bit
+
+2. Downloading OpenSSL : from https://slproweb.com/products/Win32OpenSSL.html or https://slproweb.com/download/Win64OpenSSL-3_1_0.msi
+2b. Copy c:\Program Files\OpenSSL-Win64 to C:\dev\OpenSSL-Win64
+
+
