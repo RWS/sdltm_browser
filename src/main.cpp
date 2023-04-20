@@ -1,7 +1,10 @@
 
+#include <iostream>
+
 #include "Application.h"
 #include "sqlite.h"
 #include <QMessageBox>
+#include <qsslsocket.h>
 
 static QString message = QString();
 
@@ -44,6 +47,10 @@ int main( int argc, char ** argv )
 
     // Create application object. All the initialisation stuff happens in there
     Application a(argc, argv);
+
+    auto sslVersion = QSslSocket::sslLibraryBuildVersionString();
+    std::cout << sslVersion.toStdString();
+
 
     // If there has been invocations to the message handler, show it to user in a message box.
     if(!message.isEmpty()) {

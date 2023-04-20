@@ -466,10 +466,13 @@ target_link_libraries(${PROJECT_NAME}
 
 if(MSVC)
     set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "DB Browser for SQLite")
-    set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE")
+    #set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE")
+    set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS,5.02 /ENTRY:mainCRTStartup")
+
     set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_DEFINITIONS_DEBUG "_CONSOLE")
     set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:CONSOLE")
     set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_DEFINITIONS_RELWITHDEBINFO "_CONSOLE")
+
     if(CMAKE_CL_64)
         set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS,5.02 /ENTRY:mainCRTStartup")
         set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS,5.02")
@@ -550,8 +553,8 @@ if(WIN32 AND MSVC)
     # The files below are common to all configurations
     install(FILES
         ${SQLITE3_DLL}
-        ${OPENSSL_PATH}/libeay32.dll
-        ${OPENSSL_PATH}/ssleay32.dll
+        ${OPENSSL_PATH}/libcrypto-1_1-x64.dll
+        ${OPENSSL_PATH}/libssl-1_1-x64.dll
         DESTINATION "/"
     )
 

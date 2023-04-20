@@ -135,12 +135,13 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <Link>
       <AdditionalDependencies>C:\dev\SQLite-Win64\sqlite3.lib;C:\dev\Qt\5.12.12\msvc2017_64\lib\Qt5Testd.lib;C:\dev\Qt\5.12.12\msvc2017_64\lib\Qt5Networkd.lib;C:\dev\Qt\5.12.12\msvc2017_64\lib\Qt5Concurrentd.lib;C:\dev\Qt\5.12.12\msvc2017_64\lib\Qt5Xmld.lib;libs\qhexedit\Debug\qhexedit.lib;libs\qcustomplot-source\Debug\qcustomplot.lib;libs\qscintilla\Qt4Qt5\Debug\qscintilla2.lib;C:\dev\Qt\5.12.12\msvc2017_64\lib\Qt5PrintSupportd.lib;C:\dev\Qt\5.12.12\msvc2017_64\lib\Qt5Widgetsd.lib;C:\dev\Qt\5.12.12\msvc2017_64\lib\Qt5Guid.lib;C:\dev\Qt\5.12.12\msvc2017_64\lib\Qt5Cored.lib;C:\dev\Qt\5.12.12\msvc2017_64\lib\qtmaind.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64 /SUBSYSTEM:WINDOWS,5.02</AdditionalOptions>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImportLibrary>C:/code/sdltm_browser/Debug/DB Browser for SQLite.lib</ImportLibrary>
       <ProgramDataBaseFile>C:/code/sdltm_browser/Debug/DB Browser for SQLite.pdb</ProgramDataBaseFile>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
