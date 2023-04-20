@@ -1,0 +1,1675 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{31845F9F-E67E-32AD-8B81-2BE8527FED19}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>qscintilla2</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">qscintilla2.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">qscintilla2</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">qscintilla2.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">qscintilla2</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">qscintilla2.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">qscintilla2</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">qscintilla2.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">qscintilla2</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\include;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\lexlib;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtWidgets" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtGui" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtANGLE" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtCore" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/./mkspecs/win32-msvc" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtPrintSupport"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;SCINTILLA_QT;SCI_LEXER;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_PRINTSUPPORT_LIB;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;SCINTILLA_QT;SCI_LEXER;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_PRINTSUPPORT_LIB;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\include;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\lexlib;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\src;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\include;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\lexlib;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\src;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\include;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\lexlib;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtWidgets" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtGui" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtANGLE" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtCore" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/./mkspecs/win32-msvc" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtPrintSupport"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SCINTILLA_QT;SCI_LEXER;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_PRINTSUPPORT_LIB;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SCINTILLA_QT;SCI_LEXER;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_PRINTSUPPORT_LIB;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\include;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\lexlib;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\src;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\include;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\lexlib;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\src;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\include;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\lexlib;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtWidgets" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtGui" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtANGLE" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtCore" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/./mkspecs/win32-msvc" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtPrintSupport"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SCINTILLA_QT;SCI_LEXER;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_PRINTSUPPORT_LIB;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SCINTILLA_QT;SCI_LEXER;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_PRINTSUPPORT_LIB;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\include;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\lexlib;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\src;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\include;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\lexlib;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\src;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\include;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\lexlib;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtWidgets" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtGui" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtANGLE" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtCore" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/./mkspecs/win32-msvc" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtPrintSupport"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SCINTILLA_QT;SCI_LEXER;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_PRINTSUPPORT_LIB;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SCINTILLA_QT;SCI_LEXER;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_PRINTSUPPORT_LIB;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\include;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\lexlib;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\src;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\include;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\lexlib;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\..\src;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\1bd520f78baf8df15440fa407444fd79\moc_qsciscintilla.cpp.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating Qsci/moc_qsciscintilla.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qsciscintilla.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qsciscintilla.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qsciscintilla.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating Qsci/moc_qsciscintilla.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qsciscintilla.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qsciscintilla.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qsciscintilla.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating Qsci/moc_qsciscintilla.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qsciscintilla.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qsciscintilla.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qsciscintilla.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating Qsci/moc_qsciscintilla.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qsciscintilla.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qsciscintilla.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qsciscintilla.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\1bd520f78baf8df15440fa407444fd79\moc_qsciscintillabase.cpp.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating Qsci/moc_qsciscintillabase.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qsciscintillabase.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qsciscintillabase.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qsciscintillabase.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating Qsci/moc_qsciscintillabase.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qsciscintillabase.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qsciscintillabase.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qsciscintillabase.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating Qsci/moc_qsciscintillabase.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qsciscintillabase.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qsciscintillabase.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qsciscintillabase.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating Qsci/moc_qsciscintillabase.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qsciscintillabase.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qsciscintillabase.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qsciscintillabase.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\1bd520f78baf8df15440fa407444fd79\moc_qsciabstractapis.cpp.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating Qsci/moc_qsciabstractapis.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qsciabstractapis.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qsciabstractapis.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qsciabstractapis.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating Qsci/moc_qsciabstractapis.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qsciabstractapis.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qsciabstractapis.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qsciabstractapis.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating Qsci/moc_qsciabstractapis.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qsciabstractapis.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qsciabstractapis.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qsciabstractapis.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating Qsci/moc_qsciabstractapis.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qsciabstractapis.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qsciabstractapis.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qsciabstractapis.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\1bd520f78baf8df15440fa407444fd79\moc_qsciapis.cpp.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating Qsci/moc_qsciapis.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qsciapis.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qsciapis.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qsciapis.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating Qsci/moc_qsciapis.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qsciapis.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qsciapis.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qsciapis.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating Qsci/moc_qsciapis.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qsciapis.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qsciapis.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qsciapis.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating Qsci/moc_qsciapis.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qsciapis.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qsciapis.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qsciapis.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\1bd520f78baf8df15440fa407444fd79\moc_qscilexer.cpp.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating Qsci/moc_qscilexer.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexer.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexer.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexer.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating Qsci/moc_qscilexer.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexer.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexer.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexer.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating Qsci/moc_qscilexer.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexer.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexer.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexer.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating Qsci/moc_qscilexer.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexer.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexer.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexer.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\1bd520f78baf8df15440fa407444fd79\moc_qscilexercustom.cpp.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating Qsci/moc_qscilexercustom.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexercustom.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexercustom.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexercustom.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating Qsci/moc_qscilexercustom.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexercustom.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexercustom.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexercustom.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating Qsci/moc_qscilexercustom.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexercustom.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexercustom.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexercustom.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating Qsci/moc_qscilexercustom.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexercustom.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexercustom.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexercustom.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\1bd520f78baf8df15440fa407444fd79\moc_qscilexersql.cpp.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating Qsci/moc_qscilexersql.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexersql.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexersql.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexersql.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating Qsci/moc_qscilexersql.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexersql.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexersql.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexersql.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating Qsci/moc_qscilexersql.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexersql.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexersql.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexersql.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating Qsci/moc_qscilexersql.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexersql.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexersql.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexersql.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\1bd520f78baf8df15440fa407444fd79\moc_qscilexerjson.cpp.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating Qsci/moc_qscilexerjson.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexerjson.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexerjson.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexerjson.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating Qsci/moc_qscilexerjson.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexerjson.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexerjson.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexerjson.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating Qsci/moc_qscilexerjson.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexerjson.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexerjson.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexerjson.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating Qsci/moc_qscilexerjson.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexerjson.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexerjson.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexerjson.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\1bd520f78baf8df15440fa407444fd79\moc_qscilexerhtml.cpp.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating Qsci/moc_qscilexerhtml.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexerhtml.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexerhtml.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexerhtml.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating Qsci/moc_qscilexerhtml.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexerhtml.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexerhtml.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexerhtml.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating Qsci/moc_qscilexerhtml.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexerhtml.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexerhtml.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexerhtml.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating Qsci/moc_qscilexerhtml.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexerhtml.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexerhtml.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexerhtml.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\1bd520f78baf8df15440fa407444fd79\moc_qscilexerxml.cpp.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating Qsci/moc_qscilexerxml.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexerxml.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexerxml.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexerxml.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating Qsci/moc_qscilexerxml.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexerxml.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexerxml.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexerxml.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating Qsci/moc_qscilexerxml.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexerxml.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexerxml.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexerxml.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating Qsci/moc_qscilexerxml.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexerxml.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexerxml.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexerxml.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\1bd520f78baf8df15440fa407444fd79\moc_qscilexerjavascript.cpp.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating Qsci/moc_qscilexerjavascript.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexerjavascript.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexerjavascript.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexerjavascript.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating Qsci/moc_qscilexerjavascript.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexerjavascript.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexerjavascript.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexerjavascript.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating Qsci/moc_qscilexerjavascript.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexerjavascript.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexerjavascript.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexerjavascript.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating Qsci/moc_qscilexerjavascript.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexerjavascript.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexerjavascript.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexerjavascript.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\1bd520f78baf8df15440fa407444fd79\moc_qscilexercpp.cpp.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating Qsci/moc_qscilexercpp.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexercpp.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexercpp.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexercpp.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating Qsci/moc_qscilexercpp.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexercpp.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexercpp.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexercpp.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating Qsci/moc_qscilexercpp.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexercpp.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexercpp.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexercpp.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating Qsci/moc_qscilexercpp.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexercpp.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexercpp.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexercpp.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\1bd520f78baf8df15440fa407444fd79\moc_qscilexerpython.cpp.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating Qsci/moc_qscilexerpython.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexerpython.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexerpython.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexerpython.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating Qsci/moc_qscilexerpython.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexerpython.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexerpython.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexerpython.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating Qsci/moc_qscilexerpython.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexerpython.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexerpython.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexerpython.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating Qsci/moc_qscilexerpython.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscilexerpython.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexerpython.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexerpython.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\1bd520f78baf8df15440fa407444fd79\moc_qscimacro.cpp.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating Qsci/moc_qscimacro.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscimacro.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscimacro.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscimacro.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating Qsci/moc_qscimacro.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscimacro.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscimacro.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscimacro.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating Qsci/moc_qscimacro.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscimacro.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscimacro.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscimacro.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating Qsci/moc_qscimacro.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/Qsci/moc_qscimacro.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscimacro.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscimacro.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\ed3e90d2f462f635d819cd8b72924050\moc_SciClasses.cpp.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating moc_SciClasses.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/moc_SciClasses.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\SciClasses.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\moc_SciClasses.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating moc_SciClasses.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/moc_SciClasses.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\SciClasses.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\moc_SciClasses.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating moc_SciClasses.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/moc_SciClasses.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\SciClasses.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\moc_SciClasses.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating moc_SciClasses.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/moc_SciClasses.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\SciClasses.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\moc_SciClasses.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\ed3e90d2f462f635d819cd8b72924050\moc_ScintillaQt.cpp.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating moc_ScintillaQt.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/moc_ScintillaQt.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\ScintillaQt.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\moc_ScintillaQt.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating moc_ScintillaQt.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/moc_ScintillaQt.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\ScintillaQt.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\moc_ScintillaQt.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating moc_ScintillaQt.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/moc_ScintillaQt.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\ScintillaQt.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\moc_ScintillaQt.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating moc_ScintillaQt.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/moc_ScintillaQt.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\ScintillaQt.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\moc_ScintillaQt.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\ed3e90d2f462f635d819cd8b72924050\moc_SciAccessibility.cpp.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating moc_SciAccessibility.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/moc_SciAccessibility.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\SciAccessibility.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\moc_SciAccessibility.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating moc_SciAccessibility.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/moc_SciAccessibility.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\SciAccessibility.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\moc_SciAccessibility.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating moc_SciAccessibility.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/moc_SciAccessibility.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\SciAccessibility.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\moc_SciAccessibility.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating moc_SciAccessibility.cpp</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+cd C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\dev\Qt\5.12.12\msvc2017_64\bin\moc.exe @C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/moc_SciAccessibility.cpp_parameters
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\SciAccessibility.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\moc_SciAccessibility.cpp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/code/sdltm_browser -BC:/code/sdltm_browser --check-stamp-file C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5Config.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5ConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5ModuleLocation.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/code/sdltm_browser -BC:/code/sdltm_browser --check-stamp-file C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5Config.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5ConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5ModuleLocation.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/code/sdltm_browser -BC:/code/sdltm_browser --check-stamp-file C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5Config.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5ConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5ModuleLocation.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/code/sdltm_browser -BC:/code/sdltm_browser --check-stamp-file C:/code/sdltm_browser/libs/qscintilla/Qt4Qt5/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5Config.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5ConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5ModuleLocation.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\qsciscintilla.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\qsciscintillabase.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\qsciabstractapis.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\qsciapis.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\qscicommand.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\qscicommandset.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\qscidocument.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\qscilexer.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\qscilexercustom.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\qscilexersql.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\qscilexerjson.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\qscilexerhtml.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\qscilexerxml.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\qscilexerjavascript.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\qscilexercpp.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\qscilexerpython.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\qscimacro.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\qsciprinter.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\qscistyle.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\qscistyledtext.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\MacPasteboardMime.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\InputMethod.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\SciClasses.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\ListBoxQt.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\PlatQt.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\ScintillaQt.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\SciAccessibility.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\lexers\LexSQL.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\lexers\LexJSON.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\lexers\LexHTML.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\lexlib\Accessor.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\lexlib\CharacterCategory.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\lexlib\CharacterSet.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\lexlib\DefaultLexer.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\lexlib\LexerBase.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\lexlib\LexerModule.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\lexlib\LexerNoExceptions.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\lexlib\LexerSimple.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\lexlib\PropSetSimple.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\lexlib\StyleContext.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\lexlib\WordList.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\AutoComplete.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\CallTip.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\CaseConvert.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\CaseFolder.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\Catalogue.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\CellBuffer.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\CharClassify.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\ContractionState.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\Decoration.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\Document.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\Editor.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\EditModel.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\EditView.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\ExternalLexer.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\Indicator.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\KeyMap.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\LineMarker.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\MarginView.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\PerLine.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\PositionCache.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\RESearch.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\RunStyles.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\ScintillaBase.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\Selection.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\Style.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\UniConversion.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\ViewStyle.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\src\XPM.cpp" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qsciglobal.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscicommand.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscicommandset.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscidocument.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qsciprinter.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscistyle.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscistyledtext.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\ListBoxQt.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\SciNamespace.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\include\ILexer.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\include\Platform.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\include\SciLexer.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\include\Scintilla.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\include\ScintillaWidget.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\include\Sci_Position.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\lexlib\Accessor.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\lexlib\CharacterCategory.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\lexlib\CharacterSet.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\lexlib\DefaultLexer.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\lexlib\LexAccessor.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\lexlib\LexerBase.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\lexlib\LexerModule.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\lexlib\LexerNoExceptions.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\lexlib\LexerSimple.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\lexlib\OptionSet.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\lexlib\PropSetSimple.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\lexlib\StyleContext.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\lexlib\SubStyles.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\lexlib\WordList.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\AutoComplete.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\CallTip.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\CaseConvert.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\CaseFolder.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\Catalogue.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\CellBuffer.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\CharClassify.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\ContractionState.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\Decoration.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\Document.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\Editor.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\ExternalLexer.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\FontQuality.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\Indicator.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\KeyMap.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\LineMarker.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\Partitioning.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\PerLine.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\PositionCache.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\RESearch.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\RunStyles.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\ScintillaBase.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\Selection.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\SplitVector.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\Style.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\UnicodeFromUTF8.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\UniConversion.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\ViewStyle.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\XPM.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\Position.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\src\SparseVector.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qsciscintilla.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qsciscintillabase.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qsciabstractapis.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qsciapis.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexer.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexercustom.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexersql.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexerjson.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexerhtml.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexerxml.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexerjavascript.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexercpp.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscilexerpython.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\qscimacro.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\SciClasses.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\ScintillaQt.h" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\SciAccessibility.h" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qsciscintilla.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qsciscintillabase.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qsciabstractapis.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qsciapis.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexer.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexercustom.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexersql.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexerjson.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexerhtml.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexerxml.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexerjavascript.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexercpp.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscilexerpython.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\Qsci\moc_qscimacro.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\moc_SciClasses.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\moc_ScintillaQt.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\moc_SciAccessibility.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\code\sdltm_browser\ZERO_CHECK.vcxproj">
+      <Project>{D9E1B095-DC4C-3DFC-8A7C-E596ADFCC5D7}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

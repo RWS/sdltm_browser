@@ -593,10 +593,10 @@ if(WIN32 AND MSVC)
     )
 
     # The batch file launcher
-    install(FILES
-        distri/winlaunch.bat
-        DESTINATION "/"
-    )
+    #install(FILES
+     #   distri/winlaunch.bat
+     #   DESTINATION "/"
+    #)
 endif()
 
 if(APPLE)

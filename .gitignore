@@ -37,3 +37,17 @@ libs/*/*/*.a
 
 # Ignore .DS_Store files on OSX
 .DS_Store
+ 
+ 
+.vs
+_CPack_Packages
+Debug
+Release
+
+# QT files
+moc_*.cpp
+moc_*
+mocs_*.cpp
+ui_*.h
+qrc_*.cpp
+*.moc

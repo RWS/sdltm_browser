@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ResolveNugetPackages>false</ResolveNugetPackages>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{EC623F88-D194-3667-A284-0C6DA296F250}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/code/sdltm_browser/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/code/sdltm_browser -BC:/code/sdltm_browser --check-stamp-file C:/code/sdltm_browser/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CPack.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CPackComponent.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindSQLite3.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.26\Templates\CPackConfig.cmake.in;C:\code\sdltm_browser\CMakeFiles\3.26.3\CMakeCCompiler.cmake;C:\code\sdltm_browser\CMakeFiles\3.26.3\CMakeCXXCompiler.cmake;C:\code\sdltm_browser\CMakeFiles\3.26.3\CMakeRCCompiler.cmake;C:\code\sdltm_browser\CMakeFiles\3.26.3\CMakeSystem.cmake;C:\code\sdltm_browser\cmake\FindQScintilla.cmake;C:\code\sdltm_browser\src\certs\CaCerts.qrc;C:\code\sdltm_browser\src\icons\icons.qrc;C:\code\sdltm_browser\src\qdarkstyle\dark\darkstyle.qrc;C:\code\sdltm_browser\src\qdarkstyle\light\lightstyle.qrc;C:\code\sdltm_browser\src\translations\flags\flags.qrc;C:\code\sdltm_browser\src\translations\translations.qrc;C:\code\sdltm_browser\src\version.h.in;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5Config.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5ConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5ModuleLocation.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Concurrent\Qt5ConcurrentConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Concurrent\Qt5ConcurrentConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfigExtras.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfigExtrasMkspecDir.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreMacros.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfigExtras.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QGifPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QICNSPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QICOPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QJpegPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QMinimalIntegrationPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QOffscreenIntegrationPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QTgaPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QTiffPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QTuioTouchPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWbmpPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWebpPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWindowsDirect2DIntegrationPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWindowsIntegrationPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QXdgDesktopPortalThemePlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5LinguistTools\Qt5LinguistToolsConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5LinguistTools\Qt5LinguistToolsConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5LinguistTools\Qt5LinguistToolsMacros.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Network\Qt5NetworkConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Network\Qt5NetworkConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Network\Qt5Network_QGenericEnginePlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupport_QWindowsPrinterSupportPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Test\Qt5TestConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Test\Qt5TestConfigExtras.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Test\Qt5TestConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigExtras.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsMacros.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5Widgets_QWindowsVistaStylePlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Xml\Qt5XmlConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Xml\Qt5XmlConfigVersion.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/code/sdltm_browser/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/code/sdltm_browser -BC:/code/sdltm_browser --check-stamp-file C:/code/sdltm_browser/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CPack.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CPackComponent.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindSQLite3.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.26\Templates\CPackConfig.cmake.in;C:\code\sdltm_browser\CMakeFiles\3.26.3\CMakeCCompiler.cmake;C:\code\sdltm_browser\CMakeFiles\3.26.3\CMakeCXXCompiler.cmake;C:\code\sdltm_browser\CMakeFiles\3.26.3\CMakeRCCompiler.cmake;C:\code\sdltm_browser\CMakeFiles\3.26.3\CMakeSystem.cmake;C:\code\sdltm_browser\cmake\FindQScintilla.cmake;C:\code\sdltm_browser\src\certs\CaCerts.qrc;C:\code\sdltm_browser\src\icons\icons.qrc;C:\code\sdltm_browser\src\qdarkstyle\dark\darkstyle.qrc;C:\code\sdltm_browser\src\qdarkstyle\light\lightstyle.qrc;C:\code\sdltm_browser\src\translations\flags\flags.qrc;C:\code\sdltm_browser\src\translations\translations.qrc;C:\code\sdltm_browser\src\version.h.in;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5Config.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5ConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5ModuleLocation.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Concurrent\Qt5ConcurrentConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Concurrent\Qt5ConcurrentConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfigExtras.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfigExtrasMkspecDir.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreMacros.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfigExtras.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QGifPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QICNSPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QICOPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QJpegPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QMinimalIntegrationPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QOffscreenIntegrationPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QTgaPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QTiffPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QTuioTouchPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWbmpPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWebpPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWindowsDirect2DIntegrationPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWindowsIntegrationPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QXdgDesktopPortalThemePlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5LinguistTools\Qt5LinguistToolsConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5LinguistTools\Qt5LinguistToolsConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5LinguistTools\Qt5LinguistToolsMacros.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Network\Qt5NetworkConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Network\Qt5NetworkConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Network\Qt5Network_QGenericEnginePlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupport_QWindowsPrinterSupportPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Test\Qt5TestConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Test\Qt5TestConfigExtras.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Test\Qt5TestConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigExtras.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsMacros.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5Widgets_QWindowsVistaStylePlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Xml\Qt5XmlConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Xml\Qt5XmlConfigVersion.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/code/sdltm_browser/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/code/sdltm_browser -BC:/code/sdltm_browser --check-stamp-file C:/code/sdltm_browser/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CPack.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CPackComponent.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindSQLite3.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.26\Templates\CPackConfig.cmake.in;C:\code\sdltm_browser\CMakeFiles\3.26.3\CMakeCCompiler.cmake;C:\code\sdltm_browser\CMakeFiles\3.26.3\CMakeCXXCompiler.cmake;C:\code\sdltm_browser\CMakeFiles\3.26.3\CMakeRCCompiler.cmake;C:\code\sdltm_browser\CMakeFiles\3.26.3\CMakeSystem.cmake;C:\code\sdltm_browser\cmake\FindQScintilla.cmake;C:\code\sdltm_browser\src\certs\CaCerts.qrc;C:\code\sdltm_browser\src\icons\icons.qrc;C:\code\sdltm_browser\src\qdarkstyle\dark\darkstyle.qrc;C:\code\sdltm_browser\src\qdarkstyle\light\lightstyle.qrc;C:\code\sdltm_browser\src\translations\flags\flags.qrc;C:\code\sdltm_browser\src\translations\translations.qrc;C:\code\sdltm_browser\src\version.h.in;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5Config.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5ConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5ModuleLocation.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Concurrent\Qt5ConcurrentConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Concurrent\Qt5ConcurrentConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfigExtras.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfigExtrasMkspecDir.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreMacros.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfigExtras.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QGifPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QICNSPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QICOPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QJpegPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QMinimalIntegrationPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QOffscreenIntegrationPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QTgaPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QTiffPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QTuioTouchPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWbmpPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWebpPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWindowsDirect2DIntegrationPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWindowsIntegrationPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QXdgDesktopPortalThemePlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5LinguistTools\Qt5LinguistToolsConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5LinguistTools\Qt5LinguistToolsConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5LinguistTools\Qt5LinguistToolsMacros.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Network\Qt5NetworkConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Network\Qt5NetworkConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Network\Qt5Network_QGenericEnginePlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupport_QWindowsPrinterSupportPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Test\Qt5TestConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Test\Qt5TestConfigExtras.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Test\Qt5TestConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigExtras.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsMacros.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5Widgets_QWindowsVistaStylePlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Xml\Qt5XmlConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Xml\Qt5XmlConfigVersion.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/code/sdltm_browser/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/code/sdltm_browser -BC:/code/sdltm_browser --check-stamp-file C:/code/sdltm_browser/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CPack.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CPackComponent.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindSQLite3.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.26\Templates\CPackConfig.cmake.in;C:\code\sdltm_browser\CMakeFiles\3.26.3\CMakeCCompiler.cmake;C:\code\sdltm_browser\CMakeFiles\3.26.3\CMakeCXXCompiler.cmake;C:\code\sdltm_browser\CMakeFiles\3.26.3\CMakeRCCompiler.cmake;C:\code\sdltm_browser\CMakeFiles\3.26.3\CMakeSystem.cmake;C:\code\sdltm_browser\cmake\FindQScintilla.cmake;C:\code\sdltm_browser\src\certs\CaCerts.qrc;C:\code\sdltm_browser\src\icons\icons.qrc;C:\code\sdltm_browser\src\qdarkstyle\dark\darkstyle.qrc;C:\code\sdltm_browser\src\qdarkstyle\light\lightstyle.qrc;C:\code\sdltm_browser\src\translations\flags\flags.qrc;C:\code\sdltm_browser\src\translations\translations.qrc;C:\code\sdltm_browser\src\version.h.in;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5Config.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5ConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5ModuleLocation.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Concurrent\Qt5ConcurrentConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Concurrent\Qt5ConcurrentConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfigExtras.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfigExtrasMkspecDir.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Core\Qt5CoreMacros.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfigExtras.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5GuiConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QGifPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QICNSPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QICOPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QJpegPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QMinimalIntegrationPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QOffscreenIntegrationPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QTgaPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QTiffPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QTuioTouchPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWbmpPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWebpPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWindowsDirect2DIntegrationPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QWindowsIntegrationPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Gui\Qt5Gui_QXdgDesktopPortalThemePlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5LinguistTools\Qt5LinguistToolsConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5LinguistTools\Qt5LinguistToolsConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5LinguistTools\Qt5LinguistToolsMacros.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Network\Qt5NetworkConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Network\Qt5NetworkConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Network\Qt5Network_QGenericEnginePlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupport_QWindowsPrinterSupportPlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Test\Qt5TestConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Test\Qt5TestConfigExtras.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Test\Qt5TestConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigExtras.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsMacros.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5Widgets_QWindowsVistaStylePlugin.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Xml\Qt5XmlConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Xml\Qt5XmlConfigVersion.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\code\sdltm_browser\ZERO_CHECK.vcxproj">
+      <Project>{D9E1B095-DC4C-3DFC-8A7C-E596ADFCC5D7}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\code\sdltm_browser\libs\qcustomplot-source\qcustomplot.vcxproj">
+      <Project>{C1F83D14-0BCF-3710-9FED-216D09392828}</Project>
+      <Name>qcustomplot</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\code\sdltm_browser\libs\qhexedit\qhexedit.vcxproj">
+      <Project>{3057E6A7-0D3C-336C-892D-01A7D37DD0C3}</Project>
+      <Name>qhexedit</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\qscintilla2.vcxproj">
+      <Project>{31845F9F-E67E-32AD-8B81-2BE8527FED19}</Project>
+      <Name>qscintilla2</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\code\sdltm_browser\sqlitebrowser.vcxproj">
+      <Project>{A725BFD8-7741-36CE-9D06-6E2FD3E6580B}</Project>
+      <Name>sqlitebrowser</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

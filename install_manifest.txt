@@ -1,0 +1,24 @@
+C:/Program Files/sqlitebrowser///DB Browser for SQLite.exe
+C:/Program Files/sqlitebrowser///Qt5Cored.dll
+C:/Program Files/sqlitebrowser///Qt5Guid.dll
+C:/Program Files/sqlitebrowser///Qt5Networkd.dll
+C:/Program Files/sqlitebrowser///Qt5PrintSupportd.dll
+C:/Program Files/sqlitebrowser///Qt5Widgetsd.dll
+C:/Program Files/sqlitebrowser///Qt5Concurrentd.dll
+C:/Program Files/sqlitebrowser///Qt5Svgd.dll
+C:/Program Files/sqlitebrowser///sqlite3.dll
+C:/Program Files/sqlitebrowser///libeay32.dll
+C:/Program Files/sqlitebrowser///ssleay32.dll
+C:/Program Files/sqlitebrowser/platforms/qwindows.dll
+C:/Program Files/sqlitebrowser///Qt5Xmld.dll
+C:/Program Files/sqlitebrowser/imageformats/qgifd.dll
+C:/Program Files/sqlitebrowser/imageformats/qicnsd.dll
+C:/Program Files/sqlitebrowser/imageformats/qicod.dll
+C:/Program Files/sqlitebrowser/imageformats/qjpegd.dll
+C:/Program Files/sqlitebrowser/imageformats/qsvgd.dll
+C:/Program Files/sqlitebrowser/imageformats/qtgad.dll
+C:/Program Files/sqlitebrowser/imageformats/qtiffd.dll
+C:/Program Files/sqlitebrowser/imageformats/qwbmpd.dll
+C:/Program Files/sqlitebrowser/imageformats/qwebpd.dll
+C:/Program Files/sqlitebrowser/licenses/LICENSE
+C:/Program Files/sqlitebrowser/licenses/LICENSE-PLUGINS

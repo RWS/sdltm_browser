@@ -1,0 +1,378 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C1F83D14-0BCF-3710-9FED-216D09392828}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>qcustomplot</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qcustomplot-source\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">qcustomplot.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">qcustomplot</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qcustomplot-source\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">qcustomplot.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">qcustomplot</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qcustomplot-source\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">qcustomplot.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">qcustomplot</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qcustomplot-source\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">qcustomplot.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">qcustomplot</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qcustomplot-source\qcustomplot_autogen\include_Debug;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtWidgets" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtGui" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtANGLE" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtCore" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/./mkspecs/win32-msvc" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtPrintSupport"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_PRINTSUPPORT_LIB;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_PRINTSUPPORT_LIB;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qcustomplot-source\qcustomplot_autogen\include_Debug;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qcustomplot-source\qcustomplot_autogen\include_Debug;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Automatic MOC for target qcustomplot</Message>
+      <Command>setlocal
+cd C:\code\sdltm_browser\libs\qcustomplot-source
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen C:/code/sdltm_browser/libs/qcustomplot-source/CMakeFiles/qcustomplot_autogen.dir/AutogenInfo.json Debug
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qcustomplot-source\qcustomplot_autogen\include_Release;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtWidgets" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtGui" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtANGLE" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtCore" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/./mkspecs/win32-msvc" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtPrintSupport"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_PRINTSUPPORT_LIB;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_PRINTSUPPORT_LIB;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qcustomplot-source\qcustomplot_autogen\include_Release;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qcustomplot-source\qcustomplot_autogen\include_Release;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Automatic MOC for target qcustomplot</Message>
+      <Command>setlocal
+cd C:\code\sdltm_browser\libs\qcustomplot-source
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen C:/code/sdltm_browser/libs/qcustomplot-source/CMakeFiles/qcustomplot_autogen.dir/AutogenInfo.json Release
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qcustomplot-source\qcustomplot_autogen\include_MinSizeRel;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtWidgets" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtGui" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtANGLE" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtCore" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/./mkspecs/win32-msvc" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtPrintSupport"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_PRINTSUPPORT_LIB;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_PRINTSUPPORT_LIB;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qcustomplot-source\qcustomplot_autogen\include_MinSizeRel;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qcustomplot-source\qcustomplot_autogen\include_MinSizeRel;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Automatic MOC for target qcustomplot</Message>
+      <Command>setlocal
+cd C:\code\sdltm_browser\libs\qcustomplot-source
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen C:/code/sdltm_browser/libs/qcustomplot-source/CMakeFiles/qcustomplot_autogen.dir/AutogenInfo.json MinSizeRel
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qcustomplot-source\qcustomplot_autogen\include_RelWithDebInfo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtWidgets" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtGui" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtANGLE" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtCore" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/./mkspecs/win32-msvc" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtPrintSupport"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_PRINTSUPPORT_LIB;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_PRINTSUPPORT_LIB;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qcustomplot-source\qcustomplot_autogen\include_RelWithDebInfo;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qcustomplot-source\qcustomplot_autogen\include_RelWithDebInfo;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Automatic MOC for target qcustomplot</Message>
+      <Command>setlocal
+cd C:\code\sdltm_browser\libs\qcustomplot-source
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen C:/code/sdltm_browser/libs/qcustomplot-source/CMakeFiles/qcustomplot_autogen.dir/AutogenInfo.json RelWithDebInfo
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\code\sdltm_browser\libs\qcustomplot-source\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/code/sdltm_browser/libs/qcustomplot-source/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/code/sdltm_browser -BC:/code/sdltm_browser --check-stamp-file C:/code/sdltm_browser/libs/qcustomplot-source/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5Config.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5ConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5ModuleLocation.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\libs\qcustomplot-source\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/code/sdltm_browser/libs/qcustomplot-source/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/code/sdltm_browser -BC:/code/sdltm_browser --check-stamp-file C:/code/sdltm_browser/libs/qcustomplot-source/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5Config.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5ConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5ModuleLocation.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\libs\qcustomplot-source\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/code/sdltm_browser/libs/qcustomplot-source/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/code/sdltm_browser -BC:/code/sdltm_browser --check-stamp-file C:/code/sdltm_browser/libs/qcustomplot-source/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5Config.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5ConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5ModuleLocation.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\libs\qcustomplot-source\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/code/sdltm_browser/libs/qcustomplot-source/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/code/sdltm_browser -BC:/code/sdltm_browser --check-stamp-file C:/code/sdltm_browser/libs/qcustomplot-source/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5Config.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5ConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5\Qt5ModuleLocation.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5PrintSupport\Qt5PrintSupportConfigVersion.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;C:\dev\Qt\5.12.12\msvc2017_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\libs\qcustomplot-source\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\code\sdltm_browser\libs\qcustomplot-source\qcustomplot_autogen\mocs_compilation_Debug.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\libs\qcustomplot-source\qcustomplot.cpp" />
+    <ClInclude Include="C:\code\sdltm_browser\libs\qcustomplot-source\qcustomplot.h" />
+    <ClCompile Include="C:\code\sdltm_browser\libs\qcustomplot-source\qcustomplot_autogen\mocs_compilation_Release.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\libs\qcustomplot-source\qcustomplot_autogen\mocs_compilation_MinSizeRel.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\libs\qcustomplot-source\qcustomplot_autogen\mocs_compilation_RelWithDebInfo.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\code\sdltm_browser\ZERO_CHECK.vcxproj">
+      <Project>{D9E1B095-DC4C-3DFC-8A7C-E596ADFCC5D7}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
