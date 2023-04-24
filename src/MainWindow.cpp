@@ -309,7 +309,7 @@ void MainWindow::init()
     connect(ui->mainTab, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
 
     // Add entries for toggling the visibility of main tabs
-    for (QWidget* widget : {ui->structure, ui->browser, ui->pragmas, ui->query}) {
+    for (QWidget* widget : {ui->structure, ui->browser, ui->pragmas, ui->query, ui->commonActions}) {
         QAction* action = ui->viewMenu->addAction(QIcon(":/icons/open_sql"), widget->accessibleName());
         action->setObjectName(widget->accessibleName());
         action->setCheckable(true);
@@ -3659,7 +3659,7 @@ void MainWindow::restoreOpenTabs(QString tabs)
         ui->mainTab->setUpdatesEnabled(false);
         ui->mainTab->clear();
         for (const auto& objectName : tabList) {
-            for (QWidget* widget : {ui->structure, ui->browser, ui->pragmas, ui->query})
+            for (QWidget* widget : {ui->structure, ui->browser, ui->pragmas, ui->query, ui->commonActions})
                 if (widget->objectName() == objectName) {
                     ui->mainTab->addTab(widget, widget->accessibleName());
                     break;

@@ -13,6 +13,9 @@
 #include <QScreen>
 
 #include "Application.h"
+
+#include <QStandardPaths>
+
 #include "MainWindow.h"
 #include "RemoteNetwork.h"
 #include "Settings.h"
@@ -78,35 +81,49 @@ void printArgument(const QString& argument, const QString& description)
     }
 }
 
+namespace
+{
+	QString UserSettingsFile()
+	{
+        auto locations = QStandardPaths::standardLocations(QStandardPaths::AppDataLocation);
+        if (locations.count() > 0)
+            return locations[0] + "/trados_sdltm_settings.txt";
+        return "";
+	}
+}
+
 Application::Application(int& argc, char** argv) :
     QApplication(argc, argv)
 {
-    // Get 'DB4S_SETTINGS_FILE' environment variable
-    const auto env = qgetenv("DB4S_SETTINGS_FILE");
+    //// Get 'DB4S_SETTINGS_FILE' environment variable
+    //const auto env = qgetenv("DB4S_SETTINGS_FILE");
 
-    // If 'DB4S_SETTINGS_FILE' environment variable exists
-    if(!env.isEmpty())
-        Settings::setUserSettingsFile(env);
+    //// If 'DB4S_SETTINGS_FILE' environment variable exists
+    //if(!env.isEmpty())
+    //    Settings::setUserSettingsFile(env);
 
-    for(int i=1;i<arguments().size();i++)
-    {
-        if(arguments().at(i) == "-S" || arguments().at(i) == "--settings")
-        {
-            if(++i < arguments().size())
-            {
-                if(!env.isEmpty())
-                {
-                    qWarning() << qPrintable(tr("The user settings file location is replaced with the argument value instead of the environment variable value."));
-                    qWarning() << qPrintable(tr("Ignored environment variable(DB4S_SETTINGS_FILE) value : ") + env);
-                }
-                Settings::setUserSettingsFile(arguments().at(i));
-            }
-        }
-    }
+    //for(int i=1;i<arguments().size();i++)
+    //{
+    //    if(arguments().at(i) == "-S" || arguments().at(i) == "--settings")
+    //    {
+    //        if(++i < arguments().size())
+    //        {
+    //            if(!env.isEmpty())
+    //            {
+    //                qWarning() << qPrintable(tr("The user settings file location is replaced with the argument value instead of the environment variable value."));
+    //                qWarning() << qPrintable(tr("Ignored environment variable(DB4S_SETTINGS_FILE) value : ") + env);
+    //            }
+    //            Settings::setUserSettingsFile(arguments().at(i));
+    //        }
+    //    }
+    //}
+    auto settingsFile = UserSettingsFile();
+    if (settingsFile != "")
+        Settings::setUserSettingsFile(settingsFile);
 
     // Set organisation and application names
-    setOrganizationName("sqlitebrowser");
-    setApplicationName("DB Browser for SQLite");
+    setOrganizationName("Trados");
+    setApplicationName("Trados - SDLTM Browser");
 
     // Set character encoding to UTF8
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));

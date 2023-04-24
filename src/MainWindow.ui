@@ -36,14 +36,17 @@
     </property>
     <item>
      <widget class="QTabWidget" name="mainTab">
+      <property name="tabPosition">
+       <enum>QTabWidget::North</enum>
+      </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <property name="movable">
        <bool>true</bool>
       </property>
       <property name="tabBarAutoHide">
-       <bool>true</bool>
+       <bool>false</bool>
       </property>
       <widget class="QWidget" name="structure">
        <property name="accessibleName">
@@ -183,8 +186,8 @@ You can drag SQL statements from an object row and drop them into other applicat
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>673</width>
-             <height>544</height>
+             <width>740</width>
+             <height>489</height>
             </rect>
            </property>
            <layout class="QFormLayout" name="formLayout">
@@ -743,6 +746,34 @@ You can drag SQL statements from an object row and drop them into other applicat
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="commonActions">
+       <property name="accessibleName">
+        <string>Common Actions</string>
+       </property>
+       <attribute name="title">
+        <string>Common Actions</string>
+       </attribute>
+       <widget class="QLabel" name="label">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>10</y>
+          <width>221</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Common actions</string>
+        </property>
+       </widget>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -753,7 +784,7 @@ You can drag SQL statements from an object row and drop them into other applicat
      <x>0</x>
      <y>0</y>
      <width>1037</width>
-     <height>23</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="fileMenu">
@@ -1174,6 +1205,9 @@ You can drag SQL statements from the Schema column and drop them into the SQL ed
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
    </property>
    <property name="menuRole">
     <enum>QAction::NoRole</enum>
@@ -1992,6 +2026,12 @@ You can drag SQL statements from the Schema column and drop them into the SQL ed
    <property name="text">
     <string>New In-&amp;Memory Database</string>
    </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+   <property name="shortcutVisibleInContextMenu">
+    <bool>false</bool>
+   </property>
   </action>
   <action name="actionDropSelectQueryCheck">
    <property name="checkable">
@@ -2467,22 +2507,6 @@ You can drag SQL statements from the Schema column and drop them into the SQL ed
    </hints>
   </connection>
   <connection>
-   <sender>mainTab</sender>
-   <signal>currentChanged(int)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>mainTabSelected(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>399</x>
-     <y>315</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>399</x>
-     <y>299</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>fileImportCSVAction</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
@@ -2643,22 +2667,6 @@ You can drag SQL statements from the Schema column and drop them into the SQL ed
    </hints>
   </connection>
   <connection>
-   <sender>dbTreeWidget</sender>
-   <signal>customContextMenuRequested(QPoint)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>createTreeContextMenu(QPoint)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>111</x>
-     <y>261</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>399</x>
-     <y>299</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>treeSchemaDock</sender>
    <signal>customContextMenuRequested(QPoint)</signal>
    <receiver>MainWindow</receiver>
@@ -2739,38 +2747,6 @@ You can drag SQL statements from the Schema column and drop them into the SQL ed
    </hints>
   </connection>
   <connection>
-   <sender>buttonBoxPragmas</sender>
-   <signal>rejected()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>loadPragmas()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>111</x>
-     <y>540</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>470</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBoxPragmas</sender>
-   <signal>accepted()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>savePragmas()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>111</x>
-     <y>540</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>802</x>
-     <y>522</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>buttonLogClear</sender>
    <signal>clicked()</signal>
    <receiver>editLogApplication</receiver>
@@ -2831,38 +2807,6 @@ You can drag SQL statements from the Schema column and drop them into the SQL ed
     <hint type="destinationlabel">
      <x>1028</x>
      <y>230</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>tabSqlAreas</sender>
-   <signal>tabCloseRequested(int)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>closeSqlTab(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>91</x>
-     <y>259</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>51</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>tabSqlAreas</sender>
-   <signal>currentChanged(int)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>changeSqlTab(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>91</x>
-     <y>259</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>51</y>
     </hint>
    </hints>
   </connection>
@@ -3203,22 +3147,6 @@ You can drag SQL statements from the Schema column and drop them into the SQL ed
    </hints>
   </connection>
   <connection>
-   <sender>tabSqlAreas</sender>
-   <signal>tabBarDoubleClicked(int)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>renameSqlTab(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>330</x>
-     <y>372</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>518</x>
-     <y>314</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>viewProjectToolbarAction</sender>
    <signal>toggled(bool)</signal>
    <receiver>toolbarProject</receiver>
@@ -3379,310 +3307,6 @@ You can drag SQL statements from the Schema column and drop them into the SQL ed
    </hints>
   </connection>
   <connection>
-   <sender>labelPragmaAutomaticIndex</sender>
-   <signal>linkHovered(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>showStatusMessage5s(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>85</x>
-     <y>133</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>518</x>
-     <y>314</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>labelPragmaCaseSensitiveLike</sender>
-   <signal>linkHovered(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>showStatusMessage5s(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>85</x>
-     <y>133</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>518</x>
-     <y>314</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>labelPragmaCheckpointFullFsync</sender>
-   <signal>linkHovered(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>showStatusMessage5s(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>85</x>
-     <y>133</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>518</x>
-     <y>314</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>labelPragmaForeignKeys</sender>
-   <signal>linkHovered(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>showStatusMessage5s(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>85</x>
-     <y>133</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>518</x>
-     <y>314</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>labelPragmaFullFsync</sender>
-   <signal>linkHovered(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>showStatusMessage5s(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>85</x>
-     <y>133</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>518</x>
-     <y>314</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>labelPragmaIgnoreCheckConstraints</sender>
-   <signal>linkHovered(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>showStatusMessage5s(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>85</x>
-     <y>133</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>518</x>
-     <y>314</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>labelPragmaJournalMode</sender>
-   <signal>linkHovered(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>showStatusMessage5s(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>85</x>
-     <y>133</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>518</x>
-     <y>314</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>labelPragmaLockingMode</sender>
-   <signal>linkHovered(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>showStatusMessage5s(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>85</x>
-     <y>133</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>518</x>
-     <y>314</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>labelPragmaMaxPageCount</sender>
-   <signal>linkHovered(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>showStatusMessage5s(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>85</x>
-     <y>133</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>518</x>
-     <y>314</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>labelPragmaPageSize</sender>
-   <signal>linkHovered(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>showStatusMessage5s(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>85</x>
-     <y>133</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>518</x>
-     <y>314</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>labelPragmaRecursiveTriggers</sender>
-   <signal>linkHovered(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>showStatusMessage5s(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>85</x>
-     <y>133</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>518</x>
-     <y>314</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>labelPragmaSecureDelete</sender>
-   <signal>linkHovered(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>showStatusMessage5s(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>85</x>
-     <y>133</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>518</x>
-     <y>314</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>labelPragmaSynchronous</sender>
-   <signal>linkHovered(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>showStatusMessage5s(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>85</x>
-     <y>133</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>518</x>
-     <y>314</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>labelPragmaTempStore</sender>
-   <signal>linkHovered(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>showStatusMessage5s(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>85</x>
-     <y>133</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>518</x>
-     <y>314</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>labelPragmaUserVersion</sender>
-   <signal>linkHovered(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>showStatusMessage5s(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>85</x>
-     <y>133</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>518</x>
-     <y>314</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>labelPragmaWalAutoCheckpoint</sender>
-   <signal>linkHovered(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>showStatusMessage5s(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>85</x>
-     <y>133</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>518</x>
-     <y>314</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>labelPragmaAutoVacuum</sender>
-   <signal>linkHovered(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>showStatusMessage5s(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>85</x>
-     <y>133</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>518</x>
-     <y>314</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>labelPragmaAutoVacuum</sender>
-   <signal>linkHovered(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>showStatusMessage5s(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>85</x>
-     <y>133</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>518</x>
-     <y>314</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>labelJournalSizeLimit</sender>
-   <signal>linkHovered(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>showStatusMessage5s(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>99</x>
-     <y>345</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>518</x>
-     <y>314</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>actionSaveProjectAs</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
@@ -3711,22 +3335,6 @@ You can drag SQL statements from the Schema column and drop them into the SQL ed
     <hint type="destinationlabel">
      <x>518</x>
      <y>314</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>tabSqlAreas</sender>
-   <signal>customContextMenuRequested(QPoint)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>showContextMenuSqlTabBar(QPoint)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
     </hint>
    </hints>
   </connection>
@@ -3887,6 +3495,438 @@ You can drag SQL statements from the Schema column and drop them into the SQL ed
     <hint type="destinationlabel">
      <x>518</x>
      <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>labelPragmaCheckpointFullFsync</sender>
+   <signal>linkHovered(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showStatusMessage5s(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>85</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>518</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>labelPragmaForeignKeys</sender>
+   <signal>linkHovered(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showStatusMessage5s(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>85</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>518</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>labelPragmaSynchronous</sender>
+   <signal>linkHovered(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showStatusMessage5s(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>85</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>518</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>labelPragmaTempStore</sender>
+   <signal>linkHovered(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showStatusMessage5s(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>85</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>518</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>labelPragmaPageSize</sender>
+   <signal>linkHovered(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showStatusMessage5s(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>85</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>518</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>labelPragmaRecursiveTriggers</sender>
+   <signal>linkHovered(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showStatusMessage5s(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>85</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>518</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>mainTab</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>mainTabSelected(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>399</x>
+     <y>315</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dbTreeWidget</sender>
+   <signal>customContextMenuRequested(QPoint)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>createTreeContextMenu(QPoint)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>111</x>
+     <y>261</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>labelPragmaMaxPageCount</sender>
+   <signal>linkHovered(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showStatusMessage5s(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>85</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>518</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>labelJournalSizeLimit</sender>
+   <signal>linkHovered(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showStatusMessage5s(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>99</x>
+     <y>345</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>518</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>labelPragmaWalAutoCheckpoint</sender>
+   <signal>linkHovered(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showStatusMessage5s(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>85</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>518</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>labelPragmaLockingMode</sender>
+   <signal>linkHovered(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showStatusMessage5s(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>85</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>518</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>labelPragmaAutoVacuum</sender>
+   <signal>linkHovered(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showStatusMessage5s(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>85</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>518</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tabSqlAreas</sender>
+   <signal>tabBarDoubleClicked(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>renameSqlTab(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>330</x>
+     <y>372</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>518</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>labelPragmaUserVersion</sender>
+   <signal>linkHovered(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showStatusMessage5s(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>85</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>518</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>labelPragmaIgnoreCheckConstraints</sender>
+   <signal>linkHovered(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showStatusMessage5s(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>85</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>518</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>labelPragmaJournalMode</sender>
+   <signal>linkHovered(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showStatusMessage5s(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>85</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>518</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBoxPragmas</sender>
+   <signal>rejected()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>loadPragmas()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>111</x>
+     <y>540</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>470</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tabSqlAreas</sender>
+   <signal>tabCloseRequested(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>closeSqlTab(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>91</x>
+     <y>259</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>51</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tabSqlAreas</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>changeSqlTab(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>91</x>
+     <y>259</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>51</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>labelPragmaSecureDelete</sender>
+   <signal>linkHovered(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showStatusMessage5s(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>85</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>518</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>labelPragmaFullFsync</sender>
+   <signal>linkHovered(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showStatusMessage5s(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>85</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>518</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tabSqlAreas</sender>
+   <signal>customContextMenuRequested(QPoint)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showContextMenuSqlTabBar(QPoint)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>labelPragmaCaseSensitiveLike</sender>
+   <signal>linkHovered(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showStatusMessage5s(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>85</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>518</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>labelPragmaAutomaticIndex</sender>
+   <signal>linkHovered(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showStatusMessage5s(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>85</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>518</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>labelPragmaAutoVacuum</sender>
+   <signal>linkHovered(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showStatusMessage5s(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>85</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>518</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBoxPragmas</sender>
+   <signal>accepted()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>savePragmas()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>111</x>
+     <y>540</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>802</x>
+     <y>522</y>
     </hint>
    </hints>
   </connection>

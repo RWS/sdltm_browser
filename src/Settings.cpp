@@ -264,7 +264,8 @@ QVariant Settings::getDefaultValue(const std::string& group, const std::string& 
         return static_cast<int>(Qt::ToolButtonIconOnly);
 
     if(group == "General" && name == "DBFileExtensions")
-        return QObject::tr("SQLite database files (*.db *.sqlite *.sqlite3 *.db3)");
+        return QObject::tr("SQLite database files (*.sdltm *.txt)");
+		//return QObject::tr("SQLite database files (*.db *.sqlite *.sqlite3 *.db3)");
 
     // General/fontsize
     if(group == "General" && name == "fontsize")
