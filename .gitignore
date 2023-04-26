@@ -51,3 +51,5 @@ mocs_*.cpp
 ui_*.h
 qrc_*.cpp
 *.moc
+# setup kits
+trados_sdltm-*.exe

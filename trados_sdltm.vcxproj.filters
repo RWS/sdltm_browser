@@ -1,0 +1,591 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\code\sdltm_browser\trados_sdltm_autogen\mocs_compilation_Debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\AboutDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\EditIndexDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\EditDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\EditTableDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\AddRecordDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\ExportDataDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\ExtendedTableWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\FilterTableHeader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\ImportCsvDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\MainWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\Settings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\PreferencesDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\SqlExecutionArea.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\VacuumDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\sqlitedb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\sqlitetablemodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\RowLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\sql\sqlitetypes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\sql\Query.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\sql\ObjectIdentifier.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\sqltextedit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\docktextedit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\csvparser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\DbStructureModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\dbstructureqitemviewfacade.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\CipherDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\ExportSqlDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\SqlUiLexer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\FileDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\ColumnDisplayFormatDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\FilterLineEdit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\RemoteDatabase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\ForeignKeyEditorDelegate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\PlotDock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\RemoteDock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\RemoteModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\RemotePushDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\FindReplaceDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\ExtendedScintilla.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\FileExtensionManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\CondFormatManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\Data.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\CipherSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\DotenvFormat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\Palette.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\CondFormat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\RunSql.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\ProxyDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\IconCache.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\SelectItemsPopup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\TableBrowser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\sql\parser\ParserDriver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\sql\parser\sqlite3_lexer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\sql\parser\sqlite3_parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\ImageViewer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\RemoteLocalFilesModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\RemoteCommitsModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\RemoteNetwork.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\TableBrowserDock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\qrc_icons.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\qrc_flags.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\qrc_translations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\qrc_CaCerts.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\qrc_darkstyle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\qrc_lightstyle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\trados_sdltm_autogen\mocs_compilation_Release.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\trados_sdltm_autogen\mocs_compilation_MinSizeRel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\trados_sdltm_autogen\mocs_compilation_RelWithDebInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\code\sdltm_browser\src\sql\sqlitetypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\sql\Query.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\sql\ObjectIdentifier.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\csvparser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\sqlite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\Data.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\IconCache.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\sql\parser\ParserDriver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\sql\parser\sqlite3_lexer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\sql\parser\sqlite3_location.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\sql\parser\sqlite3_parser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\sqlitedb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\AboutDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\EditIndexDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\EditDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\EditTableDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\AddRecordDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\ExportDataDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\ExtendedTableWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\FilterTableHeader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\ImportCsvDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\MainWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\Settings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\PreferencesDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\SqlExecutionArea.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\VacuumDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\sqlitetablemodel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\RowLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\RowCache.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\sqltextedit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\docktextedit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\DbStructureModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\dbstructureqitemviewfacade.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\Application.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\CipherDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\ExportSqlDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\SqlUiLexer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\FileDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\ColumnDisplayFormatDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\FilterLineEdit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\RemoteDatabase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\ForeignKeyEditorDelegate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\PlotDock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\RemoteDock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\RemoteModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\RemotePushDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\FindReplaceDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\ExtendedScintilla.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\FileExtensionManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\CondFormatManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\CipherSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\DotenvFormat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\Palette.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\CondFormat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\RunSql.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\ProxyDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\SelectItemsPopup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\TableBrowser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\ImageViewer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\RemoteLocalFilesModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\RemoteCommitsModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\RemoteNetwork.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\TableBrowserDock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_AboutDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_EditIndexDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_EditDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_EditTableDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_AddRecordDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_ExportDataDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_ImportCsvDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_MainWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_PreferencesDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_SqlExecutionArea.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_VacuumDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_CipherDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_ExportSqlDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_ColumnDisplayFormatDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_PlotDock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_RemoteDock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_RemotePushDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_FindReplaceDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_FileExtensionManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_CondFormatManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_ProxyDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_SelectItemsPopup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_TableBrowser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_ImageViewer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\code\sdltm_browser\src\AboutDialog.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\EditIndexDialog.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\EditDialog.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\EditTableDialog.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\AddRecordDialog.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\ExportDataDialog.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\ImportCsvDialog.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\MainWindow.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\PreferencesDialog.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\SqlExecutionArea.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\VacuumDialog.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\CipherDialog.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\ExportSqlDialog.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\ColumnDisplayFormatDialog.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\PlotDock.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\RemoteDock.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\RemotePushDialog.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\FindReplaceDialog.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\FileExtensionManager.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\CondFormatManager.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\ProxyDialog.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\SelectItemsPopup.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\TableBrowser.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\ImageViewer.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\icons\icons.qrc" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\translations\flags\flags.qrc" />
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\9b985c11677fece17e7e5f2752140b3f\sqlb_ar_SA.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\9b985c11677fece17e7e5f2752140b3f\sqlb_cs.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\9b985c11677fece17e7e5f2752140b3f\sqlb_de.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\9b985c11677fece17e7e5f2752140b3f\sqlb_en_GB.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\9b985c11677fece17e7e5f2752140b3f\sqlb_es_ES.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\9b985c11677fece17e7e5f2752140b3f\sqlb_fr.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\9b985c11677fece17e7e5f2752140b3f\sqlb_id.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\9b985c11677fece17e7e5f2752140b3f\sqlb_it.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\9b985c11677fece17e7e5f2752140b3f\sqlb_ja.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\9b985c11677fece17e7e5f2752140b3f\sqlb_ko_KR.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\9b985c11677fece17e7e5f2752140b3f\sqlb_nl.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\9b985c11677fece17e7e5f2752140b3f\sqlb_pl.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\9b985c11677fece17e7e5f2752140b3f\sqlb_pt_BR.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\9b985c11677fece17e7e5f2752140b3f\sqlb_ru.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\9b985c11677fece17e7e5f2752140b3f\sqlb_sv.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\9b985c11677fece17e7e5f2752140b3f\sqlb_tr.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\9b985c11677fece17e7e5f2752140b3f\sqlb_uk_UA.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\9b985c11677fece17e7e5f2752140b3f\sqlb_zh.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\9b985c11677fece17e7e5f2752140b3f\sqlb_zh_TW.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\code\sdltm_browser\src\translations\translations.qrc" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\certs\CaCerts.qrc" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\qdarkstyle\dark\darkstyle.qrc" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\qdarkstyle\light\lightstyle.qrc" />
+    <CustomBuild Include="C:\code\sdltm_browser\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\code\sdltm_browser\src\sql\parser\sqlite3_parser.yy" />
+    <None Include="C:\code\sdltm_browser\src\sql\parser\sqlite3_lexer.ll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="C:\code\sdltm_browser\src\winapp.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{92069F0E-6413-33E9-B1B3-5B59E134879E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{595D94DA-CCED-3842-BF69-C5E5747E518F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{73A42344-ABEB-3FAF-B779-8FFFD317A97A}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

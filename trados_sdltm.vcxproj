@@ -22,11 +22,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{A725BFD8-7741-36CE-9D06-6E2FD3E6580B}</ProjectGuid>
+    <ProjectGuid>{E039839D-988F-30DC-A748-9111EA32DE08}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
     <Platform>x64</Platform>
-    <ProjectName>sqlitebrowser</ProjectName>
+    <ProjectName>trados_sdltm</ProjectName>
     <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -60,25 +60,25 @@
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\Debug\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">sqlitebrowser.dir\Debug\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">trados_sdltm.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Trados - SDLTM Browser</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\Release\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">sqlitebrowser.dir\Release\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">trados_sdltm.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Trados - SDLTM Browser</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\MinSizeRel\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">sqlitebrowser.dir\MinSizeRel\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">trados_sdltm.dir\MinSizeRel\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Trados - SDLTM Browser</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\RelWithDebInfo\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">sqlitebrowser.dir\RelWithDebInfo\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">trados_sdltm.dir\RelWithDebInfo\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Trados - SDLTM Browser</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
@@ -86,7 +86,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\sqlitebrowser_autogen\include_Debug;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\trados_sdltm_autogen\include_Debug;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "C:/dev/SQLite-Win64" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtGui" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtANGLE" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtCore" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/./mkspecs/win32-msvc" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtTest" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtPrintSupport" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtWidgets" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtNetwork" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtConcurrent" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtXml"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -105,10 +105,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;BUILD_VERSION=20230426;CHECKNEWVERSION;QT_GUI_LIB;QT_CORE_LIB;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR=\"C:/code/sdltm_browser\";QT_PRINTSUPPORT_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;QT_CONCURRENT_LIB;QT_XML_LIB;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\sqlitebrowser_autogen\include_Debug;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;C:\dev\SQLite-Win64;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtTest;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtNetwork;C:\dev\Qt\5.12.12\msvc2017_64\include\QtConcurrent;C:\dev\Qt\5.12.12\msvc2017_64\include\QtXml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\trados_sdltm_autogen\include_Debug;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;C:\dev\SQLite-Win64;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtTest;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtNetwork;C:\dev\Qt\5.12.12\msvc2017_64\include\QtConcurrent;C:\dev\Qt\5.12.12\msvc2017_64\include\QtXml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\sqlitebrowser_autogen\include_Debug;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;C:\dev\SQLite-Win64;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtTest;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtNetwork;C:\dev\Qt\5.12.12\msvc2017_64\include\QtConcurrent;C:\dev\Qt\5.12.12\msvc2017_64\include\QtXml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\trados_sdltm_autogen\include_Debug;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;C:\dev\SQLite-Win64;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtTest;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtNetwork;C:\dev\Qt\5.12.12\msvc2017_64\include\QtConcurrent;C:\dev\Qt\5.12.12\msvc2017_64\include\QtXml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -117,13 +117,13 @@
     </Midl>
     <PreBuildEvent>
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message>Automatic MOC for target sqlitebrowser</Message>
+      <Message>Automatic MOC for target trados_sdltm</Message>
       <Command>setlocal
 cd C:\code\sdltm_browser
 if %errorlevel% neq 0 goto :cmEnd
 C:
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen C:/code/sdltm_browser/CMakeFiles/sqlitebrowser_autogen.dir/AutogenInfo.json Debug
+"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen C:/code/sdltm_browser/CMakeFiles/trados_sdltm_autogen.dir/AutogenInfo.json Debug
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -149,7 +149,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\sqlitebrowser_autogen\include_Release;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\trados_sdltm_autogen\include_Release;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "C:/dev/SQLite-Win64" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtGui" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtANGLE" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtCore" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/./mkspecs/win32-msvc" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtTest" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtPrintSupport" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtWidgets" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtNetwork" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtConcurrent" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtXml"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -168,10 +168,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BUILD_VERSION=20230426;CHECKNEWVERSION;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR=\"C:/code/sdltm_browser\";QT_PRINTSUPPORT_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;QT_CONCURRENT_LIB;QT_XML_LIB;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\sqlitebrowser_autogen\include_Release;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;C:\dev\SQLite-Win64;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtTest;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtNetwork;C:\dev\Qt\5.12.12\msvc2017_64\include\QtConcurrent;C:\dev\Qt\5.12.12\msvc2017_64\include\QtXml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\trados_sdltm_autogen\include_Release;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;C:\dev\SQLite-Win64;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtTest;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtNetwork;C:\dev\Qt\5.12.12\msvc2017_64\include\QtConcurrent;C:\dev\Qt\5.12.12\msvc2017_64\include\QtXml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\sqlitebrowser_autogen\include_Release;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;C:\dev\SQLite-Win64;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtTest;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtNetwork;C:\dev\Qt\5.12.12\msvc2017_64\include\QtConcurrent;C:\dev\Qt\5.12.12\msvc2017_64\include\QtXml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\trados_sdltm_autogen\include_Release;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;C:\dev\SQLite-Win64;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtTest;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtNetwork;C:\dev\Qt\5.12.12\msvc2017_64\include\QtConcurrent;C:\dev\Qt\5.12.12\msvc2017_64\include\QtXml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -180,13 +180,13 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </Midl>
     <PreBuildEvent>
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message>Automatic MOC for target sqlitebrowser</Message>
+      <Message>Automatic MOC for target trados_sdltm</Message>
       <Command>setlocal
 cd C:\code\sdltm_browser
 if %errorlevel% neq 0 goto :cmEnd
 C:
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen C:/code/sdltm_browser/CMakeFiles/sqlitebrowser_autogen.dir/AutogenInfo.json Release
+"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen C:/code/sdltm_browser/CMakeFiles/trados_sdltm_autogen.dir/AutogenInfo.json Release
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -212,7 +212,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\sqlitebrowser_autogen\include_MinSizeRel;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\trados_sdltm_autogen\include_MinSizeRel;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "C:/dev/SQLite-Win64" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtGui" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtANGLE" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtCore" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/./mkspecs/win32-msvc" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtTest" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtPrintSupport" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtWidgets" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtNetwork" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtConcurrent" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtXml"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -231,10 +231,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BUILD_VERSION=20230426;CHECKNEWVERSION;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR=\"C:/code/sdltm_browser\";QT_PRINTSUPPORT_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;QT_CONCURRENT_LIB;QT_XML_LIB;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\sqlitebrowser_autogen\include_MinSizeRel;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;C:\dev\SQLite-Win64;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtTest;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtNetwork;C:\dev\Qt\5.12.12\msvc2017_64\include\QtConcurrent;C:\dev\Qt\5.12.12\msvc2017_64\include\QtXml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\trados_sdltm_autogen\include_MinSizeRel;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;C:\dev\SQLite-Win64;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtTest;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtNetwork;C:\dev\Qt\5.12.12\msvc2017_64\include\QtConcurrent;C:\dev\Qt\5.12.12\msvc2017_64\include\QtXml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\sqlitebrowser_autogen\include_MinSizeRel;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;C:\dev\SQLite-Win64;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtTest;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtNetwork;C:\dev\Qt\5.12.12\msvc2017_64\include\QtConcurrent;C:\dev\Qt\5.12.12\msvc2017_64\include\QtXml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\trados_sdltm_autogen\include_MinSizeRel;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;C:\dev\SQLite-Win64;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtTest;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtNetwork;C:\dev\Qt\5.12.12\msvc2017_64\include\QtConcurrent;C:\dev\Qt\5.12.12\msvc2017_64\include\QtXml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -243,13 +243,13 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </Midl>
     <PreBuildEvent>
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message>Automatic MOC for target sqlitebrowser</Message>
+      <Message>Automatic MOC for target trados_sdltm</Message>
       <Command>setlocal
 cd C:\code\sdltm_browser
 if %errorlevel% neq 0 goto :cmEnd
 C:
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen C:/code/sdltm_browser/CMakeFiles/sqlitebrowser_autogen.dir/AutogenInfo.json MinSizeRel
+"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen C:/code/sdltm_browser/CMakeFiles/trados_sdltm_autogen.dir/AutogenInfo.json MinSizeRel
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -274,7 +274,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\sqlitebrowser_autogen\include_RelWithDebInfo;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\trados_sdltm_autogen\include_RelWithDebInfo;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "C:/dev/SQLite-Win64" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtGui" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtANGLE" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtCore" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/./mkspecs/win32-msvc" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtTest" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtPrintSupport" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtWidgets" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtNetwork" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtConcurrent" /external:I "C:/dev/Qt/5.12.12/msvc2017_64/include/QtXml"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -292,10 +292,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BUILD_VERSION=20230426;CHECKNEWVERSION;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR=\"C:/code/sdltm_browser\";QT_PRINTSUPPORT_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;QT_CONCURRENT_LIB;QT_XML_LIB;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\sqlitebrowser_autogen\include_RelWithDebInfo;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;C:\dev\SQLite-Win64;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtTest;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtNetwork;C:\dev\Qt\5.12.12\msvc2017_64\include\QtConcurrent;C:\dev\Qt\5.12.12\msvc2017_64\include\QtXml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\trados_sdltm_autogen\include_RelWithDebInfo;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;C:\dev\SQLite-Win64;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtTest;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtNetwork;C:\dev\Qt\5.12.12\msvc2017_64\include\QtConcurrent;C:\dev\Qt\5.12.12\msvc2017_64\include\QtXml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\sqlitebrowser_autogen\include_RelWithDebInfo;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;C:\dev\SQLite-Win64;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtTest;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtNetwork;C:\dev\Qt\5.12.12\msvc2017_64\include\QtConcurrent;C:\dev\Qt\5.12.12\msvc2017_64\include\QtXml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\trados_sdltm_autogen\include_RelWithDebInfo;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;C:\dev\SQLite-Win64;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtTest;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtNetwork;C:\dev\Qt\5.12.12\msvc2017_64\include\QtConcurrent;C:\dev\Qt\5.12.12\msvc2017_64\include\QtXml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -304,13 +304,13 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </Midl>
     <PreBuildEvent>
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message>Automatic MOC for target sqlitebrowser</Message>
+      <Message>Automatic MOC for target trados_sdltm</Message>
       <Command>setlocal
 cd C:\code\sdltm_browser
 if %errorlevel% neq 0 goto :cmEnd
 C:
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen C:/code/sdltm_browser/CMakeFiles/sqlitebrowser_autogen.dir/AutogenInfo.json RelWithDebInfo
+"C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen C:/code/sdltm_browser/CMakeFiles/trados_sdltm_autogen.dir/AutogenInfo.json RelWithDebInfo
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -3135,7 +3135,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="C:\code\sdltm_browser\sqlitebrowser_autogen\mocs_compilation_Debug.cpp">
+    <ClCompile Include="C:\code\sdltm_browser\trados_sdltm_autogen\mocs_compilation_Debug.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</ExcludedFromBuild>
@@ -3299,17 +3299,17 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </None>
     <None Include="C:\code\sdltm_browser\src\sql\parser\sqlite3_lexer.ll">
     </None>
-    <ClCompile Include="C:\code\sdltm_browser\sqlitebrowser_autogen\mocs_compilation_Release.cpp">
+    <ClCompile Include="C:\code\sdltm_browser\trados_sdltm_autogen\mocs_compilation_Release.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="C:\code\sdltm_browser\sqlitebrowser_autogen\mocs_compilation_MinSizeRel.cpp">
+    <ClCompile Include="C:\code\sdltm_browser\trados_sdltm_autogen\mocs_compilation_MinSizeRel.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="C:\code\sdltm_browser\sqlitebrowser_autogen\mocs_compilation_RelWithDebInfo.cpp">
+    <ClCompile Include="C:\code\sdltm_browser\trados_sdltm_autogen\mocs_compilation_RelWithDebInfo.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</ExcludedFromBuild>

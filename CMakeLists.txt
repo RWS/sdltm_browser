@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
-project(sqlitebrowser
-    VERSION 3.12.99
-    DESCRIPTION "GUI editor for SQLite databases"
+project(trados_sdltm
+    VERSION 1.0.2
+    DESCRIPTION "Trados - SDLTM Browser"
 )
 
 OPTION(BUILD_STABLE_VERSION "Don't build the stable version by default" OFF) # Choose between building a stable version or nightly (the default), depending on whether '-DBUILD_STABLE_VERSION=1' is passed on the command line or not.
@@ -465,8 +465,7 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 if(MSVC)
-    set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "DB Browser for SQLite")
-    #set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE")
+    set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "Trados - SDLTM Browser")
     set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS,5.02 /ENTRY:mainCRTStartup")
 
     set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_DEFINITIONS_DEBUG "_CONSOLE")
@@ -602,25 +601,15 @@ if(WIN32 AND MSVC)
     #)
 endif()
 
-if(APPLE)
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        BUNDLE True
-        OUTPUT_NAME "DB Browser for SQLite"
-        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/src/app.plist
-    )
-endif()
 
 # CPack configuration
 set(CPACK_STRIP_FILES ON)
-set(CPACK_DEBIAN_PACKAGE_PRIORITY optional)
-set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
-set(CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS ON)
-set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Tristan Stenner <dbbrowser@nicht.dienstli.ch>")
 set(CPACK_ARCHIVE_COMPONENT_INSTALL ON)
 if(APPLE)
     set(CPACK_DEFAULT_GEN TBZ2)
 elseif(WIN32)
-    set(CPACK_DEFAULT_GEN ZIP)
+    set(CPACK_DEFAULT_GEN NSIS)
+    set(CPACK_PACKAGE_VENDOR "RWS")
     set(CPACK_NSIS_MODIFY_PATH ON)
     set(CPACK_WIX_CMAKE_PACKAGE_REGISTRY ON)
     set(CPACK_WIX_UPGRADE_GUID "78c885a7-e9c8-4ded-9b62-9abe47466950")
