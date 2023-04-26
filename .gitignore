@@ -54,5 +54,5 @@ qrc_*.cpp
 # setup kits
 trados_sdltm-*.exe
 
-# install_manifest.txt
-# CMakeCache.txt
+install_manifest.txt
+CMakeCache.txt
