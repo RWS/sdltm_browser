@@ -186,8 +186,8 @@ You can drag SQL statements from an object row and drop them into other applicat
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>740</width>
-             <height>489</height>
+             <width>250</width>
+             <height>464</height>
             </rect>
            </property>
            <layout class="QFormLayout" name="formLayout">
@@ -771,6 +771,16 @@ You can drag SQL statements from an object row and drop them into other applicat
         </property>
         <property name="text">
          <string>Common actions</string>
+        </property>
+       </widget>
+       <widget class="EditSdltmFilter" name="widget" native="true">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>30</y>
+          <width>741</width>
+          <height>391</height>
+         </rect>
         </property>
        </widget>
       </widget>
@@ -2344,6 +2354,12 @@ You can drag SQL statements from the Schema column and drop them into the SQL ed
    <class>ExtendedScintilla</class>
    <extends>QTextEdit</extends>
    <header>ExtendedScintilla.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>EditSdltmFilter</class>
+   <extends>QWidget</extends>
+   <header>editsdltmfilter.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

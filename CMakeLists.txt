@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 project(trados_sdltm
-    VERSION 1.0.2
+    VERSION 1.0.3
     DESCRIPTION "Trados - SDLTM Browser"
 )
 
@@ -203,6 +203,8 @@ target_sources(${PROJECT_NAME}
     src/RemoteCommitsModel.h
     src/RemoteNetwork.h
     src/TableBrowserDock.h
+    src/sdltm/SdltmFilter.h
+    src/sdltm/ui/EditSdltmFilter.h
 )
 
 target_sources(${PROJECT_NAME}
@@ -268,6 +270,8 @@ target_sources(${PROJECT_NAME}
     src/RemoteCommitsModel.cpp
     src/RemoteNetwork.cpp
     src/TableBrowserDock.cpp
+    src/sdltm/SdltmFilter.cpp
+    src/sdltm/ui/EditSdltmFilter.cpp
 )
 
 set(SQLB_FORMS
@@ -295,6 +299,7 @@ set(SQLB_FORMS
     src/SelectItemsPopup.ui
     src/TableBrowser.ui
     src/ImageViewer.ui
+    src/sdltm/ui/EditSdltmFilter.ui
 )
 
 set(SQLB_RESOURCES
@@ -431,6 +436,9 @@ if(MSVC)
 endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE src)
+
+target_include_directories(${PROJECT_NAME} PRIVATE src/sdltm)
+target_include_directories(${PROJECT_NAME} PRIVATE src/sdltm/ui)
 
 target_sources(${PROJECT_NAME}
     PRIVATE
