@@ -414,6 +414,9 @@
     <ClInclude Include="C:\code\sdltm_browser\src\sdltm\SdltmFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\sdltm\qchecklist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="C:\code\sdltm_browser\src\sdltm\ui\EditSdltmFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>

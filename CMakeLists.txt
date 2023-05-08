@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 project(trados_sdltm
-    VERSION 1.0.3
-    DESCRIPTION "Trados - SDLTM Browser"
+    VERSION 1.0.5
+    DESCRIPTION "TM Fusion for Trados"
 )
 
 OPTION(BUILD_STABLE_VERSION "Don't build the stable version by default" OFF) # Choose between building a stable version or nightly (the default), depending on whether '-DBUILD_STABLE_VERSION=1' is passed on the command line or not.
@@ -204,6 +204,7 @@ target_sources(${PROJECT_NAME}
     src/RemoteNetwork.h
     src/TableBrowserDock.h
     src/sdltm/SdltmFilter.h
+    src/sdltm/qchecklist.h
     src/sdltm/ui/EditSdltmFilter.h
 )
 
@@ -473,7 +474,7 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 if(MSVC)
-    set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "Trados - SDLTM Browser")
+    set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "TM Fusion for Trados")
     set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS,5.02 /ENTRY:mainCRTStartup")
 
     set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_DEFINITIONS_DEBUG "_CONSOLE")

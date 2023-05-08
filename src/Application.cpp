@@ -123,7 +123,7 @@ Application::Application(int& argc, char** argv) :
 
     // Set organisation and application names
     setOrganizationName("Trados");
-    setApplicationName("Trados - SDLTM Browser");
+    setApplicationName("TM Fusion for Trados");
 
     // Set character encoding to UTF8
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));

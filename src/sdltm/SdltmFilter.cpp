@@ -54,6 +54,41 @@ SdltmFilterItem SdltmFilterItem::ToUserEditableFilterItem() const
 	return editable;
 }
 
+SdltmFieldMetaType SdltmFilterItem::PresetFieldMetaType(SdltmFieldType fieldType)
+{
+	switch (fieldType)
+	{
+	case SdltmFieldType::LastModifiedBy:
+	case SdltmFieldType::LastUsedBy:
+	case SdltmFieldType::CreatedBy:
+	case SdltmFieldType::SourceSegment:
+	case SdltmFieldType::TargetSegment:
+	case SdltmFieldType::CustomSqlExpression:
+		return SdltmFieldMetaType::Text;
+		break;
+
+	case SdltmFieldType::LastModifiedOn:
+	case SdltmFieldType::LastUsedOn:
+	case SdltmFieldType::CreatedOn:
+		return SdltmFieldMetaType::DateTime;
+		break;
+
+	case SdltmFieldType::UseageCount:
+	case SdltmFieldType::SourceSegmentLength:
+	case SdltmFieldType::TargetSegmentLength:
+	case SdltmFieldType::NumberOfTagsInSourceSegment:
+	case SdltmFieldType::NumberOfTagsInTargetSegment:
+		return SdltmFieldMetaType::Int;
+		break;
+	case SdltmFieldType::CustomField:
+		assert(false);
+		break;
+	default: assert(false);
+	}
+	return SdltmFieldMetaType::Text;
+}
+
+
 QString SdltmFilterItem::FriendlyString() const
 {
 	const int INDENT_SIZE = 4;
@@ -87,6 +122,7 @@ QString SdltmFilterItem::FriendlyString() const
 	default: assert(false); break;
 	}
 
+	auto hasCaseSensitive = false;
 	switch (FieldMetaType)
 	{
 		// number
@@ -106,7 +142,8 @@ QString SdltmFilterItem::FriendlyString() const
 		break;
 
 		// string
-	case SdltmFieldMetaType::Text: 
+	case SdltmFieldMetaType::Text:
+		hasCaseSensitive = true;
 		switch(StringComparison)
 		{
 		case StringComparisonType::Equal: friendly += " = "; break;
@@ -119,6 +156,7 @@ QString SdltmFilterItem::FriendlyString() const
 
 		// multi-string
 	case SdltmFieldMetaType::MultiText:
+		hasCaseSensitive = true;
 		switch(MultiStringComparison)
 		{
 		case MultiStringComparisonType::AnyEqual: friendly += " Any Equals "; break;
@@ -157,6 +195,9 @@ QString SdltmFilterItem::FriendlyString() const
 		}
 		friendly += "]";
 	}
+
+	if (hasCaseSensitive && CustomFieldName == "" && !CaseSensitive)
+		friendly += " (Case-Insensitive)";
 
 	return friendly;
 }

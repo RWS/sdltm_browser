@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <qstandarditemmodel.h>
+#include <sstream>
 
 #include "ui_EditSdltmFilter.h"
 #include "ui_PlotDock.h"
@@ -16,33 +17,48 @@ namespace
 		test.FilterItems.push_back(SdltmFilterItem("Customer", SdltmFieldMetaType::Text));
 		test.FilterItems.back().FieldValue = "Gigi";
 		test.FilterItems.back().IndentLevel = 0;
+
+		test.FilterItems.push_back(SdltmFilterItem("Listy", SdltmFieldMetaType::List));
+		test.FilterItems.back().FieldValue = "Def";
+		test.FilterItems.back().IndentLevel = 0;
+
+		test.FilterItems.push_back(SdltmFilterItem("CheckListy", SdltmFieldMetaType::CheckboxList));
+		test.FilterItems.back().FieldValues = { "Mno", "st", "zzz"};
+		test.FilterItems.back().IndentLevel = 0;
+
 		test.FilterItems.back().StringComparison = StringComparisonType::Contains;
 		test.FilterItems.push_back(SdltmFilterItem("Country", SdltmFieldMetaType::Text));
 		test.FilterItems.back().FieldValue = "Romania";
 		test.FilterItems.back().IndentLevel = 1;
-		test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::CreatedBy, SdltmFieldMetaType::Number));
+		test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::CreatedBy));
+		test.FilterItems.back().FieldValue = "Jay";
+		test.FilterItems.back().IndentLevel = 2;
+		test.FilterItems.back().IsAnd = false;
+		test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::UseageCount));
 		test.FilterItems.back().FieldValue = "5";
 		test.FilterItems.back().IndentLevel = 2;
 		test.FilterItems.back().IsAnd = false;
 		test.FilterItems.back().NumberComparison = NumberComparisonType::BiggerOrEqual;
-		test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::CreatedOn, SdltmFieldMetaType::Text));
+		test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::CreatedOn));
 		test.FilterItems.back().FieldValue = "2023/02/20";
 		test.FilterItems.back().IndentLevel = 2;
 		test.FilterItems.back().IsAnd = false;
-		test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::SourceSegment, SdltmFieldMetaType::Text));
+		test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::SourceSegment));
 		test.FilterItems.back().FieldValue = "extra";
 		test.FilterItems.back().IndentLevel = 2;
 		test.FilterItems.back().StringComparison = StringComparisonType::Contains;
 		test.FilterItems.back().IsAnd = false;
 		test.FilterItems.back().IsNegated = true;
-		test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::LastModifiedBy, SdltmFieldMetaType::Text));
+		test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::LastModifiedBy));
 		test.FilterItems.back().FieldValue = "JJ";
 		test.FilterItems.back().IndentLevel = 1;
-		test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::LastUsedBy, SdltmFieldMetaType::Text));
+		test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::LastUsedBy));
 		test.FilterItems.back().FieldValue = "TT";
 		test.FilterItems.back().IndentLevel = 1;
 		test.FilterItems.back().StringComparison = StringComparisonType::EndsWith;
 
+		test.QuickSearch = "sourcy";
+		test.QuickSearchTarget = "targety";
 
 		return test;
 	}
@@ -57,9 +73,19 @@ namespace
 		CustomField c;
 		c.FieldName = "Price";
 		c.FieldType = SdltmFieldMetaType::Number;
+		CustomField d;
+		d.FieldName = "Listy";
+		d.FieldType = SdltmFieldMetaType::List;
+		d.Values = { "Abc", "Def", "Ghk", "Ij"};
+		CustomField e;
+		e.FieldName = "CheckListy";
+		e.FieldType = SdltmFieldMetaType::CheckboxList;
+		e.Values = { "Kl", "Mno", "Pqr", "st", "x-x-x", "y-y-y", "zzz"};
 		fields.push_back(a);
 		fields.push_back(b);
 		fields.push_back(c);
+		fields.push_back(d);
+		fields.push_back(e);
 		return fields;
 	}
 }
@@ -67,12 +93,42 @@ namespace
 EditSdltmFilter::EditSdltmFilter(QWidget* parent ) 
 	: QWidget(parent) 
     , ui(new Ui::EditSdltmFilter)
+	, _ignoreUpdate(0)
+	, _editRowIndex(-1)
 {
+	++_ignoreUpdate;
     ui->setupUi(this);
+	--_ignoreUpdate;
 	ui->editCondition->hide();
 
-	// thank you QT, for bringing back Mesozoic Era to all the rest of us...
 	connect(ui->simpleFilterTable, SIGNAL(clicked(const QModelIndex&)), this, SLOT(onTableClicked(const QModelIndex&)));
+
+	connect(ui->fieldCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(onFieldComboChanged(int)));
+	connect(ui->operationCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(onOperationComboChanged(int)));
+	connect(ui->andorCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(onAndOrComboChanged(int)));
+
+	connect(ui->notBox, SIGNAL(stateChanged(int)), this, SLOT(onNotChecked(int)));
+	connect(ui->caseSensitive, SIGNAL(stateChanged(int)), this, SLOT(onCaseSensitiveChanged(int)));
+
+	connect(ui->indentSpin, SIGNAL(valueChanged(int)), this, SLOT(onIndentChanged()));
+
+	connect(ui->editFilterSave, SIGNAL(clicked(bool)), this, SLOT(onFilterSave()));
+	connect(ui->editFilterCancel, SIGNAL(clicked(bool)), this, SLOT(onFilterCancel()));
+
+	connect(ui->quickSearchSource, SIGNAL(textChanged()), this, SLOT(onQuickSourceTextChanged()));
+	connect(ui->quickSearchTarget, SIGNAL(textChanged()), this, SLOT(onQuickTargetTextChanged()));
+
+	connect(ui->quickSearchSourceAndTarget, SIGNAL(stateChanged(int)), this, SLOT(onQuickSourceAndTargetChanged()));
+	connect(ui->quickSearchCaseSensitive, SIGNAL(stateChanged(int)), this, SLOT(onQuickCaseSensitiveChanged()));
+
+	connect(ui->textValue, SIGNAL(textChanged()), this, SLOT(onFilterTextChanged()));
+	connect(ui->dateValue, SIGNAL(dateTimeChanged(const QDateTime&)), this, SLOT(onFilterDateTimeChanged()));
+	connect(ui->comboValue, SIGNAL(currentIndexChanged(int)), this, SLOT(onFilterComboChanged()));
+	connect(ui->comboCheckboxesValue, SIGNAL(dataChanged()), this, SLOT(onFilterComboCheckboxChanged()));
+
+	connect(ui->addSimpleFilterItem, SIGNAL(clicked(bool)), this, SLOT(onAddItem()));
+	connect(ui->delSimpleFilterItem, SIGNAL(clicked(bool)), this, SLOT(onDelItem()));
+	connect(ui->insertSimpleFilterItem, SIGNAL(clicked(bool)), this, SLOT(onInsertItem()));
 
 	ui->andorCombo->addItem("AND");
 	ui->andorCombo->addItem("OR");
@@ -97,21 +153,32 @@ void EditSdltmFilter::resizeEvent(QResizeEvent* event)
 
 namespace 
 {
-	void filterItemToRow(const SdltmFilterItem & item, QStandardItemModel * model, int idx, bool isLast)
+	void FilterItemToRow(const SdltmFilterItem & item, QStandardItemModel * model, int idx, bool isLast)
 	{
-		auto* indent = new QStandardItem(QString::number(item.IndentLevel));
-		auto * not = new QStandardItem(QString(item.IsNegated ? "x" : ""));
-		auto* friendly = new QStandardItem(item.FriendlyString());
-		auto* andOr = new QStandardItem(isLast ? "" : (item.IsAnd ? "AND" : "OR"));
+		auto needsCreate = model->item(idx, 0) == nullptr;
+		if (needsCreate)
+		{
+			auto* indent = new QStandardItem(QString::number(item.IndentLevel));
+			auto * not = new QStandardItem(QString(item.IsNegated ? "x" : ""));
+			auto* friendly = new QStandardItem(item.FriendlyString());
+			auto* andOr = new QStandardItem(isLast ? "" : (item.IsAnd ? "AND" : "OR"));
 
-		indent->setTextAlignment(Qt::AlignCenter);
-		not->setTextAlignment(Qt::AlignCenter);
-		friendly->setTextAlignment(Qt::AlignLeft);
-		andOr->setTextAlignment(Qt::AlignCenter);
-		model->setItem(idx, 0, indent);
-		model->setItem(idx, 1, not);
-		model->setItem(idx, 2, friendly);
-		model->setItem(idx, 3, andOr);
+			indent->setTextAlignment(Qt::AlignCenter);
+			not->setTextAlignment(Qt::AlignCenter);
+			friendly->setTextAlignment(Qt::AlignLeft);
+			andOr->setTextAlignment(Qt::AlignCenter);
+			model->setItem(idx, 0, indent);
+			model->setItem(idx, 1, not);
+			model->setItem(idx, 2, friendly);
+			model->setItem(idx, 3, andOr);
+		}
+		else
+		{
+			model->item(idx, 0)->setText(QString::number(item.IndentLevel));
+			model->item(idx, 1)->setText(QString(item.IsNegated ? "x" : ""));
+			model->item(idx, 2)->setText(item.FriendlyString());
+			model->item(idx, 3)->setText(isLast ? "" : (item.IsAnd ? "AND" : "OR"));
+		}
 	}
 
 	QStandardItemModel *createFilterItemModel(const std::vector<SdltmFilterItem> & items)
@@ -119,7 +186,7 @@ namespace
 		// Indent | NOT | Condition | And/Or
 		QStandardItemModel* model = new QStandardItemModel(items.size(), 4);
 		for (int row = 0; row < items.size(); ++row)
-			filterItemToRow(items[row], model, row, row == items.size() - 1);
+			FilterItemToRow(items[row], model, row, row == items.size() - 1);
 
 		model->setHorizontalHeaderItem(0, new QStandardItem("Indent"));
 		model->setHorizontalHeaderItem(1, new QStandardItem("NOT"));
@@ -163,37 +230,62 @@ void EditSdltmFilter::setEditFilter(std::shared_ptr<SdltmFilter> filter, const s
 	ui->insertSimpleFilterItem->setEnabled(!filter->IsLocked);
 	ui->delSimpleFilterItem->setEnabled(!filter->IsLocked);
 
-	_editFilterItems.clear();
+	_editableFilterItems.clear();
 	_hiddenFilterItems.clear();
-	std::copy_if(filter->FilterItems.begin(), filter->FilterItems.end(), std::back_inserter(_editFilterItems), [](const SdltmFilterItem& fi) { return fi.IsVisible; });
+	std::copy_if(filter->FilterItems.begin(), filter->FilterItems.end(), std::back_inserter(_editableFilterItems), [](const SdltmFilterItem& fi) { return fi.IsVisible; });
 	std::copy_if(filter->FilterItems.begin(), filter->FilterItems.end(), std::back_inserter(_hiddenFilterItems), [](const SdltmFilterItem& fi) { return !fi.IsVisible; });
 
-	ui->simpleFilterTable->setModel(createFilterItemModel(_editFilterItems));
+	ui->simpleFilterTable->setModel(createFilterItemModel(_editableFilterItems));
 	ui->simpleFilterTable->setColumnWidth(0, 60);
 	ui->simpleFilterTable->setColumnWidth(1, 60);
 	ui->simpleFilterTable->setColumnWidth(2, 450);
 	ui->simpleFilterTable->setColumnWidth(3, 80);
+
+	++_ignoreUpdate;
+	updateQuickSearchVisibility();
+	ui->quickSearchSourceAndTarget->setChecked(_filter->QuickSearchSearchSourceAndTarget);
+	ui->quickSearchCaseSensitive->setChecked(_filter->QuickSearchCaseSensitive);
+	--_ignoreUpdate;
+}
+
+void EditSdltmFilter::updateQuickSearchVisibility()
+{
+	++_ignoreUpdate;
+	ui->quickSearchSourceTextLabel->setText(_filter->QuickSearchSearchSourceAndTarget ? "Text" : "Source Text");
+	ui->quickSearchSource->setPlainText(_filter->QuickSearch);
+	ui->quickSearchTarget->setPlainText(_filter->QuickSearchTarget);
+	ui->quickSearchTarget->setVisible(!_filter->QuickSearchSearchSourceAndTarget);
+	ui->quickSearchTargetLabel->setVisible(!_filter->QuickSearchSearchSourceAndTarget);
+	--_ignoreUpdate;
 }
 
 void EditSdltmFilter::saveFilter()
 {
 	_filter->FilterItems.clear();
 	std::copy(_hiddenFilterItems.begin(), _hiddenFilterItems.end(), std::back_inserter(_filter->FilterItems));
-	std::copy(_editFilterItems.begin(), _editFilterItems.end(), std::back_inserter(_filter->FilterItems));
+	std::copy(_editableFilterItems.begin(), _editableFilterItems.end(), std::back_inserter(_filter->FilterItems));
 }
 
 void EditSdltmFilter::editRow(int idx)
 {
 	showEditControlsForRow(idx);
 
-	auto& item = _editFilterItems[idx];
+	_ignoreUpdate++;
+
+	auto& item = _editableFilterItems[idx];
+	_editFilterItem = _originalEditFilterItem = item;
+
 	ui->indentSpin->setValue(item.IndentLevel);
 	ui->notBox->setChecked(item.IsNegated);
 	ui->andorCombo->setCurrentIndex(item.IsAnd ? 0 : 1);
 	ui->textValue->setPlainText(item.FieldValue);
+	// for custom fields -> no case sensitivity
+	ui->caseSensitive->setVisible(item.CustomFieldName == "" && (item.FieldMetaType == SdltmFieldMetaType::Text || item.FieldMetaType == SdltmFieldMetaType::MultiText) );
+	ui->caseSensitive->setChecked(item.CaseSensitive);
 
 	updateFieldCombo();
-	updateOperationCombo(idx);
+	updateOperationCombo();
+	updateValue();
 
 	if (item.CustomFieldName != "")
 	{
@@ -206,37 +298,8 @@ void EditSdltmFilter::editRow(int idx)
 		ui->fieldCombo->setCurrentIndex(_customFields.size() + (int)item.FieldType);
 	}
 
-	switch (item.FieldMetaType)
-	{
-		// number
-	case SdltmFieldMetaType::Int:
-	case SdltmFieldMetaType::Double:
-	case SdltmFieldMetaType::Number:
-	case SdltmFieldMetaType::DateTime:
-		ui->operationCombo->setCurrentIndex((int)item.NumberComparison);
-		break;
 
-		// string
-	case SdltmFieldMetaType::Text:
-		ui->operationCombo->setCurrentIndex((int)item.StringComparison);
-		break;
-
-		// multi-string
-	case SdltmFieldMetaType::MultiText:
-		ui->operationCombo->setCurrentIndex((int)item.MultiStringComparison);
-		break;
-
-		// multi-comparison (has-item) -- single value
-	case SdltmFieldMetaType::List:
-		ui->operationCombo->setCurrentIndex(0);
-		break;
-		// multi-comparison (has-item) -- several values
-	case SdltmFieldMetaType::CheckboxList:
-		ui->operationCombo->setCurrentIndex(0);
-		break;
-	default:;
-	}
-
+	_ignoreUpdate--;
 }
 
 void EditSdltmFilter::showEditControlsForRow(int idx)
@@ -253,7 +316,7 @@ void EditSdltmFilter::showEditControlsForRow(int idx)
 	auto tablePos = ui->simpleFilterTable->mapTo(ui->tabWidget, QPoint(0, 0));
 	ui->editCondition->move(vertHeaderWidth + tablePos.x(), y + tablePos.y() + horizHeaderHeight);
 	ui->editCondition->setFixedWidth(indentCol + notCol + conditionCol + andorCol);
-	ui->editCondition->setFixedHeight(height);
+	ui->editCondition->setFixedHeight(height * 2);
 
 	ui->indentSpin->setFixedWidth(indentCol);
 	ui->notBoxWrapper->setFixedWidth(notCol);
@@ -294,10 +357,44 @@ void EditSdltmFilter::updateFieldCombo()
 		ui->fieldCombo->addItem(ft);
 }
 
-void EditSdltmFilter::updateOperationCombo(int idx)
+namespace
+{
+	enum class ComparisonType
+	{
+		Number, String, MultiString, List, CheckList,
+	};
+
+	ComparisonType FieldMetaTypeToComparison(SdltmFieldMetaType metaType)
+	{
+		switch (metaType)
+		{
+			// number
+		case SdltmFieldMetaType::Int:
+		case SdltmFieldMetaType::Double:
+		case SdltmFieldMetaType::Number:
+		case SdltmFieldMetaType::DateTime:
+			return ComparisonType::Number;
+			// string
+		case SdltmFieldMetaType::Text:
+			return ComparisonType::String;
+			// multi-string
+		case SdltmFieldMetaType::MultiText:
+			return ComparisonType::MultiString;
+			// multi-comparison (has-item) -- single value
+		case SdltmFieldMetaType::List:
+			return ComparisonType::List;
+			// multi-comparison (has-item) -- several values
+		case SdltmFieldMetaType::CheckboxList:
+			return ComparisonType::CheckList;
+		default:;
+			return ComparisonType::Number;
+		}
+	}
+}
+void EditSdltmFilter::updateOperationCombo()
 {
 	std::vector<QString> operations;
-	auto& item = _editFilterItems[idx];
+	auto& item = _editFilterItem;
 	switch (item.FieldMetaType)
 	{
 		// number
@@ -329,14 +426,426 @@ void EditSdltmFilter::updateOperationCombo(int idx)
 	default: ;
 	}
 
+	++_ignoreUpdate;
 	ui->operationCombo->clear();
 	for (const auto& o : operations)
 		ui->operationCombo->addItem(o);
+
+	switch (FieldMetaTypeToComparison(item.FieldMetaType))
+	{
+	case ComparisonType::Number: 
+		ui->operationCombo->setCurrentIndex((int)item.NumberComparison);
+		break;
+	case ComparisonType::String: 
+		ui->operationCombo->setCurrentIndex((int)item.StringComparison);
+		break;
+	case ComparisonType::MultiString: 
+		ui->operationCombo->setCurrentIndex((int)item.MultiStringComparison);
+		break;
+	case ComparisonType::List: 
+		// multi-comparison (has-item) -- single value
+		ui->operationCombo->setCurrentIndex(0);
+		break;
+	case ComparisonType::CheckList: 
+		// multi-comparison (has-item) -- several values
+		ui->operationCombo->setCurrentIndex(0);
+		break;
+	default: ;
+	}
+
+	--_ignoreUpdate;
+}
+
+void EditSdltmFilter::updateValueVisibility()
+{
+	bool isNumber = false, isString = false, isList = false, isChecklist = false, isDatetime = false;
+	switch (FieldMetaTypeToComparison(_editFilterItem.FieldMetaType))
+	{
+	case ComparisonType::Number: isNumber = true; break;
+	case ComparisonType::String: 
+	case ComparisonType::MultiString: isString = true; break;
+	case ComparisonType::List: isList = true; break;
+	case ComparisonType::CheckList: isChecklist = true; break;
+	default: assert(false);
+	}
+
+	if (_editFilterItem.FieldMetaType == SdltmFieldMetaType::DateTime)
+	{
+		isDatetime = true;
+		isNumber = false;
+	}
+
+	ui->textValue->setVisible(isNumber || isString);
+	ui->dateValue->setVisible(isDatetime);
+	ui->comboValue->setVisible(isList);
+	ui->comboCheckboxesValue->setVisible(isChecklist);
+}
+
+namespace
+{
+	void tokenize(std::string const& str, const char delim, std::vector<std::string>& out)
+	{
+		std::stringstream ss(str);
+
+		std::string s;
+		while (std::getline(ss, s, delim)) {
+			out.push_back(s);
+		}
+	}
+
+	void ParseIntsFromString(QString const& str, const char delim, std::vector<int>& out)
+	{
+		std::stringstream ss(str.toStdString());
+
+		std::string s;
+		while (std::getline(ss, s, delim)) {
+			try
+			{
+				out.push_back(std::stoi(s));
+			}
+			catch (...)
+			{} // ignore invalid number
+		}
+	}
+}
+
+void EditSdltmFilter::updateValue()
+{
+	updateValueVisibility();
+
+	bool isNumber = false, isString = false, isList = false, isChecklist = false, isDatetime = false;
+	switch (FieldMetaTypeToComparison(_editFilterItem.FieldMetaType))
+	{
+	case ComparisonType::Number: isNumber = true; break;
+	case ComparisonType::String:
+	case ComparisonType::MultiString: isString = true; break;
+	case ComparisonType::List: isList = true; break;
+	case ComparisonType::CheckList: isChecklist = true; break;
+	default: assert(false);
+	}
+
+	if (_editFilterItem.FieldMetaType == SdltmFieldMetaType::DateTime)
+	{
+		isDatetime = true;
+		isNumber = false;
+	}
+
+	if (isNumber || isString)
+		ui->textValue->setPlainText(_editFilterItem.FieldValue);
+	else if (isDatetime)
+	{
+		QDateTime dt = QDateTime::fromString(_editFilterItem.FieldValue, Qt::ISODate);
+		if (!dt.isValid())
+			dt = QDateTime::currentDateTime();
+
+		ui->dateValue->setDateTime(dt);
+	}
+	else if (isList)
+	{
+		ui->comboValue->clear();
+		auto valuesIt = std::find_if(_customFields.begin(), _customFields.end(), [this](const CustomField& f) { return f.FieldName == _editFilterItem.CustomFieldName; });
+		if (valuesIt != _customFields.end())
+		{
+			const auto& values = valuesIt->Values;
+			for (const auto& value : values)
+				ui->comboValue->addItem(value);
+			auto foundValue = std::find(values.begin(), values.end(), _editFilterItem.FieldValue);
+			if (foundValue != values.end())
+				ui->comboValue->setCurrentIndex(foundValue - values.begin());
+			else if (!values.empty())
+				ui->comboValue->setCurrentIndex(0);
+		}
+	}
+	else if (isChecklist)
+	{
+		ui->comboCheckboxesValue->clear();
+		auto valuesIt = std::find_if(_customFields.begin(), _customFields.end(), [this](const CustomField& f) { return f.FieldName == _editFilterItem.CustomFieldName; });
+		if (valuesIt != _customFields.end())
+		{
+
+			std::vector< std::pair<QString, bool> > checkValues;
+			const auto& values = valuesIt->Values;
+			auto curIdx = 0;
+			for (const auto& value : values)
+			{
+				auto isChecked = std::find(_editFilterItem.FieldValues.begin(), _editFilterItem.FieldValues.end(), value) != _editFilterItem.FieldValues.end();
+				checkValues.push_back(std::make_pair(value, isChecked));
+				++curIdx;
+			}
+
+			ui->comboCheckboxesValue->setCheckStates(checkValues);
+		}
+	}
+	else
+		assert(false);
 }
 
 
 void EditSdltmFilter::onTableClicked(const QModelIndex& row)
 {
+	if (_editRowIndex >= 0)
+		// save previous filter
+		onFilterSave();
+
 	auto idx = row.row();
+	_editRowIndex = idx;
 	editRow(idx);
+}
+
+void EditSdltmFilter::onFieldComboChanged(int idx)
+{
+	if (_ignoreUpdate > 0)
+		return;
+
+	// IMPORTANT: the custom fields are first
+	if (idx < _customFields.size())
+	{
+		// it's a custom field
+		_editFilterItem.FieldType = SdltmFieldType::CustomField;
+		_editFilterItem.FieldMetaType = _customFields[idx].FieldType;
+		_editFilterItem.CustomFieldName = _customFields[idx].FieldName;
+	}
+	else
+	{
+		_editFilterItem.FieldType = (SdltmFieldType)(idx - _customFields.size());
+		_editFilterItem.FieldMetaType = SdltmFilterItem::PresetFieldMetaType(_editFilterItem.FieldType);
+		_editFilterItem.CustomFieldName = "";
+	}
+
+	updateOperationCombo();
+	updateValue();
+}
+
+void EditSdltmFilter::onOperationComboChanged(int idx)
+{
+	if (_ignoreUpdate > 0)
+		return;
+
+	switch (FieldMetaTypeToComparison(_editFilterItem.FieldMetaType))
+	{
+	case ComparisonType::Number:
+		_editFilterItem.NumberComparison = static_cast<NumberComparisonType>(idx);
+		break;
+	case ComparisonType::String: 
+		_editFilterItem.StringComparison = static_cast<StringComparisonType>(idx);
+		break;
+	case ComparisonType::MultiString:
+		_editFilterItem.MultiStringComparison = static_cast<MultiStringComparisonType>(idx);
+		break;
+	case ComparisonType::List: 
+		// nothing to do, single value
+		break;
+	case ComparisonType::CheckList: 
+		// nothing to do, single value
+		break;
+	default: ;
+	}
+
+}
+
+void EditSdltmFilter::onAndOrComboChanged(int idx)
+{
+	if (_ignoreUpdate > 0)
+		return;
+
+	auto isAnd = ui->andorCombo->currentIndex() == 0;
+	_editFilterItem.IsAnd = isAnd;
+}
+
+void EditSdltmFilter::onNotChecked(int state)
+{
+	if (_ignoreUpdate > 0)
+		return;
+
+	_editFilterItem.IsNegated = ui->notBox->isChecked();
+}
+
+void EditSdltmFilter::onCaseSensitiveChanged(int state)
+{
+	if (_ignoreUpdate > 0)
+		return;
+
+	_editFilterItem.CaseSensitive = ui->caseSensitive->isChecked();
+}
+
+
+void EditSdltmFilter::onIndentChanged()
+{
+	if (_ignoreUpdate > 0)
+		return;
+
+	_editFilterItem.IndentLevel = ui->indentSpin->value();
+}
+
+void EditSdltmFilter::onFilterSave()
+{
+	if (_ignoreUpdate > 0)
+		return;
+
+	// the idea -> even if the user clicks on a different row, we still want to save it
+	assert(_editRowIndex >= 0);
+	auto idx = _editRowIndex;
+
+	auto isAndChanged = _editableFilterItems[idx].IsAnd != _editFilterItem.IsAnd;
+	_editableFilterItems[idx] = _editFilterItem;
+	FilterItemToRow(_editableFilterItems[idx],
+		static_cast<QStandardItemModel*>(ui->simpleFilterTable->model()), idx, idx == _editableFilterItems.size() - 1);
+
+	if (isAndChanged)
+	{
+		// update all adjacent rows at the same indent level
+		for (int i = idx - 1; i >= 0; --i)
+			if (_editableFilterItems[i].IndentLevel == _editFilterItem.IndentLevel)
+			{
+				_editableFilterItems[i].IsAnd = _editFilterItem.IsAnd;
+				FilterItemToRow(_editableFilterItems[i],
+					static_cast<QStandardItemModel*>(ui->simpleFilterTable->model()), i, i == _editableFilterItems.size() - 1);
+			}
+			else
+				break;
+
+		for (int i = idx + 1; i < _editableFilterItems.size() ; ++i)
+			if (_editableFilterItems[i].IndentLevel == _editFilterItem.IndentLevel)
+			{
+				_editableFilterItems[i].IsAnd = _editFilterItem.IsAnd;
+				FilterItemToRow(_editableFilterItems[i],
+					static_cast<QStandardItemModel*>(ui->simpleFilterTable->model()), i, i == _editableFilterItems.size() - 1);
+			}
+			else
+				break;
+	}
+
+	saveFilter();
+	ui->editCondition->hide();
+	_editRowIndex = -1;
+}
+
+void EditSdltmFilter::onFilterCancel()
+{
+	if (_ignoreUpdate > 0)
+		return;
+
+	// the idea -> even if the user clicks on a different row, we still want to save it
+	assert(_editRowIndex >= 0);
+	auto idx = _editRowIndex;
+	_editableFilterItems[idx] = _originalEditFilterItem;
+	ui->editCondition->hide();
+
+	//FIXME add/insert -> remove the item altogether
+	_editRowIndex = -1;
+}
+
+void EditSdltmFilter::onQuickSourceTextChanged()
+{
+	if (_ignoreUpdate > 0)
+		return;
+
+	_filter->QuickSearch = ui->quickSearchSource->toPlainText();
+}
+
+void EditSdltmFilter::onQuickTargetTextChanged()
+{
+	if (_ignoreUpdate > 0)
+		return;
+
+	_filter->QuickSearchTarget = ui->quickSearchTarget->toPlainText();
+}
+
+void EditSdltmFilter::onQuickSourceAndTargetChanged()
+{
+	if (_ignoreUpdate > 0)
+		return;
+
+	_filter->QuickSearchSearchSourceAndTarget = ui->quickSearchSourceAndTarget->isChecked();
+	updateQuickSearchVisibility();
+	saveFilter();
+}
+
+void EditSdltmFilter::onQuickCaseSensitiveChanged()
+{
+	if (_ignoreUpdate > 0)
+		return;
+
+	_filter->QuickSearchCaseSensitive = ui->quickSearchCaseSensitive->isChecked();
+	saveFilter();
+}
+
+void EditSdltmFilter::onFilterTextChanged()
+{
+	if (_ignoreUpdate > 0)
+		return;
+
+	_editFilterItem.FieldValue = ui->textValue->toPlainText();
+	saveFilter();
+}
+
+void EditSdltmFilter::onFilterDateTimeChanged()
+{
+	if (_ignoreUpdate > 0)
+		return;
+
+	_editFilterItem.FieldValue = ui->dateValue->dateTime().toString(Qt::ISODate);
+	saveFilter();
+}
+
+void EditSdltmFilter::onFilterComboChanged()
+{
+	if (_ignoreUpdate > 0)
+		return;
+
+	_editFilterItem.FieldValue = ui->comboValue->currentText();
+	saveFilter();
+}
+
+void EditSdltmFilter::onFilterComboCheckboxChanged()
+{
+	if (_ignoreUpdate > 0)
+		return;
+
+	auto checkedStates = ui->comboCheckboxesValue->checkStates();
+	auto valuesIt = std::find_if(_customFields.begin(), _customFields.end(), [this](const CustomField& f) { return f.FieldName == _editFilterItem.CustomFieldName; });
+	const auto & values = valuesIt->Values;
+
+	int curIdx = 0;
+	std::vector<QString> FieldValues;
+	for (const auto & state : checkedStates)
+	{
+		if (state)
+			FieldValues.push_back(values[curIdx]);
+		++curIdx;
+	}
+
+	_editFilterItem.FieldValues = FieldValues;
+	saveFilter();
+}
+
+void EditSdltmFilter::onAddItem()
+{
+	ui->editCondition->hide();
+	SdltmFilterItem newItem(SdltmFieldType::LastModifiedOn);
+	_editableFilterItems.push_back(newItem);
+
+	auto model = (QStandardItemModel*)ui->simpleFilterTable->model();
+	model->setRowCount(_editableFilterItems.size());
+	FilterItemToRow(newItem, model, _editableFilterItems.size() - 1, true);
+	ui->simpleFilterTable->scrollTo(model->item(_editableFilterItems.size() - 1)->index());
+
+	_editRowIndex = _editableFilterItems.size() - 1;
+	editRow(_editRowIndex);
+}
+
+void EditSdltmFilter::onInsertItem()
+{
+}
+
+void EditSdltmFilter::onDelItem()
+{
+	ui->editCondition->hide();
+	if (_editRowIndex >= 0)
+	{
+		_editableFilterItems.erase(_editableFilterItems.begin() + _editRowIndex);
+		ui->simpleFilterTable->model()->removeRow(_editRowIndex);
+		_editRowIndex = -1;
+		saveFilter();
+	}
 }

@@ -2,6 +2,7 @@
 #include <QString>
 #include <vector>
 
+
 enum class SdltmFieldMetaType
 {
 	Int, Double,
@@ -89,10 +90,10 @@ struct SdltmFilterItem
 		FieldType = SdltmFieldType::CustomField;
 	}
 	// helper
-	SdltmFilterItem(SdltmFieldType type, SdltmFieldMetaType metaType)
+	SdltmFilterItem(SdltmFieldType type)
 	{
 		FieldType = type;
-		FieldMetaType = metaType;
+		FieldMetaType = PresetFieldMetaType(type);
 	}
 
 	SdltmFieldMetaType FieldMetaType;
@@ -121,8 +122,12 @@ struct SdltmFilterItem
 	QString MetaFieldValue() const;
 	SdltmFilterItem ToUserEditableFilterItem() const;
 
+	static SdltmFieldMetaType PresetFieldMetaType(SdltmFieldType fieldType);
+
 	int IndentLevel = 0;
 	bool IsAnd = true;
+
+	bool CaseSensitive = false;
 
 	// can be hidden when this is not available for the current database (for instance, it's using a custom field not available here)
 	bool IsVisible = true;
@@ -135,6 +140,13 @@ struct SdltmFilterItem
 struct SdltmFilter
 {
 	std::vector<SdltmFilterItem> FilterItems;
+
+	// note: the quick search is implemented as CONTAINS
+	QString QuickSearch;
+	QString QuickSearchTarget;
+	bool QuickSearchCaseSensitive = false;
+	// if true, search both source + target for the same text
+	bool QuickSearchSearchSourceAndTarget = true;
 
 	// if user goes to "advanced" tab and modifies anything
 	QString AdvancedSql;
