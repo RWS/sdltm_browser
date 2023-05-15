@@ -1,8 +1,12 @@
 #pragma once
+#include <functional>
 #include <memory>
+#include <QDateTime>
 #include <QWidget>
 
 #include "SdltmFilter.h"
+
+class QGraphicsOpacityEffect;
 
 namespace Ui {
 class EditSdltmFilter;
@@ -17,7 +21,7 @@ public:
 
     void resizeEvent(QResizeEvent* event) override;
 
-    void setEditFilter(std::shared_ptr<SdltmFilter> filter, const std::vector<CustomField> customFields);
+    void setEditFilter(std::shared_ptr<SdltmFilter> filter, const std::vector<CustomField> customFields, std::function<void()> onSave);
 
 private:
     void saveFilter();
@@ -29,6 +33,7 @@ private:
     void updateValue();
 
     void updateQuickSearchVisibility();
+    void enableSimpleTab(bool enable);
 
 private slots:
     void onTableClicked(const QModelIndex&);
@@ -59,9 +64,19 @@ private slots:
     void onInsertItem();
     void onDelItem();
 
+    void onTabChanged(int tabIndex);
+    void onReEnableClick();
+
+    void onSaveAdvanced();
+
 private:
     int _ignoreUpdate;
 
+    QDateTime _lastAdvancedTextChange;
+    QString _lastAdvancedText;
+    QTimer* _saveAdvancedFilterTimer;
+
+    std::function<void()> _onSave;
 
     Ui::EditSdltmFilter* ui;
     std::shared_ptr< SdltmFilter > _filter;

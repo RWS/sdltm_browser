@@ -69,6 +69,8 @@ enum class MultiComparisonType
 
 struct CustomField
 {
+	bool IsPresent() const { return ID > 0; }
+	int ID = 0;
 	QString FieldName;
 	SdltmFieldMetaType FieldType = SdltmFieldMetaType::Text;
 	// only when it's a list of strings 
@@ -140,6 +142,17 @@ struct SdltmFilterItem
 struct SdltmFilter
 {
 	std::vector<SdltmFilterItem> FilterItems;
+
+	bool HasQuickSearch() const
+	{
+		if (QuickSearch != "")
+			return true;
+
+		if (QuickSearchTarget != "" && !QuickSearchSearchSourceAndTarget)
+			return true;
+
+		return false;
+	}
 
 	// note: the quick search is implemented as CONTAINS
 	QString QuickSearch;

@@ -4,8 +4,14 @@
 #include <qstandarditemmodel.h>
 #include <sstream>
 
+#include "SdltmCreateSqlSimpleFilter.h"
 #include "ui_EditSdltmFilter.h"
 #include "ui_PlotDock.h"
+
+namespace 
+{
+	const int HEADER_HEIGHT = 30;
+}
 
 namespace 
 {
@@ -60,19 +66,71 @@ namespace
 		test.QuickSearch = "sourcy";
 		test.QuickSearchTarget = "targety";
 
+		test.AdvancedSql = "select *";
 		return test;
 	}
+
+	// for testing
+	SdltmFilter TestFilter2()
+	{
+		SdltmFilter test;
+		test.FilterItems.push_back(SdltmFilterItem("Client", SdltmFieldMetaType::Text));
+		test.FilterItems.back().FieldValue = "Gigi";
+		test.FilterItems.back().IndentLevel = 0;
+
+		test.FilterItems.back().StringComparison = StringComparisonType::Contains;
+		test.FilterItems.push_back(SdltmFilterItem("Price", SdltmFieldMetaType::Number));
+		test.FilterItems.back().FieldValue = "35";
+		test.FilterItems.back().IndentLevel = 1;
+		test.FilterItems.back().NumberComparison = NumberComparisonType::BiggerOrEqual;
+
+		test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::CreatedBy));
+		test.FilterItems.back().FieldValue = "Jay";
+		test.FilterItems.back().IndentLevel = 2;
+		test.FilterItems.back().IsAnd = false;
+		test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::UseageCount));
+		test.FilterItems.back().FieldValue = "5";
+		test.FilterItems.back().IndentLevel = 2;
+		test.FilterItems.back().IsAnd = false;
+		test.FilterItems.back().NumberComparison = NumberComparisonType::BiggerOrEqual;
+
+		//test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::CreatedOn));
+		//test.FilterItems.back().FieldValue = "2023/02/20";
+		//test.FilterItems.back().IndentLevel = 2;
+		//test.FilterItems.back().IsAnd = false;
+		//test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::SourceSegment));
+		//test.FilterItems.back().FieldValue = "extra";
+		//test.FilterItems.back().IndentLevel = 2;
+		//test.FilterItems.back().StringComparison = StringComparisonType::Contains;
+		//test.FilterItems.back().IsAnd = false;
+		//test.FilterItems.back().IsNegated = true;
+		//test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::LastModifiedBy));
+		//test.FilterItems.back().FieldValue = "JJ";
+		//test.FilterItems.back().IndentLevel = 1;
+		//test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::LastUsedBy));
+		//test.FilterItems.back().FieldValue = "TT";
+		//test.FilterItems.back().IndentLevel = 1;
+		//test.FilterItems.back().StringComparison = StringComparisonType::EndsWith;
+
+		test.QuickSearch = "quicky";
+
+		return test;
+	}
+
+
 
 	std::vector<CustomField> TestCustomFields()
 	{
 		std::vector<CustomField> fields;
 		CustomField a;
-		a.FieldName = "Customer";
+		a.FieldName = "Client";
+		a.ID = 3;
 		CustomField b;
 		b.FieldName = "Country";
 		CustomField c;
 		c.FieldName = "Price";
 		c.FieldType = SdltmFieldMetaType::Number;
+		c.ID = 4;
 		CustomField d;
 		d.FieldName = "Listy";
 		d.FieldType = SdltmFieldMetaType::List;
@@ -100,6 +158,7 @@ EditSdltmFilter::EditSdltmFilter(QWidget* parent )
     ui->setupUi(this);
 	--_ignoreUpdate;
 	ui->editCondition->hide();
+	ui->reenableSimpleFilterGrid->hide();
 
 	connect(ui->simpleFilterTable, SIGNAL(clicked(const QModelIndex&)), this, SLOT(onTableClicked(const QModelIndex&)));
 
@@ -130,14 +189,20 @@ EditSdltmFilter::EditSdltmFilter(QWidget* parent )
 	connect(ui->delSimpleFilterItem, SIGNAL(clicked(bool)), this, SLOT(onDelItem()));
 	connect(ui->insertSimpleFilterItem, SIGNAL(clicked(bool)), this, SLOT(onInsertItem()));
 
+	connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)));
+	connect(ui->reenableSimpleFilter, SIGNAL(clicked(bool)), this, SLOT(onReEnableClick()));
+
 	ui->andorCombo->addItem("AND");
 	ui->andorCombo->addItem("OR");
 
+	ui->disabledBg->hide();
 
+	_saveAdvancedFilterTimer = new QTimer(this);
+	connect(_saveAdvancedFilterTimer, SIGNAL(timeout()), this, SLOT(onSaveAdvanced()));
 
 
 	// testing
-	setEditFilter(std::make_shared<SdltmFilter>(TestFilter()), TestCustomFields());
+	setEditFilter(std::make_shared<SdltmFilter>(TestFilter()), TestCustomFields(), nullptr);
 }
 EditSdltmFilter::~EditSdltmFilter() {
 	delete ui;
@@ -149,6 +214,10 @@ void EditSdltmFilter::resizeEvent(QResizeEvent* event)
 	auto size = event->size();
 	ui->tabWidget->setFixedWidth(size.width());
 	ui->tabWidget->setFixedHeight(size.height());
+
+
+	ui->disabledBg->setGeometry(0, HEADER_HEIGHT, size.width(), size.height() - HEADER_HEIGHT);
+	ui->reenableSimpleFilterGrid->setGeometry(0, HEADER_HEIGHT, size.width(), size.height() - HEADER_HEIGHT);
 }
 
 namespace 
@@ -196,10 +265,11 @@ namespace
 	}
 }
 
-void EditSdltmFilter::setEditFilter(std::shared_ptr<SdltmFilter> filter, const std::vector<CustomField> customFields)
+void EditSdltmFilter::setEditFilter(std::shared_ptr<SdltmFilter> filter, const std::vector<CustomField> customFields, std::function<void()> onSave)
 {
 	_filter = filter;
 	_customFields = customFields;
+	_onSave = onSave;
 
 	for (auto& item : filter->FilterItems)
 		if (item.CustomFieldName != "" && std::find_if(_customFields.begin(), _customFields.end(), 
@@ -245,7 +315,19 @@ void EditSdltmFilter::setEditFilter(std::shared_ptr<SdltmFilter> filter, const s
 	updateQuickSearchVisibility();
 	ui->quickSearchSourceAndTarget->setChecked(_filter->QuickSearchSearchSourceAndTarget);
 	ui->quickSearchCaseSensitive->setChecked(_filter->QuickSearchCaseSensitive);
+
+	if (filter->AdvancedSql != "")
+	{
+		ui->advancedEdit->setText(filter->AdvancedSql);
+		ui->tabWidget->setCurrentIndex(1); // go to advanced
+	}
+	else
+		ui->tabWidget->setCurrentIndex(0); // go to simple
+	enableSimpleTab(filter->AdvancedSql == "");
+
 	--_ignoreUpdate;
+
+	onTabChanged(ui->tabWidget->currentIndex());
 }
 
 void EditSdltmFilter::updateQuickSearchVisibility()
@@ -259,11 +341,15 @@ void EditSdltmFilter::updateQuickSearchVisibility()
 	--_ignoreUpdate;
 }
 
+
 void EditSdltmFilter::saveFilter()
 {
 	_filter->FilterItems.clear();
 	std::copy(_hiddenFilterItems.begin(), _hiddenFilterItems.end(), std::back_inserter(_filter->FilterItems));
 	std::copy(_editableFilterItems.begin(), _editableFilterItems.end(), std::back_inserter(_filter->FilterItems));
+
+	if(_onSave)
+		_onSave();
 }
 
 void EditSdltmFilter::editRow(int idx)
@@ -271,6 +357,7 @@ void EditSdltmFilter::editRow(int idx)
 	showEditControlsForRow(idx);
 
 	_ignoreUpdate++;
+	ui->disabledBg->show();
 
 	auto& item = _editableFilterItems[idx];
 	_editFilterItem = _originalEditFilterItem = item;
@@ -402,7 +489,7 @@ void EditSdltmFilter::updateOperationCombo()
 	case SdltmFieldMetaType::Double: 
 	case SdltmFieldMetaType::Number: 
 	case SdltmFieldMetaType::DateTime:
-		operations = { "Equal", "Less", "Less or Equal", "Bigger", "Bigger or Equal"};
+		operations = { "Equal", "Less", "Less or Equal", "Greater", "Greater or Equal"};
 		break;
 
 		// string
@@ -488,6 +575,15 @@ namespace
 		std::stringstream ss(str);
 
 		std::string s;
+		while (std::getline(ss, s, delim)) {
+			out.push_back(s);
+		}
+	}
+	void tokenize(std::wstring const& str, const wchar_t delim, std::vector<std::wstring>& out)
+	{
+		std::wstringstream ss(str);
+
+		std::wstring s;
 		while (std::getline(ss, s, delim)) {
 			out.push_back(s);
 		}
@@ -716,6 +812,7 @@ void EditSdltmFilter::onFilterSave()
 	}
 
 	saveFilter();
+	ui->disabledBg->hide();
 	ui->editCondition->hide();
 	_editRowIndex = -1;
 }
@@ -729,6 +826,7 @@ void EditSdltmFilter::onFilterCancel()
 	assert(_editRowIndex >= 0);
 	auto idx = _editRowIndex;
 	_editableFilterItems[idx] = _originalEditFilterItem;
+	ui->disabledBg->hide();
 	ui->editCondition->hide();
 
 	//FIXME add/insert -> remove the item altogether
@@ -819,10 +917,19 @@ void EditSdltmFilter::onFilterComboCheckboxChanged()
 	saveFilter();
 }
 
+namespace
+{
+	SdltmFilterItem NewItem()
+	{
+		SdltmFilterItem newItem(SdltmFieldType::LastModifiedOn);
+		return newItem;
+	}
+}
+
 void EditSdltmFilter::onAddItem()
 {
 	ui->editCondition->hide();
-	SdltmFilterItem newItem(SdltmFieldType::LastModifiedOn);
+	SdltmFilterItem newItem = NewItem();
 	_editableFilterItems.push_back(newItem);
 
 	auto model = (QStandardItemModel*)ui->simpleFilterTable->model();
@@ -836,6 +943,24 @@ void EditSdltmFilter::onAddItem()
 
 void EditSdltmFilter::onInsertItem()
 {
+	ui->editCondition->hide();
+	SdltmFilterItem newItem = NewItem();
+	auto editIdx = _editRowIndex >= 0 ? _editRowIndex : 0;
+	if (_editRowIndex >= 0)
+	{
+		newItem.IndentLevel = _editableFilterItems[_editRowIndex].IndentLevel;
+		newItem.IsAnd = _editableFilterItems[_editRowIndex].IsAnd;
+	}
+	_editableFilterItems.insert(_editableFilterItems.begin() + editIdx, newItem);
+
+	auto model = (QStandardItemModel*)ui->simpleFilterTable->model();
+	QList<QStandardItem*> list;
+	list.append(nullptr);
+	model->insertRow(editIdx, list);
+	FilterItemToRow(newItem, model, editIdx, true);
+
+	_editRowIndex = editIdx;
+	editRow(_editRowIndex);
 }
 
 void EditSdltmFilter::onDelItem()
@@ -847,5 +972,119 @@ void EditSdltmFilter::onDelItem()
 		ui->simpleFilterTable->model()->removeRow(_editRowIndex);
 		_editRowIndex = -1;
 		saveFilter();
+	}
+}
+
+namespace 
+{
+	const std::wstring WHITESPACE = L" \n\r\t\f\v";
+
+	std::wstring ltrim(const std::wstring& s)
+	{
+		size_t start = s.find_first_not_of(WHITESPACE);
+		return (start == std::wstring::npos) ? L"" : s.substr(start);
+	}
+
+	std::wstring rtrim(const std::wstring& s)
+	{
+		size_t end = s.find_last_not_of(WHITESPACE);
+		return (end == std::wstring::npos) ? L"" : s.substr(0, end + 1);
+	}
+
+	std::wstring trim(const std::wstring& s) {
+		return rtrim(ltrim(s));
+	}
+
+	bool SameStringLineByLine(const QString &a, const QString & b)
+	{
+		std::vector<std::wstring> aLines, bLines;
+		tokenize(a.toStdWString(), L'\r', aLines);
+		tokenize(b.toStdWString(), L'\r', bLines);
+		aLines.erase( std::remove_if(aLines.begin(), aLines.end(), [](const std::wstring& s) { return trim(s).empty(); }), aLines.end());
+		bLines.erase( std::remove_if(bLines.begin(), bLines.end(), [](const std::wstring& s) { return trim(s).empty(); }), bLines.end());
+		if (aLines.size() != bLines.size())
+			return false;
+
+		for (int i = 0; i < aLines.size(); ++i)
+			if (trim(aLines[i]) != trim(bLines[i]))
+				return false;
+
+		return true;
+	}
+}
+
+void EditSdltmFilter::onTabChanged(int tabIndex)
+{
+	if (_ignoreUpdate > 0)
+		return;
+
+	bool isSimple = tabIndex == 0;
+	bool isAdvanced = tabIndex == 1;
+	SdltmCreateSqlSimpleFilter createFilter(*_filter, _customFields);
+	if (isSimple)
+	{
+		// advanced to simple
+		_saveAdvancedFilterTimer->stop();
+
+		auto simple = createFilter.ToSqlFilter();
+		auto advanced = ui->advancedEdit->text();
+		if (!SameStringLineByLine(simple, advanced))
+		{
+			// user modified something non-trivial in Advanced tab
+			_filter->AdvancedSql = advanced;
+			enableSimpleTab(false);
+		} else
+			enableSimpleTab(true);
+	}
+	else if (isAdvanced)
+	{
+		// simple to advanced
+		if (ui->editCondition->isVisible())
+			onFilterCancel();
+		enableSimpleTab(true);
+		ui->advancedEdit->setText(_filter->AdvancedSql != "" ? _filter->AdvancedSql : createFilter.ToSqlFilter());
+
+		_lastAdvancedText = ui->advancedEdit->text();
+		_saveAdvancedFilterTimer->start(100);
+	}
+	else
+		assert(false);
+}
+
+void EditSdltmFilter::onReEnableClick()
+{
+	_filter->AdvancedSql = "";
+	enableSimpleTab(true);
+}
+
+void EditSdltmFilter::onSaveAdvanced()
+{
+	auto curText = ui->advancedEdit->text();
+	if (_lastAdvancedText != curText)
+	{
+		_lastAdvancedText = curText;
+		_lastAdvancedTextChange = QDateTime::currentDateTime();
+	}
+	else if (_filter->AdvancedSql != curText && (QDateTime::currentDateTime().toMSecsSinceEpoch() - _lastAdvancedTextChange.toMSecsSinceEpoch()) > 1000)
+	{
+		_filter->AdvancedSql = _lastAdvancedText;
+		saveFilter();
+	}
+}
+
+void EditSdltmFilter::enableSimpleTab(bool enable)
+{
+	if (enable)
+	{
+		ui->disabledBg->hide();
+		ui->reenableSimpleFilterGrid->hide();
+	}
+	else
+	{
+		auto size = ui->tabWidget->size();
+		ui->disabledBg->setGeometry(0, HEADER_HEIGHT, size.width(), size.height() - HEADER_HEIGHT);
+		ui->reenableSimpleFilterGrid->setGeometry(0, HEADER_HEIGHT, size.width(), size.height() - HEADER_HEIGHT);
+		ui->disabledBg->show();
+		ui->reenableSimpleFilterGrid->show();
 	}
 }
