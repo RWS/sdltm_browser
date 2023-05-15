@@ -66,7 +66,7 @@ namespace
 		test.QuickSearch = "sourcy";
 		test.QuickSearchTarget = "targety";
 
-		test.AdvancedSql = "select *";
+		//test.AdvancedSql = "select *";
 		return test;
 	}
 
@@ -322,7 +322,12 @@ void EditSdltmFilter::setEditFilter(std::shared_ptr<SdltmFilter> filter, const s
 		ui->tabWidget->setCurrentIndex(1); // go to advanced
 	}
 	else
+	{
+		SdltmCreateSqlSimpleFilter createFilter(*_filter, _customFields);
+		ui->advancedEdit->setText(createFilter.ToSqlFilter());
+
 		ui->tabWidget->setCurrentIndex(0); // go to simple
+	}
 	enableSimpleTab(filter->AdvancedSql == "");
 
 	--_ignoreUpdate;
