@@ -12,10 +12,10 @@
 #include <QShortcut>
 #include <QFile>
 
-SqlExecutionArea::SqlExecutionArea(DBBrowserDB& _db, QWidget* parent) :
+SqlExecutionArea::SqlExecutionArea(QWidget* parent) :
     QWidget(parent),
-    db(_db),
     ui(new Ui::SqlExecutionArea),
+    _db(nullptr),
     m_columnsResized(false),
     error_state(false),
     follow_mode(false)
@@ -23,12 +23,26 @@ SqlExecutionArea::SqlExecutionArea(DBBrowserDB& _db, QWidget* parent) :
     // Create UI
     ui->setupUi(this);
 
-    // Create model
-    model = new SqliteTableModel(db, this);
-    ui->tableResult->setModel(model);
-    connect(model, &SqliteTableModel::finishedFetch, this, &SqlExecutionArea::fetchedData);
-    connect(ui->tableResult->filterHeader(), &FilterTableHeader::sectionPressed, ui->tableResult, &QTableView::selectColumn);
+    Init();
+}
 
+SqlExecutionArea::SqlExecutionArea(DBBrowserDB& db, QWidget* parent) :
+    QWidget(parent),
+    ui(new Ui::SqlExecutionArea),
+	_db(nullptr),
+    m_columnsResized(false),
+    error_state(false),
+    follow_mode(false)
+{
+    // Create UI
+    ui->setupUi(this);
+
+    Init();
+    InitDb(db);
+}
+
+void SqlExecutionArea::Init()
+{
     ui->findFrame->hide();
 
     QShortcut* shortcutHideFind = new QShortcut(QKeySequence("ESC"), ui->findLineEdit);
@@ -43,19 +57,34 @@ SqlExecutionArea::SqlExecutionArea(DBBrowserDB& _db, QWidget* parent) :
     connect(&fileSystemWatch, &QFileSystemWatcher::fileChanged, this, &SqlExecutionArea::fileChanged);
 
     // Save to settings when sppliter is moved, but only to memory.
-    connect(ui->splitter, &QSplitter::splitterMoved, this,  [this]() {
-            Settings::setValue("editor", "splitter1_sizes", ui->splitter->saveState(), /* save_to_disk */ false);
+    connect(ui->splitter, &QSplitter::splitterMoved, this, [this]() {
+        Settings::setValue("editor", "splitter1_sizes", ui->splitter->saveState(), /* save_to_disk */ false);
         });
     connect(ui->splitter_2, &QSplitter::splitterMoved, this, [this]() {
-            Settings::setValue("editor", "splitter2_sizes", ui->splitter_2->saveState(), /* save_to_disk */ false);
+        Settings::setValue("editor", "splitter2_sizes", ui->splitter_2->saveState(), /* save_to_disk */ false);
         });
 
     // Set collapsible the editErrors panel
     ui->splitter_2->setCollapsible(1, true);
+}
+
+void SqlExecutionArea::InitDb(DBBrowserDB& db)
+{
+    // call this only once!
+    assert(_db == nullptr);
+
+    _db = &db;
+
+    // Create model
+    model = new SqliteTableModel(db, this);
+    ui->tableResult->setModel(model);
+    connect(model, &SqliteTableModel::finishedFetch, this, &SqlExecutionArea::fetchedData);
+    connect(ui->tableResult->filterHeader(), &FilterTableHeader::sectionPressed, ui->tableResult, &QTableView::selectColumn);
 
     // Load settings
     reloadSettings();
 }
+
 
 SqlExecutionArea::~SqlExecutionArea()
 {
@@ -95,6 +124,8 @@ void SqlExecutionArea::finishExecution(const QString& result, const bool ok)
 
 void SqlExecutionArea::fetchedData()
 {
+    if (model == nullptr)
+        return;
     // Don't resize the columns more than once to fit their contents. This is necessary because the finishedFetch signal of the model
     // is emitted for each loaded prefetch block and we want to avoid resizes while scrolling down.
     if(m_columnsResized)
@@ -127,18 +158,25 @@ QTextEdit* SqlExecutionArea::getStatusEdit()
 
 void SqlExecutionArea::saveAsCsv()
 {
-    ExportDataDialog dialog(db, ExportDataDialog::ExportFormatCsv, this, model->query());
+    if (model == nullptr)
+        return;
+    ExportDataDialog dialog(*_db, ExportDataDialog::ExportFormatCsv, this, model->query());
     dialog.exec();
 }
 
 void SqlExecutionArea::saveAsJson()
 {
-    ExportDataDialog dialog(db, ExportDataDialog::ExportFormatJson, this, model->query());
+    if (model == nullptr)
+        return;
+    ExportDataDialog dialog(*_db, ExportDataDialog::ExportFormatJson, this, model->query());
     dialog.exec();
 }
 
 void SqlExecutionArea::reloadSettings()
 {
+    if (model == nullptr)
+        return;
+
     // Reload editor and table settings
     ui->editEditor->reloadSettings();
     ui->tableResult->reloadSettings();
@@ -351,9 +389,16 @@ void SqlExecutionArea::fileChanged(const QString& filename)
     follow_mode = reply == QMessageBox::YesToAll;
 }
 
+void SqlExecutionArea::SetDb(DBBrowserDB& db)
+{
+    InitDb(db);
+}
+
 void SqlExecutionArea::saveState() {
 
     // Save to disk last stored splitter sizes
     Settings::setValue("editor", "splitter1_sizes", Settings::getValue("editor", "splitter1_sizes"));
     Settings::setValue("editor", "splitter2_sizes", Settings::getValue("editor", "splitter2_sizes"));
 }
+
+

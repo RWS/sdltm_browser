@@ -58,6 +58,8 @@
 
 #include <limits>
 
+#include "ui_PlotDock.h"
+
 int MainWindow::MaxRecentFiles;
 
 MainWindow::MainWindow(QWidget* parent)
@@ -77,6 +79,22 @@ MainWindow::MainWindow(QWidget* parent)
 
     activateFields(false);
     updateRecentFileActions();
+
+    ui->sdltmSqlView->SetDb(db);
+    ui->editSdltmFilter->OnApply = [this](const QString& sql)
+    {
+	    ui->sdltmSqlView->SetSql(sql);
+        ExecuteSdltmQuery(sql);
+    };
+
+    ui->editSdltmFilter->IsQueryRunning = [this]() { return ui->sdltmSqlView->IsRunning(); };
+
+    // open last file, by default
+    auto files = Settings::getValue("General", "recentFileList").toStringList();
+	if (files.size() > 0 && QFileInfo::exists(files[0]))
+	{
+        fileOpen(files[0], true, false);
+	}
 }
 
 MainWindow::~MainWindow()
@@ -1093,6 +1111,117 @@ void MainWindow::dataTableSelectionChanged(const QModelIndex& index)
     }
 }
 
+void MainWindow::ExecuteSdltmQuery(const QString& sql)
+{
+    if (sql.trimmed() == "")
+        return;
+    // Make sure a database is opened. This is necessary because we allow opened SQL editor tabs even if no database is loaded. Hitting F5 or similar
+    // then might call this function.
+    if (!db.isOpen())
+        return;
+
+    OutputDebugString(("*** SDLTM sql: " + sql).toStdString().c_str());
+
+    // just in case we're already executing something...
+    if (execute_sql_worker && execute_sql_worker->isRunning())
+    {
+        // Stop the running query
+        execute_sql_worker->stop();
+        execute_sql_worker->wait();
+    }
+
+
+
+
+
+
+
+
+
+    // Prepare the SQL worker to run the query. We set the context of each signal-slot connection to the current SQL execution area.
+    // This means that if the tab is closed all these signals are automatically disconnected so the lambdas won't be called for a not
+    // existing execution area.
+    execute_sql_worker.reset(new RunSql(db, sql, 0, sql.size()));
+
+    auto query_logger = [this](bool ok, const QString& status_message)
+    {
+        if (!ok)
+            ui->sdltmSqlView->Log(status_message, ok);
+    };
+
+    connect(execute_sql_worker.get(), &RunSql::structureUpdated, this, [this]() {
+        db.updateSchema();
+        }, Qt::QueuedConnection);
+    connect(execute_sql_worker.get(), &RunSql::statementErrored, this, [query_logger, this](const QString& status_message, int from_position, int to_position) {
+        ui->actionSqlResultsSave->setEnabled(false);
+        ui->actionSqlResultsSaveAsView->setEnabled(false);
+
+        query_logger(false, status_message);
+        ui->sdltmSqlView->OnRunQueryFinished();
+        }, Qt::QueuedConnection);
+
+    connect(execute_sql_worker.get(), &RunSql::statementExecuted, this, [query_logger, this](const QString& status_message, int from_position, int to_position) {
+        ui->actionSqlResultsSave->setEnabled(false);
+        ui->actionSqlResultsSaveAsView->setEnabled(false);
+
+        query_logger(true, status_message);
+        execute_sql_worker->startNextStatement();
+        }, Qt::QueuedConnection);
+    connect(execute_sql_worker.get(), &RunSql::statementReturnsRows, this, [query_logger, this](const QString& query, int from_position, int to_position, qint64 time_in_ms_so_far) {
+        auto time_start = std::chrono::high_resolution_clock::now();
+
+        ui->actionSqlResultsSave->setEnabled(true);
+        ui->actionSqlResultsSaveAsView->setEnabled(!db.readOnly());
+
+        auto* model = ui->sdltmSqlView->getModel();
+        model->setQuery(query);
+
+        // Wait until the initial loading of data (= first chunk and row count) has been performed
+        auto conn = std::make_shared<QMetaObject::Connection>();
+        *conn = connect(model, &SqliteTableModel::finishedFetch, this, [=](int begin, int end) {
+            // Skip callback if it's is a chunk load.
+            // Now query_logger displays the correct value for "rows returned", not "Prefetch block size"
+            if (begin == 0 && end > 0) {
+                return;
+            }
+            disconnect(*conn);
+
+            attachPlot(ui->sdltmSqlView->getTableResult(), ui->sdltmSqlView->getModel());
+
+            connect(ui->sdltmSqlView->getTableResult()->selectionModel(), &QItemSelectionModel::currentChanged, this, &MainWindow::dataTableSelectionChanged);
+            connect(ui->sdltmSqlView->getTableResult(), &QTableView::doubleClicked, this, &MainWindow::doubleClickTable);
+
+            auto time_end = std::chrono::high_resolution_clock::now();
+            auto time_in_ms = std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_start);
+            query_logger(true, tr("%1 rows returned in %2ms").arg(model->rowCount()).arg(time_in_ms.count() + time_in_ms_so_far));
+            execute_sql_worker->startNextStatement();
+            ui->sdltmSqlView->OnRunQueryFinished();
+            });
+        }, Qt::QueuedConnection);
+
+
+	connect(execute_sql_worker.get(), &RunSql::confirmSaveBeforePragmaOrVacuum, this, [this]() {
+            execute_sql_worker->stop();
+        }, Qt::BlockingQueuedConnection);
+    connect(execute_sql_worker.get(), &RunSql::finished, this, [this]() {
+        // We don't need to check for the current SQL tab here because two concurrently running queries are not allowed
+        });
+
+    ui->sdltmSqlView->OnRunQueryStarted();
+
+
+    //// Make the SQL editor widget read-only. We do this because the error indicators would be misplaced if the user changed the SQL text during execution
+    //sqlWidget->getEditor()->setReadOnly(true);
+
+    //// Reset model and clear plot dock
+    ui->sdltmSqlView->getModel()->reset();
+    attachPlot(ui->sdltmSqlView->getTableResult(), ui->sdltmSqlView->getModel());
+
+    //// Start the execution
+    execute_sql_worker->start();
+}
+
+
 /*
  * I'm still not happy how the results are represented to the user
  * right now you only see the result of the last executed statement.
@@ -1924,6 +2053,7 @@ void MainWindow::resizeEvent(QResizeEvent*)
     for(const auto& d : allTableBrowserDocks())
         d->tableBrowser()->updateRecordsetLabel();
 }
+
 
 void MainWindow::loadPragmas()
 {

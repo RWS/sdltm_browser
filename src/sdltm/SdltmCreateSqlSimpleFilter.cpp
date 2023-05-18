@@ -213,6 +213,9 @@ namespace
 		else
 			subQuery += fi.FieldValue; // custom SQL expression
 
+		if (fi.IsNegated)
+			subQuery = "NOT (" + subQuery + ")";
+
 		AppendSql(sql, subQuery, isAnd);
 	}
 
@@ -328,6 +331,8 @@ QString SdltmCreateSqlSimpleFilter::ToSqlFilter() const
 			continue;
 
 		QString condition =  SqlFieldName("t", fi) + " " + SqlCompare(fi) + " ";
+		if (fi.IsNegated)
+			condition = "NOT (" + condition + ")";
 		auto prependEnter = true;
 		AppendSql(where, condition, fi.IsAnd, prependEnter);
 	}

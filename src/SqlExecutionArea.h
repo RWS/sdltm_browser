@@ -20,7 +20,8 @@ class SqlExecutionArea : public QWidget
     Q_OBJECT
 
 public:
-    explicit SqlExecutionArea(DBBrowserDB& _db, QWidget* parent = nullptr);
+    explicit SqlExecutionArea(QWidget* parent = nullptr);
+    explicit SqlExecutionArea(DBBrowserDB& _db, QWidget* parent);
     ~SqlExecutionArea() override;
 
     QString getSql() const;
@@ -40,8 +41,14 @@ public:
 
     bool inErrorState() const { return error_state; }
 
+    void SetDb(DBBrowserDB& db);
+
     // Save window state to settings
     static void saveState();
+
+private:
+    void Init();
+    void InitDb(DBBrowserDB& db);
 
 public slots:
     void finishExecution(const QString& result, const bool ok);
@@ -64,7 +71,7 @@ signals:
 
 private:
     void find(QString expr, bool forward);
-    DBBrowserDB& db;
+    DBBrowserDB* _db;
     SqliteTableModel* model;
     QString sqlFileName;
     QFileSystemWatcher fileSystemWatch;

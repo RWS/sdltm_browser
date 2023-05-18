@@ -20,51 +20,51 @@ namespace
 	SdltmFilter TestFilter()
 	{
 		SdltmFilter test;
-		test.FilterItems.push_back(SdltmFilterItem("Customer", SdltmFieldMetaType::Text));
-		test.FilterItems.back().FieldValue = "Gigi";
-		test.FilterItems.back().IndentLevel = 0;
+		//test.FilterItems.push_back(SdltmFilterItem("Customer", SdltmFieldMetaType::Text));
+		//test.FilterItems.back().FieldValue = "Gigi";
+		//test.FilterItems.back().IndentLevel = 0;
 
-		test.FilterItems.push_back(SdltmFilterItem("Listy", SdltmFieldMetaType::List));
-		test.FilterItems.back().FieldValue = "Def";
-		test.FilterItems.back().IndentLevel = 0;
+		//test.FilterItems.push_back(SdltmFilterItem("Listy", SdltmFieldMetaType::List));
+		//test.FilterItems.back().FieldValue = "Def";
+		//test.FilterItems.back().IndentLevel = 0;
 
-		test.FilterItems.push_back(SdltmFilterItem("CheckListy", SdltmFieldMetaType::CheckboxList));
-		test.FilterItems.back().FieldValues = { "Mno", "st", "zzz"};
-		test.FilterItems.back().IndentLevel = 0;
+		//test.FilterItems.push_back(SdltmFilterItem("CheckListy", SdltmFieldMetaType::CheckboxList));
+		//test.FilterItems.back().FieldValues = { "Mno", "st", "zzz"};
+		//test.FilterItems.back().IndentLevel = 0;
+		//test.FilterItems.back().StringComparison = StringComparisonType::Contains;
 
-		test.FilterItems.back().StringComparison = StringComparisonType::Contains;
 		test.FilterItems.push_back(SdltmFilterItem("Country", SdltmFieldMetaType::Text));
 		test.FilterItems.back().FieldValue = "Romania";
 		test.FilterItems.back().IndentLevel = 1;
-		test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::CreatedBy));
-		test.FilterItems.back().FieldValue = "Jay";
-		test.FilterItems.back().IndentLevel = 2;
-		test.FilterItems.back().IsAnd = false;
+		//test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::CreatedBy));
+		//test.FilterItems.back().FieldValue = "Jay";
+		//test.FilterItems.back().IndentLevel = 2;
+		//test.FilterItems.back().IsAnd = false;
 		test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::UseageCount));
 		test.FilterItems.back().FieldValue = "5";
 		test.FilterItems.back().IndentLevel = 2;
 		test.FilterItems.back().IsAnd = false;
 		test.FilterItems.back().NumberComparison = NumberComparisonType::BiggerOrEqual;
-		test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::CreatedOn));
-		test.FilterItems.back().FieldValue = "2023/02/20";
-		test.FilterItems.back().IndentLevel = 2;
-		test.FilterItems.back().IsAnd = false;
+		//test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::CreatedOn));
+		//test.FilterItems.back().FieldValue = "2023/02/20";
+		//test.FilterItems.back().IndentLevel = 2;
+		//test.FilterItems.back().IsAnd = false;
 		test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::SourceSegment));
 		test.FilterItems.back().FieldValue = "extra";
 		test.FilterItems.back().IndentLevel = 2;
 		test.FilterItems.back().StringComparison = StringComparisonType::Contains;
 		test.FilterItems.back().IsAnd = false;
 		test.FilterItems.back().IsNegated = true;
-		test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::LastModifiedBy));
-		test.FilterItems.back().FieldValue = "JJ";
-		test.FilterItems.back().IndentLevel = 1;
-		test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::LastUsedBy));
-		test.FilterItems.back().FieldValue = "TT";
-		test.FilterItems.back().IndentLevel = 1;
-		test.FilterItems.back().StringComparison = StringComparisonType::EndsWith;
+		//test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::LastModifiedBy));
+		//test.FilterItems.back().FieldValue = "JJ";
+		//test.FilterItems.back().IndentLevel = 1;
+		//test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::LastUsedBy));
+		//test.FilterItems.back().FieldValue = "TT";
+		//test.FilterItems.back().IndentLevel = 1;
+		//test.FilterItems.back().StringComparison = StringComparisonType::EndsWith;
 
-		test.QuickSearch = "sourcy";
-		test.QuickSearchTarget = "targety";
+		//test.QuickSearch = "sourcy";
+		//test.QuickSearchTarget = "targety";
 
 		//test.AdvancedSql = "select *";
 		return test;
@@ -198,11 +198,16 @@ EditSdltmFilter::EditSdltmFilter(QWidget* parent )
 	ui->disabledBg->hide();
 
 	_saveAdvancedFilterTimer = new QTimer(this);
-	connect(_saveAdvancedFilterTimer, SIGNAL(timeout()), this, SLOT(onSaveAdvanced()));
+	connect(_saveAdvancedFilterTimer, SIGNAL(timeout()), this, SLOT(onSaveAdvancedFilterTimer()));
 
+	_lastFilterChange = QDateTime::currentDateTime();
+
+	_applyFilterTimer = new QTimer(this);
+	connect(_applyFilterTimer, SIGNAL(timeout()), this, SLOT(onApplyFilterTimer()));
+	_applyFilterTimer->start(250);
 
 	// testing
-	setEditFilter(std::make_shared<SdltmFilter>(TestFilter()), TestCustomFields(), nullptr);
+	setEditFilter(std::make_shared<SdltmFilter>(TestFilter()), TestCustomFields());
 }
 EditSdltmFilter::~EditSdltmFilter() {
 	delete ui;
@@ -265,11 +270,10 @@ namespace
 	}
 }
 
-void EditSdltmFilter::setEditFilter(std::shared_ptr<SdltmFilter> filter, const std::vector<CustomField> customFields, std::function<void()> onSave)
+void EditSdltmFilter::setEditFilter(std::shared_ptr<SdltmFilter> filter, const std::vector<CustomField> customFields)
 {
 	_filter = filter;
 	_customFields = customFields;
-	_onSave = onSave;
 
 	for (auto& item : filter->FilterItems)
 		if (item.CustomFieldName != "" && std::find_if(_customFields.begin(), _customFields.end(), 
@@ -312,7 +316,7 @@ void EditSdltmFilter::setEditFilter(std::shared_ptr<SdltmFilter> filter, const s
 	ui->simpleFilterTable->setColumnWidth(3, 80);
 
 	++_ignoreUpdate;
-	updateQuickSearchVisibility();
+	UpdateQuickSearchVisibility();
 	ui->quickSearchSourceAndTarget->setChecked(_filter->QuickSearchSearchSourceAndTarget);
 	ui->quickSearchCaseSensitive->setChecked(_filter->QuickSearchCaseSensitive);
 
@@ -328,14 +332,16 @@ void EditSdltmFilter::setEditFilter(std::shared_ptr<SdltmFilter> filter, const s
 
 		ui->tabWidget->setCurrentIndex(0); // go to simple
 	}
-	enableSimpleTab(filter->AdvancedSql == "");
+	EnableSimpleTab(filter->AdvancedSql == "");
 
 	--_ignoreUpdate;
 
 	onTabChanged(ui->tabWidget->currentIndex());
+	if (OnApply)
+		OnApply(FilterString());
 }
 
-void EditSdltmFilter::updateQuickSearchVisibility()
+void EditSdltmFilter::UpdateQuickSearchVisibility()
 {
 	++_ignoreUpdate;
 	ui->quickSearchSourceTextLabel->setText(_filter->QuickSearchSearchSourceAndTarget ? "Text" : "Source Text");
@@ -347,19 +353,19 @@ void EditSdltmFilter::updateQuickSearchVisibility()
 }
 
 
-void EditSdltmFilter::saveFilter()
+void EditSdltmFilter::SaveFilter()
 {
 	_filter->FilterItems.clear();
 	std::copy(_hiddenFilterItems.begin(), _hiddenFilterItems.end(), std::back_inserter(_filter->FilterItems));
 	std::copy(_editableFilterItems.begin(), _editableFilterItems.end(), std::back_inserter(_filter->FilterItems));
 
-	if(_onSave)
-		_onSave();
+	if(OnSave)
+		OnSave();
 }
 
-void EditSdltmFilter::editRow(int idx)
+void EditSdltmFilter::EditRow(int idx)
 {
-	showEditControlsForRow(idx);
+	ShowEditControlsForRow(idx);
 
 	_ignoreUpdate++;
 	ui->disabledBg->show();
@@ -375,9 +381,9 @@ void EditSdltmFilter::editRow(int idx)
 	ui->caseSensitive->setVisible(item.CustomFieldName == "" && (item.FieldMetaType == SdltmFieldMetaType::Text || item.FieldMetaType == SdltmFieldMetaType::MultiText) );
 	ui->caseSensitive->setChecked(item.CaseSensitive);
 
-	updateFieldCombo();
-	updateOperationCombo();
-	updateValue();
+	UpdateFieldCombo();
+	UpdateOperationCombo();
+	UpdateValue();
 
 	if (item.CustomFieldName != "")
 	{
@@ -394,7 +400,7 @@ void EditSdltmFilter::editRow(int idx)
 	_ignoreUpdate--;
 }
 
-void EditSdltmFilter::showEditControlsForRow(int idx)
+void EditSdltmFilter::ShowEditControlsForRow(int idx)
 {
 	int vertHeaderWidth = ui->simpleFilterTable->verticalHeader()->width();
 	int horizHeaderHeight = ui->simpleFilterTable->horizontalHeader()->height();
@@ -439,7 +445,7 @@ namespace
 	};
 }
 
-void EditSdltmFilter::updateFieldCombo()
+void EditSdltmFilter::UpdateFieldCombo()
 {
 	ui->fieldCombo->clear();
 	for (const auto& cf : _customFields)
@@ -483,7 +489,7 @@ namespace
 		}
 	}
 }
-void EditSdltmFilter::updateOperationCombo()
+void EditSdltmFilter::UpdateOperationCombo()
 {
 	std::vector<QString> operations;
 	auto& item = _editFilterItem;
@@ -548,7 +554,7 @@ void EditSdltmFilter::updateOperationCombo()
 	--_ignoreUpdate;
 }
 
-void EditSdltmFilter::updateValueVisibility()
+void EditSdltmFilter::UpdateValueVisibility()
 {
 	bool isNumber = false, isString = false, isList = false, isChecklist = false, isDatetime = false;
 	switch (FieldMetaTypeToComparison(_editFilterItem.FieldMetaType))
@@ -610,9 +616,9 @@ namespace
 	}
 }
 
-void EditSdltmFilter::updateValue()
+void EditSdltmFilter::UpdateValue()
 {
-	updateValueVisibility();
+	UpdateValueVisibility();
 
 	bool isNumber = false, isString = false, isList = false, isChecklist = false, isDatetime = false;
 	switch (FieldMetaTypeToComparison(_editFilterItem.FieldMetaType))
@@ -690,7 +696,7 @@ void EditSdltmFilter::onTableClicked(const QModelIndex& row)
 
 	auto idx = row.row();
 	_editRowIndex = idx;
-	editRow(idx);
+	EditRow(idx);
 }
 
 void EditSdltmFilter::onFieldComboChanged(int idx)
@@ -713,8 +719,8 @@ void EditSdltmFilter::onFieldComboChanged(int idx)
 		_editFilterItem.CustomFieldName = "";
 	}
 
-	updateOperationCombo();
-	updateValue();
+	UpdateOperationCombo();
+	UpdateValue();
 }
 
 void EditSdltmFilter::onOperationComboChanged(int idx)
@@ -816,7 +822,7 @@ void EditSdltmFilter::onFilterSave()
 				break;
 	}
 
-	saveFilter();
+	SaveFilter();
 	ui->disabledBg->hide();
 	ui->editCondition->hide();
 	_editRowIndex = -1;
@@ -860,8 +866,8 @@ void EditSdltmFilter::onQuickSourceAndTargetChanged()
 		return;
 
 	_filter->QuickSearchSearchSourceAndTarget = ui->quickSearchSourceAndTarget->isChecked();
-	updateQuickSearchVisibility();
-	saveFilter();
+	UpdateQuickSearchVisibility();
+	SaveFilter();
 }
 
 void EditSdltmFilter::onQuickCaseSensitiveChanged()
@@ -870,7 +876,7 @@ void EditSdltmFilter::onQuickCaseSensitiveChanged()
 		return;
 
 	_filter->QuickSearchCaseSensitive = ui->quickSearchCaseSensitive->isChecked();
-	saveFilter();
+	SaveFilter();
 }
 
 void EditSdltmFilter::onFilterTextChanged()
@@ -879,7 +885,7 @@ void EditSdltmFilter::onFilterTextChanged()
 		return;
 
 	_editFilterItem.FieldValue = ui->textValue->toPlainText();
-	saveFilter();
+	SaveFilter();
 }
 
 void EditSdltmFilter::onFilterDateTimeChanged()
@@ -888,7 +894,7 @@ void EditSdltmFilter::onFilterDateTimeChanged()
 		return;
 
 	_editFilterItem.FieldValue = ui->dateValue->dateTime().toString(Qt::ISODate);
-	saveFilter();
+	SaveFilter();
 }
 
 void EditSdltmFilter::onFilterComboChanged()
@@ -897,7 +903,7 @@ void EditSdltmFilter::onFilterComboChanged()
 		return;
 
 	_editFilterItem.FieldValue = ui->comboValue->currentText();
-	saveFilter();
+	SaveFilter();
 }
 
 void EditSdltmFilter::onFilterComboCheckboxChanged()
@@ -919,7 +925,7 @@ void EditSdltmFilter::onFilterComboCheckboxChanged()
 	}
 
 	_editFilterItem.FieldValues = FieldValues;
-	saveFilter();
+	SaveFilter();
 }
 
 namespace
@@ -943,7 +949,7 @@ void EditSdltmFilter::onAddItem()
 	ui->simpleFilterTable->scrollTo(model->item(_editableFilterItems.size() - 1)->index());
 
 	_editRowIndex = _editableFilterItems.size() - 1;
-	editRow(_editRowIndex);
+	EditRow(_editRowIndex);
 }
 
 void EditSdltmFilter::onInsertItem()
@@ -965,18 +971,22 @@ void EditSdltmFilter::onInsertItem()
 	FilterItemToRow(newItem, model, editIdx, true);
 
 	_editRowIndex = editIdx;
-	editRow(_editRowIndex);
+	EditRow(_editRowIndex);
 }
 
 void EditSdltmFilter::onDelItem()
 {
 	ui->editCondition->hide();
+
+	if (_editRowIndex < 0)
+		_editRowIndex = ui->simpleFilterTable->currentIndex().row();
+
 	if (_editRowIndex >= 0)
 	{
 		_editableFilterItems.erase(_editableFilterItems.begin() + _editRowIndex);
 		ui->simpleFilterTable->model()->removeRow(_editRowIndex);
 		_editRowIndex = -1;
-		saveFilter();
+		SaveFilter();
 	}
 }
 
@@ -1037,19 +1047,18 @@ void EditSdltmFilter::onTabChanged(int tabIndex)
 		{
 			// user modified something non-trivial in Advanced tab
 			_filter->AdvancedSql = advanced;
-			enableSimpleTab(false);
+			EnableSimpleTab(false);
 		} else
-			enableSimpleTab(true);
+			EnableSimpleTab(true);
 	}
 	else if (isAdvanced)
 	{
 		// simple to advanced
 		if (ui->editCondition->isVisible())
 			onFilterCancel();
-		enableSimpleTab(true);
-		ui->advancedEdit->setText(_filter->AdvancedSql != "" ? _filter->AdvancedSql : createFilter.ToSqlFilter());
+		EnableSimpleTab(true);
+		ui->advancedEdit->setText(FilterString());
 
-		_lastAdvancedText = ui->advancedEdit->text();
 		_saveAdvancedFilterTimer->start(100);
 	}
 	else
@@ -1059,25 +1068,39 @@ void EditSdltmFilter::onTabChanged(int tabIndex)
 void EditSdltmFilter::onReEnableClick()
 {
 	_filter->AdvancedSql = "";
-	enableSimpleTab(true);
+	EnableSimpleTab(true);
 }
 
-void EditSdltmFilter::onSaveAdvanced()
+void EditSdltmFilter::onSaveAdvancedFilterTimer()
 {
 	auto curText = ui->advancedEdit->text();
-	if (_lastAdvancedText != curText)
+	if (SameStringLineByLine(curText, FilterString()))
+		// in this case -> user hasn't yet modified anything consequential
+		return;
+
+	if (_filter->AdvancedSql != curText && (QDateTime::currentDateTime().toMSecsSinceEpoch() - _lastAdvancedTextChange.toMSecsSinceEpoch()) > 1000)
 	{
-		_lastAdvancedText = curText;
 		_lastAdvancedTextChange = QDateTime::currentDateTime();
-	}
-	else if (_filter->AdvancedSql != curText && (QDateTime::currentDateTime().toMSecsSinceEpoch() - _lastAdvancedTextChange.toMSecsSinceEpoch()) > 1000)
-	{
-		_filter->AdvancedSql = _lastAdvancedText;
-		saveFilter();
+		_filter->AdvancedSql = curText;
+		SaveFilter();
 	}
 }
 
-void EditSdltmFilter::enableSimpleTab(bool enable)
+void EditSdltmFilter::onApplyFilterTimer()
+{
+	auto filterText = FilterString();
+	if (CanApplyCurrentFilter() )
+	{
+		_lastFilterString = filterText;
+		_lastFilterChange = QDateTime::currentDateTime();
+		if (OnApply)
+			OnApply(filterText);
+	}
+}
+
+
+
+void EditSdltmFilter::EnableSimpleTab(bool enable)
 {
 	if (enable)
 	{
@@ -1093,3 +1116,31 @@ void EditSdltmFilter::enableSimpleTab(bool enable)
 		ui->reenableSimpleFilterGrid->show();
 	}
 }
+
+bool EditSdltmFilter::CanApplyCurrentFilter()
+{
+	if (ui->editCondition->isVisible())
+		// user is editing a filter item
+		return false;
+
+	if ((QDateTime::currentDateTime().toMSecsSinceEpoch() - _lastFilterChange.toMSecsSinceEpoch()) < 2000)
+		return false;
+
+	if (IsQueryRunning)
+		if (IsQueryRunning())
+			return false; // wait for current query to end
+
+	auto filterText = FilterString();
+	if (SameStringLineByLine(filterText, _lastFilterString))
+		return false; // user hasn't changed anything
+
+	return true;
+}
+
+QString EditSdltmFilter::FilterString() const
+{
+	SdltmCreateSqlSimpleFilter createFilter(*_filter, _customFields);
+	auto filterText = _filter->AdvancedSql != "" ? _filter->AdvancedSql : createFilter.ToSqlFilter();
+	return filterText;
+}
+

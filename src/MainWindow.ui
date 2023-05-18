@@ -753,36 +753,28 @@ You can drag SQL statements from an object row and drop them into other applicat
        <attribute name="title">
         <string>Common Actions</string>
        </attribute>
-       <widget class="QLabel" name="label">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>10</y>
-          <width>221</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>Common actions</string>
-        </property>
-       </widget>
-       <widget class="EditSdltmFilter" name="widget" native="true">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>30</y>
-          <width>741</width>
-          <height>391</height>
-         </rect>
-        </property>
-       </widget>
+       <layout class="QVBoxLayout" name="verticalLayout_8">
+        <item>
+         <widget class="EditSdltmFilter" name="editSdltmFilter" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>3</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="SdltmSqlView" name="sdltmSqlView" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>5</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -2360,6 +2352,12 @@ You can drag SQL statements from the Schema column and drop them into the SQL ed
    <class>EditSdltmFilter</class>
    <extends>QWidget</extends>
    <header>editsdltmfilter.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SdltmSqlView</class>
+   <extends>QWidget</extends>
+   <header>sdltmsqlview.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

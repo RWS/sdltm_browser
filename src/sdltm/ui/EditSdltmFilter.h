@@ -16,24 +16,31 @@ class EditSdltmFilter : public QWidget
 {
     Q_OBJECT
 public:
+    std::function<void()> OnSave;
+    std::function<void(const QString&)> OnApply;
+    std::function<bool()> IsQueryRunning;
+public:
     explicit EditSdltmFilter(QWidget* parent = nullptr);
     ~EditSdltmFilter() override;
 
     void resizeEvent(QResizeEvent* event) override;
 
-    void setEditFilter(std::shared_ptr<SdltmFilter> filter, const std::vector<CustomField> customFields, std::function<void()> onSave);
+    void setEditFilter(std::shared_ptr<SdltmFilter> filter, const std::vector<CustomField> customFields);
 
 private:
-    void saveFilter();
-    void editRow(int idx);
-    void showEditControlsForRow(int idx);
-    void updateFieldCombo();
-    void updateOperationCombo();
-    void updateValueVisibility();
-    void updateValue();
+    void SaveFilter();
+    void EditRow(int idx);
+    void ShowEditControlsForRow(int idx);
+    void UpdateFieldCombo();
+    void UpdateOperationCombo();
+    void UpdateValueVisibility();
+    void UpdateValue();
 
-    void updateQuickSearchVisibility();
-    void enableSimpleTab(bool enable);
+    void UpdateQuickSearchVisibility();
+    void EnableSimpleTab(bool enable);
+
+    bool CanApplyCurrentFilter();
+    QString FilterString() const;
 
 private slots:
     void onTableClicked(const QModelIndex&);
@@ -67,16 +74,20 @@ private slots:
     void onTabChanged(int tabIndex);
     void onReEnableClick();
 
-    void onSaveAdvanced();
+    void onSaveAdvancedFilterTimer();
+    void onApplyFilterTimer();
 
 private:
     int _ignoreUpdate;
 
     QDateTime _lastAdvancedTextChange;
-    QString _lastAdvancedText;
+    QString _lastFilterString;
     QTimer* _saveAdvancedFilterTimer;
+    QTimer* _applyFilterTimer;
 
-    std::function<void()> _onSave;
+    QString _lastAppliedFilter;
+    QDateTime _lastFilterChange;
+
 
     Ui::EditSdltmFilter* ui;
     std::shared_ptr< SdltmFilter > _filter;

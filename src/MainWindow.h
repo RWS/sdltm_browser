@@ -139,12 +139,15 @@ private:
     sqlb::ObjectIdentifier currentlyBrowsedTableName() const;
 
     QList<TableBrowserDock*> allTableBrowserDocks() const;
+    void ExecuteSdltmQuery(const QString& sql);
 
 protected:
     void closeEvent(QCloseEvent *) override;
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dropEvent(QDropEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
+
+public:
 
 public slots:
     bool fileOpen(const QString& fileName = QString(), bool openFromProject = false, bool readOnly = false);

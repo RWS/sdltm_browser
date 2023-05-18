@@ -193,6 +193,9 @@
     <ClCompile Include="C:\code\sdltm_browser\src\sdltm\ui\EditSdltmFilter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\sdltm\ui\SdltmSqlView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="C:\code\sdltm_browser\src\sdltm\SdltmCreateSqlSimpleFilter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -423,6 +426,9 @@
     <ClInclude Include="C:\code\sdltm_browser\src\sdltm\ui\EditSdltmFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\sdltm\ui\SdltmSqlView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="C:\code\sdltm_browser\src\sdltm\SdltmCreateSqlSimpleFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -501,6 +507,9 @@
     <ClInclude Include="C:\code\sdltm_browser\ui_EditSdltmFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_SdltmSqlView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="C:\code\sdltm_browser\src\AboutDialog.ui" />
@@ -528,6 +537,7 @@
     <CustomBuild Include="C:\code\sdltm_browser\src\TableBrowser.ui" />
     <CustomBuild Include="C:\code\sdltm_browser\src\ImageViewer.ui" />
     <CustomBuild Include="C:\code\sdltm_browser\src\sdltm\ui\EditSdltmFilter.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\sdltm\ui\SdltmSqlView.ui" />
     <CustomBuild Include="C:\code\sdltm_browser\src\icons\icons.qrc" />
     <CustomBuild Include="C:\code\sdltm_browser\src\translations\flags\flags.qrc" />
     <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\9b985c11677fece17e7e5f2752140b3f\sqlb_ar_SA.qm.rule">

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 project(trados_sdltm
-    VERSION 1.0.7
+    VERSION 1.0.8
     DESCRIPTION "TM Fusion for Trados"
 )
 
@@ -206,6 +206,7 @@ target_sources(${PROJECT_NAME}
     src/sdltm/SdltmFilter.h
     src/sdltm/qchecklist.h
     src/sdltm/ui/EditSdltmFilter.h
+    src/sdltm/ui/SdltmSqlView.h
     src/sdltm/SdltmCreateSqlSimpleFilter.h
 )
 
@@ -274,6 +275,7 @@ target_sources(${PROJECT_NAME}
     src/TableBrowserDock.cpp
     src/sdltm/SdltmFilter.cpp
     src/sdltm/ui/EditSdltmFilter.cpp
+    src/sdltm/ui/SdltmSqlView.cpp
     src/sdltm/SdltmCreateSqlSimpleFilter.cpp
 )
 
@@ -303,6 +305,7 @@ set(SQLB_FORMS
     src/TableBrowser.ui
     src/ImageViewer.ui
     src/sdltm/ui/EditSdltmFilter.ui
+    src/sdltm/ui/SdltmSqlView.ui
 )
 
 set(SQLB_RESOURCES

@@ -100,11 +100,11 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;BUILD_VERSION=20230512;CHECKNEWVERSION;QT_GUI_LIB;QT_CORE_LIB;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR="C:/code/sdltm_browser";QT_PRINTSUPPORT_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;QT_CONCURRENT_LIB;QT_XML_LIB;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;BUILD_VERSION=20230518;CHECKNEWVERSION;QT_GUI_LIB;QT_CORE_LIB;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR="C:/code/sdltm_browser";QT_PRINTSUPPORT_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;QT_CONCURRENT_LIB;QT_XML_LIB;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;BUILD_VERSION=20230512;CHECKNEWVERSION;QT_GUI_LIB;QT_CORE_LIB;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR=\"C:/code/sdltm_browser\";QT_PRINTSUPPORT_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;QT_CONCURRENT_LIB;QT_XML_LIB;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;BUILD_VERSION=20230518;CHECKNEWVERSION;QT_GUI_LIB;QT_CORE_LIB;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR=\"C:/code/sdltm_browser\";QT_PRINTSUPPORT_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;QT_CONCURRENT_LIB;QT_XML_LIB;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\trados_sdltm_autogen\include_Debug;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\src\sdltm;C:\code\sdltm_browser\src\sdltm\ui;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;C:\dev\SQLite-Win64;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtTest;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtNetwork;C:\dev\Qt\5.12.12\msvc2017_64\include\QtConcurrent;C:\dev\Qt\5.12.12\msvc2017_64\include\QtXml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -161,13 +161,13 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BUILD_VERSION=20230512;CHECKNEWVERSION;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR="C:/code/sdltm_browser";QT_PRINTSUPPORT_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;QT_CONCURRENT_LIB;QT_XML_LIB;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BUILD_VERSION=20230518;CHECKNEWVERSION;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR="C:/code/sdltm_browser";QT_PRINTSUPPORT_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;QT_CONCURRENT_LIB;QT_XML_LIB;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BUILD_VERSION=20230512;CHECKNEWVERSION;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR=\"C:/code/sdltm_browser\";QT_PRINTSUPPORT_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;QT_CONCURRENT_LIB;QT_XML_LIB;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BUILD_VERSION=20230518;CHECKNEWVERSION;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR=\"C:/code/sdltm_browser\";QT_PRINTSUPPORT_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;QT_CONCURRENT_LIB;QT_XML_LIB;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\trados_sdltm_autogen\include_Release;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\src\sdltm;C:\code\sdltm_browser\src\sdltm\ui;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;C:\dev\SQLite-Win64;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtTest;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtNetwork;C:\dev\Qt\5.12.12\msvc2017_64\include\QtConcurrent;C:\dev\Qt\5.12.12\msvc2017_64\include\QtXml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -224,13 +224,13 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BUILD_VERSION=20230512;CHECKNEWVERSION;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR="C:/code/sdltm_browser";QT_PRINTSUPPORT_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;QT_CONCURRENT_LIB;QT_XML_LIB;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BUILD_VERSION=20230518;CHECKNEWVERSION;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR="C:/code/sdltm_browser";QT_PRINTSUPPORT_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;QT_CONCURRENT_LIB;QT_XML_LIB;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BUILD_VERSION=20230512;CHECKNEWVERSION;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR=\"C:/code/sdltm_browser\";QT_PRINTSUPPORT_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;QT_CONCURRENT_LIB;QT_XML_LIB;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BUILD_VERSION=20230518;CHECKNEWVERSION;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR=\"C:/code/sdltm_browser\";QT_PRINTSUPPORT_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;QT_CONCURRENT_LIB;QT_XML_LIB;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\trados_sdltm_autogen\include_MinSizeRel;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\src\sdltm;C:\code\sdltm_browser\src\sdltm\ui;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;C:\dev\SQLite-Win64;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtTest;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtNetwork;C:\dev\Qt\5.12.12\msvc2017_64\include\QtConcurrent;C:\dev\Qt\5.12.12\msvc2017_64\include\QtXml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -287,11 +287,11 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BUILD_VERSION=20230512;CHECKNEWVERSION;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR="C:/code/sdltm_browser";QT_PRINTSUPPORT_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;QT_CONCURRENT_LIB;QT_XML_LIB;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BUILD_VERSION=20230518;CHECKNEWVERSION;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR="C:/code/sdltm_browser";QT_PRINTSUPPORT_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;QT_CONCURRENT_LIB;QT_XML_LIB;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BUILD_VERSION=20230512;CHECKNEWVERSION;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR=\"C:/code/sdltm_browser\";QT_PRINTSUPPORT_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;QT_CONCURRENT_LIB;QT_XML_LIB;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BUILD_VERSION=20230518;CHECKNEWVERSION;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR=\"C:/code/sdltm_browser\";QT_PRINTSUPPORT_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;QT_CONCURRENT_LIB;QT_XML_LIB;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\code\sdltm_browser;C:\code\sdltm_browser\trados_sdltm_autogen\include_RelWithDebInfo;C:\code\sdltm_browser\libs\json;C:\code\sdltm_browser\src;C:\code\sdltm_browser\src\sdltm;C:\code\sdltm_browser\src\sdltm\ui;C:\code\sdltm_browser\libs\qhexedit\src;C:\code\sdltm_browser\libs\qcustomplot-source;C:\code\sdltm_browser\libs\qscintilla\Qt4Qt5\.;C:\dev\SQLite-Win64;C:\dev\Qt\5.12.12\msvc2017_64\include;C:\dev\Qt\5.12.12\msvc2017_64\include\QtGui;C:\dev\Qt\5.12.12\msvc2017_64\include\QtANGLE;C:\dev\Qt\5.12.12\msvc2017_64\include\QtCore;C:\dev\Qt\5.12.12\msvc2017_64\.\mkspecs\win32-msvc;C:\dev\Qt\5.12.12\msvc2017_64\include\QtTest;C:\dev\Qt\5.12.12\msvc2017_64\include\QtPrintSupport;C:\dev\Qt\5.12.12\msvc2017_64\include\QtWidgets;C:\dev\Qt\5.12.12\msvc2017_64\include\QtNetwork;C:\dev\Qt\5.12.12\msvc2017_64\include\QtConcurrent;C:\dev\Qt\5.12.12\msvc2017_64\include\QtXml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -1730,6 +1730,62 @@ exit /b %1
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\ui_EditSdltmFilter.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\code\sdltm_browser\src\sdltm\ui\SdltmSqlView.ui">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating ui_SdltmSqlView.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\dev\Qt\5.12.12\msvc2017_64\bin\uic.exe -o C:/code/sdltm_browser/ui_SdltmSqlView.h C:/code/sdltm_browser/src/sdltm/ui/SdltmSqlView.ui
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\code\sdltm_browser\ui_SdltmSqlView.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating ui_SdltmSqlView.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\dev\Qt\5.12.12\msvc2017_64\bin\uic.exe -o C:/code/sdltm_browser/ui_SdltmSqlView.h C:/code/sdltm_browser/src/sdltm/ui/SdltmSqlView.ui
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\code\sdltm_browser\ui_SdltmSqlView.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating ui_SdltmSqlView.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\dev\Qt\5.12.12\msvc2017_64\bin\uic.exe -o C:/code/sdltm_browser/ui_SdltmSqlView.h C:/code/sdltm_browser/src/sdltm/ui/SdltmSqlView.ui
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\code\sdltm_browser\ui_SdltmSqlView.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating ui_SdltmSqlView.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\dev\Qt\5.12.12\msvc2017_64\bin\uic.exe -o C:/code/sdltm_browser/ui_SdltmSqlView.h C:/code/sdltm_browser/src/sdltm/ui/SdltmSqlView.ui
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\code\sdltm_browser\ui_SdltmSqlView.h</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
@@ -3262,6 +3318,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="C:\code\sdltm_browser\src\sdltm\SdltmFilter.h" />
     <ClInclude Include="C:\code\sdltm_browser\src\sdltm\qchecklist.h" />
     <ClInclude Include="C:\code\sdltm_browser\src\sdltm\ui\EditSdltmFilter.h" />
+    <ClInclude Include="C:\code\sdltm_browser\src\sdltm\ui\SdltmSqlView.h" />
     <ClInclude Include="C:\code\sdltm_browser\src\sdltm\SdltmCreateSqlSimpleFilter.h" />
     <ClCompile Include="C:\code\sdltm_browser\src\AboutDialog.cpp" />
     <ClCompile Include="C:\code\sdltm_browser\src\EditIndexDialog.cpp" />
@@ -3326,6 +3383,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="C:\code\sdltm_browser\src\TableBrowserDock.cpp" />
     <ClCompile Include="C:\code\sdltm_browser\src\sdltm\SdltmFilter.cpp" />
     <ClCompile Include="C:\code\sdltm_browser\src\sdltm\ui\EditSdltmFilter.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\src\sdltm\ui\SdltmSqlView.cpp" />
     <ClCompile Include="C:\code\sdltm_browser\src\sdltm\SdltmCreateSqlSimpleFilter.cpp" />
     <ResourceCompile Include="C:\code\sdltm_browser\src\winapp.rc" />
     <ClInclude Include="C:\code\sdltm_browser\ui_AboutDialog.h" />
@@ -3353,6 +3411,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="C:\code\sdltm_browser\ui_TableBrowser.h" />
     <ClInclude Include="C:\code\sdltm_browser\ui_ImageViewer.h" />
     <ClInclude Include="C:\code\sdltm_browser\ui_EditSdltmFilter.h" />
+    <ClInclude Include="C:\code\sdltm_browser\ui_SdltmSqlView.h" />
     <ClCompile Include="C:\code\sdltm_browser\qrc_icons.cpp" />
     <ClCompile Include="C:\code\sdltm_browser\qrc_flags.cpp" />
     <ClCompile Include="C:\code\sdltm_browser\qrc_translations.cpp" />
