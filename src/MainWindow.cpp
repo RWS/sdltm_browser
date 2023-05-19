@@ -72,7 +72,8 @@ MainWindow::MainWindow(QWidget* parent)
       currentTableBrowser(nullptr),
       findReplaceDialog(new FindReplaceDialog(this)),
       execute_sql_worker(nullptr),
-      isProjectModified(false)
+      isProjectModified(false),
+      _customFieldService(db)
 {
     ui->setupUi(this);
     init();
@@ -88,6 +89,10 @@ MainWindow::MainWindow(QWidget* parent)
     };
 
     ui->editSdltmFilter->IsQueryRunning = [this]() { return ui->sdltmSqlView->IsRunning(); };
+
+    // FIXME load them from a settings file
+    _filters.push_back(std::make_shared<SdltmFilter>(SdltmFilter()));
+    ui->editSdltmFilter->SetEditFilter(_filters[0]);
 
     // open last file, by default
     auto files = Settings::getValue("General", "recentFileList").toStringList();
@@ -488,7 +493,7 @@ void MainWindow::init()
 
     // Set other window settings
     setAcceptDrops(true);
-    setWindowTitle(QApplication::applicationName());
+	setWindowTitle(titlePrefix());
 
     // Add the documentation of shortcuts, which aren't otherwise visible in the user interface, to some buttons.
     addShortcutsTooltip(ui->actionDbPrint);
@@ -588,6 +593,8 @@ bool MainWindow::fileOpen(const QString& fileName, bool openFromProject, bool re
                     loadPragmas();
 
                 refreshTableBrowsers();
+                _customFieldService.Update();
+                ui->editSdltmFilter->SetCustomFields(_customFieldService.GetFields());
 
                 // Update remote dock
                 remoteDock->fileOpened(wFile);
@@ -1219,6 +1226,15 @@ void MainWindow::ExecuteSdltmQuery(const QString& sql)
 
     //// Start the execution
     execute_sql_worker->start();
+}
+
+QString MainWindow::titlePrefix() const
+{
+    auto title = QApplication::applicationName() + " - " + QApplication::applicationVersion();
+#ifndef NDEBUG
+    title = "[DEBUG] " + title;
+#endif
+    return title;
 }
 
 
@@ -1909,9 +1925,9 @@ void MainWindow::setCurrentFile(const QString &fileName)
 {
     setWindowFilePath(fileName);
     if(currentProjectFilename.isEmpty() && fileName.isEmpty())
-        setWindowTitle(QApplication::applicationName());
+        setWindowTitle(titlePrefix());
     else if(currentProjectFilename.isEmpty())
-        setWindowTitle(QApplication::applicationName() + " - " + QDir::toNativeSeparators(fileName));
+        setWindowTitle(titlePrefix() + " - " + QDir::toNativeSeparators(fileName));
     else {
         QFileInfo projectFileInfo(currentProjectFilename);
         QFileInfo dbFileInfo(fileName);
@@ -1920,7 +1936,7 @@ void MainWindow::setCurrentFile(const QString &fileName)
             dbFileName = dbFileInfo.fileName();
         else
             dbFileName = QDir::toNativeSeparators(fileName);
-        setWindowTitle(QApplication::applicationName() + " - " + QDir::toNativeSeparators(currentProjectFilename) + " [" + dbFileName + "]");
+        setWindowTitle(titlePrefix() + " - " + QDir::toNativeSeparators(currentProjectFilename) + " [" + dbFileName + "]");
     }
     activateFields(!fileName.isEmpty());
     if(!fileName.isEmpty())

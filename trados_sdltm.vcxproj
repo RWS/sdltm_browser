@@ -3320,6 +3320,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="C:\code\sdltm_browser\src\sdltm\ui\EditSdltmFilter.h" />
     <ClInclude Include="C:\code\sdltm_browser\src\sdltm\ui\SdltmSqlView.h" />
     <ClInclude Include="C:\code\sdltm_browser\src\sdltm\SdltmCreateSqlSimpleFilter.h" />
+    <ClInclude Include="C:\code\sdltm_browser\src\sdltm\CustomFieldService.h" />
+    <ClInclude Include="C:\code\sdltm_browser\src\sdltm\DbFieldValueService.h" />
+    <ClInclude Include="C:\code\sdltm_browser\src\sdltm\SqlFilterBuilder.h" />
     <ClCompile Include="C:\code\sdltm_browser\src\AboutDialog.cpp" />
     <ClCompile Include="C:\code\sdltm_browser\src\EditIndexDialog.cpp" />
     <ClCompile Include="C:\code\sdltm_browser\src\EditDialog.cpp" />
@@ -3385,6 +3388,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="C:\code\sdltm_browser\src\sdltm\ui\EditSdltmFilter.cpp" />
     <ClCompile Include="C:\code\sdltm_browser\src\sdltm\ui\SdltmSqlView.cpp" />
     <ClCompile Include="C:\code\sdltm_browser\src\sdltm\SdltmCreateSqlSimpleFilter.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\src\sdltm\CustomFieldService.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\src\sdltm\DbFieldValueService.cpp" />
+    <ClCompile Include="C:\code\sdltm_browser\src\sdltm\SqlFilterBuilder.cpp" />
     <ResourceCompile Include="C:\code\sdltm_browser\src\winapp.rc" />
     <ClInclude Include="C:\code\sdltm_browser\ui_AboutDialog.h" />
     <ClInclude Include="C:\code\sdltm_browser\ui_EditIndexDialog.h" />

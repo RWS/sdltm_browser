@@ -17,135 +17,85 @@ namespace
 {
 
 	// for testing
-	SdltmFilter TestFilter()
-	{
-		SdltmFilter test;
-		//test.FilterItems.push_back(SdltmFilterItem("Customer", SdltmFieldMetaType::Text));
-		//test.FilterItems.back().FieldValue = "Gigi";
-		//test.FilterItems.back().IndentLevel = 0;
+	//SdltmFilter TestFilter()
+	//{
+	//	SdltmFilter test;
+	//	test.FilterItems.push_back(SdltmFilterItem("Customer", SdltmFieldMetaType::Text));
+	//	test.FilterItems.back().FieldValue = "Gigi";
+	//	test.FilterItems.back().IndentLevel = 0;
 
-		//test.FilterItems.push_back(SdltmFilterItem("Listy", SdltmFieldMetaType::List));
-		//test.FilterItems.back().FieldValue = "Def";
-		//test.FilterItems.back().IndentLevel = 0;
+	//	test.FilterItems.push_back(SdltmFilterItem("Listy", SdltmFieldMetaType::List));
+	//	test.FilterItems.back().FieldValue = "Def";
+	//	test.FilterItems.back().IndentLevel = 0;
 
-		//test.FilterItems.push_back(SdltmFilterItem("CheckListy", SdltmFieldMetaType::CheckboxList));
-		//test.FilterItems.back().FieldValues = { "Mno", "st", "zzz"};
-		//test.FilterItems.back().IndentLevel = 0;
-		//test.FilterItems.back().StringComparison = StringComparisonType::Contains;
+	//	test.FilterItems.push_back(SdltmFilterItem("CheckListy", SdltmFieldMetaType::CheckboxList));
+	//	test.FilterItems.back().FieldValues = { "Mno", "st", "zzz"};
+	//	test.FilterItems.back().IndentLevel = 0;
+	//	test.FilterItems.back().StringComparison = StringComparisonType::Contains;
 
-		test.FilterItems.push_back(SdltmFilterItem("Country", SdltmFieldMetaType::Text));
-		test.FilterItems.back().FieldValue = "Romania";
-		test.FilterItems.back().IndentLevel = 1;
-		//test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::CreatedBy));
-		//test.FilterItems.back().FieldValue = "Jay";
-		//test.FilterItems.back().IndentLevel = 2;
-		//test.FilterItems.back().IsAnd = false;
-		test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::UseageCount));
-		test.FilterItems.back().FieldValue = "5";
-		test.FilterItems.back().IndentLevel = 2;
-		test.FilterItems.back().IsAnd = false;
-		test.FilterItems.back().NumberComparison = NumberComparisonType::BiggerOrEqual;
-		//test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::CreatedOn));
-		//test.FilterItems.back().FieldValue = "2023/02/20";
-		//test.FilterItems.back().IndentLevel = 2;
-		//test.FilterItems.back().IsAnd = false;
-		test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::SourceSegment));
-		test.FilterItems.back().FieldValue = "extra";
-		test.FilterItems.back().IndentLevel = 2;
-		test.FilterItems.back().StringComparison = StringComparisonType::Contains;
-		test.FilterItems.back().IsAnd = false;
-		test.FilterItems.back().IsNegated = true;
-		//test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::LastModifiedBy));
-		//test.FilterItems.back().FieldValue = "JJ";
-		//test.FilterItems.back().IndentLevel = 1;
-		//test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::LastUsedBy));
-		//test.FilterItems.back().FieldValue = "TT";
-		//test.FilterItems.back().IndentLevel = 1;
-		//test.FilterItems.back().StringComparison = StringComparisonType::EndsWith;
+	//	test.FilterItems.push_back(SdltmFilterItem("Country", SdltmFieldMetaType::Text));
+	//	test.FilterItems.back().FieldValue = "Romania";
+	//	test.FilterItems.back().IndentLevel = 1;
+	//	test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::CreatedBy));
+	//	test.FilterItems.back().FieldValue = "Jay";
+	//	test.FilterItems.back().IndentLevel = 2;
+	//	test.FilterItems.back().IsAnd = false;
+	//	test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::UseageCount));
+	//	test.FilterItems.back().FieldValue = "5";
+	//	test.FilterItems.back().IndentLevel = 2;
+	//	test.FilterItems.back().IsAnd = false;
+	//	test.FilterItems.back().NumberComparison = NumberComparisonType::BiggerOrEqual;
+	//	test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::CreatedOn));
+	//	test.FilterItems.back().FieldValue = "2023/02/20";
+	//	test.FilterItems.back().IndentLevel = 2;
+	//	test.FilterItems.back().IsAnd = false;
+	//	test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::SourceSegment));
+	//	test.FilterItems.back().FieldValue = "extra";
+	//	test.FilterItems.back().IndentLevel = 2;
+	//	test.FilterItems.back().StringComparison = StringComparisonType::Contains;
+	//	test.FilterItems.back().IsAnd = false;
+	//	test.FilterItems.back().IsNegated = true;
+	//	test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::LastModifiedBy));
+	//	test.FilterItems.back().FieldValue = "JJ";
+	//	test.FilterItems.back().IndentLevel = 1;
+	//	test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::LastUsedBy));
+	//	test.FilterItems.back().FieldValue = "TT";
+	//	test.FilterItems.back().IndentLevel = 1;
+	//	test.FilterItems.back().StringComparison = StringComparisonType::EndsWith;
 
-		//test.QuickSearch = "sourcy";
-		//test.QuickSearchTarget = "targety";
-
-		//test.AdvancedSql = "select *";
-		return test;
-	}
-
-	// for testing
-	SdltmFilter TestFilter2()
-	{
-		SdltmFilter test;
-		test.FilterItems.push_back(SdltmFilterItem("Client", SdltmFieldMetaType::Text));
-		test.FilterItems.back().FieldValue = "Gigi";
-		test.FilterItems.back().IndentLevel = 0;
-
-		test.FilterItems.back().StringComparison = StringComparisonType::Contains;
-		test.FilterItems.push_back(SdltmFilterItem("Price", SdltmFieldMetaType::Number));
-		test.FilterItems.back().FieldValue = "35";
-		test.FilterItems.back().IndentLevel = 1;
-		test.FilterItems.back().NumberComparison = NumberComparisonType::BiggerOrEqual;
-
-		test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::CreatedBy));
-		test.FilterItems.back().FieldValue = "Jay";
-		test.FilterItems.back().IndentLevel = 2;
-		test.FilterItems.back().IsAnd = false;
-		test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::UseageCount));
-		test.FilterItems.back().FieldValue = "5";
-		test.FilterItems.back().IndentLevel = 2;
-		test.FilterItems.back().IsAnd = false;
-		test.FilterItems.back().NumberComparison = NumberComparisonType::BiggerOrEqual;
-
-		//test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::CreatedOn));
-		//test.FilterItems.back().FieldValue = "2023/02/20";
-		//test.FilterItems.back().IndentLevel = 2;
-		//test.FilterItems.back().IsAnd = false;
-		//test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::SourceSegment));
-		//test.FilterItems.back().FieldValue = "extra";
-		//test.FilterItems.back().IndentLevel = 2;
-		//test.FilterItems.back().StringComparison = StringComparisonType::Contains;
-		//test.FilterItems.back().IsAnd = false;
-		//test.FilterItems.back().IsNegated = true;
-		//test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::LastModifiedBy));
-		//test.FilterItems.back().FieldValue = "JJ";
-		//test.FilterItems.back().IndentLevel = 1;
-		//test.FilterItems.push_back(SdltmFilterItem(SdltmFieldType::LastUsedBy));
-		//test.FilterItems.back().FieldValue = "TT";
-		//test.FilterItems.back().IndentLevel = 1;
-		//test.FilterItems.back().StringComparison = StringComparisonType::EndsWith;
-
-		test.QuickSearch = "quicky";
-
-		return test;
-	}
+	//	return test;
+	//}
 
 
 
-	std::vector<CustomField> TestCustomFields()
-	{
-		std::vector<CustomField> fields;
-		CustomField a;
-		a.FieldName = "Client";
-		a.ID = 3;
-		CustomField b;
-		b.FieldName = "Country";
-		CustomField c;
-		c.FieldName = "Price";
-		c.FieldType = SdltmFieldMetaType::Number;
-		c.ID = 4;
-		CustomField d;
-		d.FieldName = "Listy";
-		d.FieldType = SdltmFieldMetaType::List;
-		d.Values = { "Abc", "Def", "Ghk", "Ij"};
-		CustomField e;
-		e.FieldName = "CheckListy";
-		e.FieldType = SdltmFieldMetaType::CheckboxList;
-		e.Values = { "Kl", "Mno", "Pqr", "st", "x-x-x", "y-y-y", "zzz"};
-		fields.push_back(a);
-		fields.push_back(b);
-		fields.push_back(c);
-		fields.push_back(d);
-		fields.push_back(e);
-		return fields;
-	}
+
+	//std::vector<CustomField> TestCustomFields()
+	//{
+	//	std::vector<CustomField> fields;
+	//	CustomField a;
+	//	a.FieldName = "Client";
+	//	a.ID = 3;
+	//	CustomField b;
+	//	b.FieldName = "Country";
+	//	CustomField c;
+	//	c.FieldName = "Price";
+	//	c.FieldType = SdltmFieldMetaType::Number;
+	//	c.ID = 4;
+	//	CustomField d;
+	//	d.FieldName = "Listy";
+	//	d.FieldType = SdltmFieldMetaType::List;
+	//	d.Values = { "Abc", "Def", "Ghk", "Ij"};
+	//	CustomField e;
+	//	e.FieldName = "CheckListy";
+	//	e.FieldType = SdltmFieldMetaType::CheckboxList;
+	//	e.Values = { "Kl", "Mno", "Pqr", "st", "x-x-x", "y-y-y", "zzz"};
+	//	fields.push_back(a);
+	//	fields.push_back(b);
+	//	fields.push_back(c);
+	//	fields.push_back(d);
+	//	fields.push_back(e);
+	//	return fields;
+	//}
 }
 
 EditSdltmFilter::EditSdltmFilter(QWidget* parent ) 
@@ -207,7 +157,8 @@ EditSdltmFilter::EditSdltmFilter(QWidget* parent )
 	_applyFilterTimer->start(250);
 
 	// testing
-	setEditFilter(std::make_shared<SdltmFilter>(TestFilter()), TestCustomFields());
+	//SetCustomFields(TestCustomFields());
+	//SetEditFilter(std::make_shared<SdltmFilter>(TestFilter()));
 }
 EditSdltmFilter::~EditSdltmFilter() {
 	delete ui;
@@ -270,10 +221,9 @@ namespace
 	}
 }
 
-void EditSdltmFilter::setEditFilter(std::shared_ptr<SdltmFilter> filter, const std::vector<CustomField> customFields)
+void EditSdltmFilter::SetEditFilter(std::shared_ptr<SdltmFilter> filter)
 {
 	_filter = filter;
-	_customFields = customFields;
 
 	for (auto& item : filter->FilterItems)
 		if (item.CustomFieldName != "" && std::find_if(_customFields.begin(), _customFields.end(), 
@@ -339,6 +289,11 @@ void EditSdltmFilter::setEditFilter(std::shared_ptr<SdltmFilter> filter, const s
 	onTabChanged(ui->tabWidget->currentIndex());
 	if (OnApply)
 		OnApply(FilterString());
+}
+
+void EditSdltmFilter::SetCustomFields(const std::vector<CustomField> customFields)
+{
+	_customFields = customFields;
 }
 
 void EditSdltmFilter::UpdateQuickSearchVisibility()
@@ -850,6 +805,7 @@ void EditSdltmFilter::onQuickSourceTextChanged()
 		return;
 
 	_filter->QuickSearch = ui->quickSearchSource->toPlainText();
+	SaveFilter();
 }
 
 void EditSdltmFilter::onQuickTargetTextChanged()
@@ -858,6 +814,7 @@ void EditSdltmFilter::onQuickTargetTextChanged()
 		return;
 
 	_filter->QuickSearchTarget = ui->quickSearchTarget->toPlainText();
+	SaveFilter();
 }
 
 void EditSdltmFilter::onQuickSourceAndTargetChanged()
@@ -1088,9 +1045,9 @@ void EditSdltmFilter::onSaveAdvancedFilterTimer()
 
 void EditSdltmFilter::onApplyFilterTimer()
 {
-	auto filterText = FilterString();
 	if (CanApplyCurrentFilter() )
 	{
+		auto filterText = FilterString();
 		_lastFilterString = filterText;
 		_lastFilterChange = QDateTime::currentDateTime();
 		if (OnApply)
@@ -1139,6 +1096,9 @@ bool EditSdltmFilter::CanApplyCurrentFilter()
 
 QString EditSdltmFilter::FilterString() const
 {
+	if (!_filter)
+		return "";
+
 	SdltmCreateSqlSimpleFilter createFilter(*_filter, _customFields);
 	auto filterText = _filter->AdvancedSql != "" ? _filter->AdvancedSql : createFilter.ToSqlFilter();
 	return filterText;

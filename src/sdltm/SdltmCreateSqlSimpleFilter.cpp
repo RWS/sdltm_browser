@@ -1,5 +1,7 @@
 #include "SdltmCreateSqlSimpleFilter.h"
 
+#include "SqlFilterBuilder.h"
+
 SdltmCreateSqlSimpleFilter::SdltmCreateSqlSimpleFilter(const SdltmFilter& filter, const std::vector<CustomField>& customFields)
 	: _filter(filter), _customFields(customFields)
 {
@@ -193,31 +195,28 @@ namespace
 
 	// IMPORTANT: I don't use fi.isAnd, because I can override that for custom fields
 	// the custom fields, in the FieldValueQuery, they are ALWAYS ORed
-	void AppendSql( QString & sql, const SdltmFilterItem &fi, 
-					bool isAnd, 
+	QString GetSubSql( const SdltmFilterItem &fi, 
 					const QString & tableName, 
 					const CustomField & customField = CustomField(), const QString& customFieldSqlFieldName = "")
 	{
 		if (IsList(fi.FieldMetaType))
-			return; // ignore list fields for now
+			return ""; // ignore list fields for now
 
 		// custom field: present only if ID > 0
-		QString subQuery;
-		if (fi.FieldType != SdltmFieldType::CustomSqlExpression)
-		{
-			if (customField.IsPresent())
-				subQuery = tableName + "." + customFieldSqlFieldName + " = " + QString::number(customField.ID)  + " AND ";
-
-			subQuery += SqlFieldName(tableName, fi, customField) + " " + SqlCompare(fi) + " ";
-		}
-		else
-			subQuery += fi.FieldValue; // custom SQL expression
-
+		assert(fi.FieldType != SdltmFieldType::CustomSqlExpression);
+		auto subQuery = SqlFieldName(tableName, fi, customField) + " " + SqlCompare(fi) + " ";
 		if (fi.IsNegated)
 			subQuery = "NOT (" + subQuery + ")";
 
-		AppendSql(sql, subQuery, isAnd);
+		return subQuery;
 	}
+
+	struct CustomFieldQuery
+	{
+		// this is always ANDed with the rest
+		QString QueryPrefix;
+		SqlFilterBuilder Query;
+	};
 
 	CustomField FindCustomField(const QString & fieldName, const std::vector<CustomField> & allCustomFields)
 	{
@@ -225,7 +224,10 @@ namespace
 		return found != allCustomFields.end() ? *found : CustomField();
 	}
 
-	QString FieldValueQuery(const std::vector<SdltmFilterItem> & filterItems, const QString & joinTableName, const QString & joinFieldName, const std::vector<CustomField> & allCustomFields, QString & globalWhere)
+	QString FieldValueQuery(const std::vector<SdltmFilterItem> & filterItems, const QString & joinTableName, 
+							const QString & joinFieldName, 
+							const std::vector<CustomField> & allCustomFields, 
+							QString & globalWhere, bool globalIsAnd)
 	{
 		if (filterItems.empty())
 			return "";// no such fields
@@ -236,40 +238,60 @@ namespace
 			+ "       SELECT DISTINCT " + joinTableName + ".translation_unit_id, " +joinTableName + ".value as "
 			+ distinctTableName + " FROM " + joinTableName + "\r\n         WHERE t.id = " + joinTableName+ ".translation_unit_id";
 		// find field value -> custom field
-		QString subQuery;
-		int fieldCount = 0;
-		bool isAnd = false;
+		std::map<QString, CustomFieldQuery> customFields;
 		for (const auto & fi : filterItems)
 		{
 			auto customField = FindCustomField(fi.CustomFieldName, allCustomFields);
 			if (!customField.IsPresent())
 				continue; // field not found
 
-			// custom fields here are always ORed, since they are different SQL records
-			// (if we were to AND anything, we'd always end up with an empty query)
-			bool isSubAnd = false;
-			AppendSql(subQuery, fi, isSubAnd, joinTableName, customField, joinFieldName);
-			++fieldCount;
+			auto subSql = GetSubSql(fi, joinTableName, customField, joinFieldName);
+			if (subSql == "")
+				continue;
+
+			auto& subField = customFields[fi.CustomFieldName];
+			auto queryPrefix = joinTableName + "." + joinFieldName + " = " + QString::number(customField.ID) ;
+			subField.QueryPrefix = queryPrefix;
+
 			if (fi.IsAnd)
-				isAnd = true;
+				subField.Query.AddAnd(subSql, fi.IndentLevel);
+			else 
+				subField.Query.AddOr(subSql, fi.IndentLevel);
+		}
+
+		if (customFields.empty())
+			return ""; // no custom fields present
+
+		// at this point, I want to find out whether this is an AND or an OR
+		// look at the first item with the lowest Indent
+		auto lowestIndent = std::min_element(filterItems.begin(), filterItems.end(), [](const SdltmFilterItem& a, const SdltmFilterItem & b) { return a.IndentLevel < b.IndentLevel; });
+		auto isAnd = lowestIndent->IsAnd;
+
+		// custom fields here are always ORed, since they are different SQL records
+		// (if we were to AND anything, we'd always end up with an empty query)
+		QString subQuery;
+		auto prependEnter = true;
+		for (const auto & cf : customFields)
+		{
+			auto fieldSql = cf.second.QueryPrefix;
+			fieldSql += " AND (" + cf.second.Query.Get() + ")";
+			AppendSql(subQuery, fieldSql, isAnd, prependEnter);
 		}
 
 		auto distinctFieldName = "distinct_" + joinTableName;
 		sql += " AND (" + subQuery + ")\r\n       ) AS " + distinctFieldName + ") AS " + distinctFieldName + " ";
 
-		if (subQuery != "")
+		auto fieldCount = customFields.size();
+		auto globalSql = distinctFieldName + " is not NULL";
+		if (fieldCount > 1 && isAnd)
 		{
-			auto prependEnter = true;
-			AppendSql(globalWhere, distinctFieldName + " is not NULL", true, prependEnter);
-			if (fieldCount > 1 && isAnd)
-			{
-				// count number of separators
-				auto lenOfSeparators = "len(" + distinctFieldName + ") - len(replace(" + distinctFieldName + ",'" + separator + "','')) = " + QString::number(fieldCount);
-				AppendSql(globalWhere, lenOfSeparators, true, prependEnter);
-			}
+			// count number of separators
+			auto lenOfSeparators = "len(" + distinctFieldName + ") - len(replace(" + distinctFieldName + ",'" + separator + "','')) = " + QString::number(fieldCount);
+			globalSql += " AND (" + lenOfSeparators + ")";
 		}
+		AppendSql(globalWhere, globalSql, globalIsAnd, prependEnter);
 
-		return subQuery != "" ? sql : "";
+		return sql;
 	}
 
 	std::vector<SdltmFilterItem> FilterCustomFields(const std::vector<SdltmFilterItem> & fields, SdltmFieldMetaType metaType)
@@ -287,17 +309,32 @@ namespace
 
 QString SdltmCreateSqlSimpleFilter::ToSqlFilter() const
 {
+	auto lowestIndent = std::min_element(_filter.FilterItems.begin(), _filter.FilterItems.end(), [](const SdltmFilterItem& a, const SdltmFilterItem& b)
+	{
+		auto aLevel = a.IndentLevel;
+		auto bLevel = b.IndentLevel;
+		if (a.CustomFieldName == "")
+			aLevel = 100000;
+		if (b.CustomFieldName == "")
+			bLevel = 100000;
+		return aLevel < bLevel;
+	});
+	auto customFieldsIsAnd = lowestIndent != _filter.FilterItems.end() && lowestIndent->CustomFieldName != "" ? lowestIndent->IsAnd : true;
+
 	QString sql = "SELECT t.id, t.source_segment, t.target_segment ";
 	QString where;
 	sql += FieldValueQuery(
 				FilterCustomFields(_filter.FilterItems, SdltmFieldMetaType::Number), 
-				"numeric_attributes", "attribute_id", _customFields, where);
+				"numeric_attributes", "attribute_id", _customFields, where, customFieldsIsAnd);
 	sql += FieldValueQuery(
 				FilterCustomFields(_filter.FilterItems, SdltmFieldMetaType::Text),
-				"string_attributes", "attribute_id", _customFields, where);
+				"string_attributes", "attribute_id", _customFields, where, customFieldsIsAnd);
+	sql += FieldValueQuery(
+				FilterCustomFields(_filter.FilterItems, SdltmFieldMetaType::MultiText),
+				"string_attributes", "attribute_id", _customFields, where, customFieldsIsAnd);
 	sql += FieldValueQuery(
 				FilterCustomFields(_filter.FilterItems, SdltmFieldMetaType::DateTime),
-				"date_attributes", "attribute_id", _customFields, where);
+				"date_attributes", "attribute_id", _customFields, where, customFieldsIsAnd);
 	// FIXME lists/picklists/ multi-text ?
 
 	auto filterItems = _filter.FilterItems;
@@ -331,6 +368,9 @@ QString SdltmCreateSqlSimpleFilter::ToSqlFilter() const
 			continue;
 
 		QString condition =  SqlFieldName("t", fi) + " " + SqlCompare(fi) + " ";
+		if (fi.FieldType == SdltmFieldType::CustomSqlExpression)
+			condition = fi.FieldValue;
+
 		if (fi.IsNegated)
 			condition = "NOT (" + condition + ")";
 		auto prependEnter = true;

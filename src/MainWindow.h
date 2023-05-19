@@ -8,6 +8,8 @@
 #include <vector>
 #include <QMainWindow>
 
+#include "CustomFieldService.h"
+
 struct BrowseDataTableSettings;
 class DbStructureModel;
 class EditDialog;
@@ -68,6 +70,8 @@ private:
     Ui::MainWindow* ui;
 
     DBBrowserDB db;
+    CustomFieldService _customFieldService;
+    std::vector< std::shared_ptr<SdltmFilter>> _filters;
 
     SqliteTableModel* m_currentTabTableModel;
 
@@ -115,6 +119,7 @@ private:
     QString currentProjectFilename;
     bool isProjectModified;
 
+
     void init();
     void clearCompleterModelsFields();
 
@@ -140,6 +145,8 @@ private:
 
     QList<TableBrowserDock*> allTableBrowserDocks() const;
     void ExecuteSdltmQuery(const QString& sql);
+
+    QString titlePrefix() const;
 
 protected:
     void closeEvent(QCloseEvent *) override;

@@ -4,6 +4,7 @@
 #include <QDateTime>
 #include <QWidget>
 
+#include "CustomFieldService.h"
 #include "SdltmFilter.h"
 
 class QGraphicsOpacityEffect;
@@ -25,8 +26,8 @@ public:
 
     void resizeEvent(QResizeEvent* event) override;
 
-    void setEditFilter(std::shared_ptr<SdltmFilter> filter, const std::vector<CustomField> customFields);
-
+    void SetEditFilter(std::shared_ptr<SdltmFilter> filter);
+    void SetCustomFields(const std::vector<CustomField> customFields);
 private:
     void SaveFilter();
     void EditRow(int idx);

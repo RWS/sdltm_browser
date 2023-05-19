@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 project(trados_sdltm
-    VERSION 1.0.8
+    VERSION 1.0.9
     DESCRIPTION "TM Fusion for Trados"
 )
 
@@ -208,6 +208,9 @@ target_sources(${PROJECT_NAME}
     src/sdltm/ui/EditSdltmFilter.h
     src/sdltm/ui/SdltmSqlView.h
     src/sdltm/SdltmCreateSqlSimpleFilter.h
+    src/sdltm/CustomFieldService.h
+    src/sdltm/DbFieldValueService.h
+    src/sdltm/SqlFilterBuilder.h
 )
 
 target_sources(${PROJECT_NAME}
@@ -277,6 +280,9 @@ target_sources(${PROJECT_NAME}
     src/sdltm/ui/EditSdltmFilter.cpp
     src/sdltm/ui/SdltmSqlView.cpp
     src/sdltm/SdltmCreateSqlSimpleFilter.cpp
+    src/sdltm/CustomFieldService.cpp
+    src/sdltm/DbFieldValueService.cpp
+    src/sdltm/SqlFilterBuilder.cpp
 )
 
 set(SQLB_FORMS
