@@ -132,7 +132,11 @@ struct SdltmFilterItem
 
 struct SdltmFilter
 {
+	QString Name;
+
 	std::vector<SdltmFilterItem> FilterItems;
+
+	bool IsEmpty() const { return Name == ""; }
 
 	bool HasQuickSearch() const
 	{

@@ -207,10 +207,12 @@ target_sources(${PROJECT_NAME}
     src/sdltm/qchecklist.h
     src/sdltm/ui/EditSdltmFilter.h
     src/sdltm/ui/SdltmSqlView.h
+    src/sdltm/ui/SdltmFiltersList.h
     src/sdltm/SdltmCreateSqlSimpleFilter.h
     src/sdltm/CustomFieldService.h
     src/sdltm/DbFieldValueService.h
     src/sdltm/SqlFilterBuilder.h
+    src/sdltm/SdltmUtil.h
 )
 
 target_sources(${PROJECT_NAME}
@@ -279,10 +281,12 @@ target_sources(${PROJECT_NAME}
     src/sdltm/SdltmFilter.cpp
     src/sdltm/ui/EditSdltmFilter.cpp
     src/sdltm/ui/SdltmSqlView.cpp
+    src/sdltm/ui/SdltmFiltersList.cpp
     src/sdltm/SdltmCreateSqlSimpleFilter.cpp
     src/sdltm/CustomFieldService.cpp
     src/sdltm/DbFieldValueService.cpp
     src/sdltm/SqlFilterBuilder.cpp
+    src/sdltm/SdltmUtil.cpp
 )
 
 set(SQLB_FORMS
@@ -312,6 +316,7 @@ set(SQLB_FORMS
     src/ImageViewer.ui
     src/sdltm/ui/EditSdltmFilter.ui
     src/sdltm/ui/SdltmSqlView.ui
+    src/sdltm/ui/SdltmFiltersList.ui
 )
 
 set(SQLB_RESOURCES

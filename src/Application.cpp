@@ -18,6 +18,7 @@
 
 #include "MainWindow.h"
 #include "RemoteNetwork.h"
+#include "SdltmUtil.h"
 #include "Settings.h"
 #include "version.h"
 #include "sqlitedb.h"
@@ -81,16 +82,6 @@ void printArgument(const QString& argument, const QString& description)
     }
 }
 
-namespace
-{
-	QString UserSettingsFile()
-	{
-        auto locations = QStandardPaths::standardLocations(QStandardPaths::AppDataLocation);
-        if (locations.count() > 0)
-            return locations[0] + "/trados_sdltm_settings.txt";
-        return "";
-	}
-}
 
 Application::Application(int& argc, char** argv) :
     QApplication(argc, argv)

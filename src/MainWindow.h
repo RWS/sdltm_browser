@@ -71,7 +71,7 @@ private:
 
     DBBrowserDB db;
     CustomFieldService _customFieldService;
-    std::vector< std::shared_ptr<SdltmFilter>> _filters;
+    std::vector< SdltmFilter> _filters;
 
     SqliteTableModel* m_currentTabTableModel;
 

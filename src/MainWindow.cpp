@@ -58,6 +58,7 @@
 
 #include <limits>
 
+#include "SdltmUtil.h"
 #include "ui_PlotDock.h"
 
 int MainWindow::MaxRecentFiles;
@@ -87,12 +88,24 @@ MainWindow::MainWindow(QWidget* parent)
 	    ui->sdltmSqlView->SetSql(sql);
         ExecuteSdltmQuery(sql);
     };
+    ui->editSdltmFilter->OnSave = [this](const SdltmFilter& filter)
+    {
+        ui->filtersList->SaveEdit(filter);
+    };
 
     ui->editSdltmFilter->IsQueryRunning = [this]() { return ui->sdltmSqlView->IsRunning(); };
 
-    // FIXME load them from a settings file
-    _filters.push_back(std::make_shared<SdltmFilter>(SdltmFilter()));
-    ui->editSdltmFilter->SetEditFilter(_filters[0]);
+    auto filtersFile = QFile::exists(FiltersFile()) ? FiltersFile() : DefaultFiltersFile();
+    _filters =  LoadFilters(filtersFile);
+    ui->filtersList->Edit = [this](const SdltmFilter& filter)
+    {
+        ui->editSdltmFilter->SetEditFilter(filter);
+    };
+    ui->filtersList->Save = [this](const std::vector<SdltmFilter>& filters)
+    {
+        SaveFilters(filters, FiltersFile());
+    };
+    ui->filtersList->SetFilters(_filters);
 
     // open last file, by default
     auto files = Settings::getValue("General", "recentFileList").toStringList();

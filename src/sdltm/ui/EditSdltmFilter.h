@@ -17,7 +17,7 @@ class EditSdltmFilter : public QWidget
 {
     Q_OBJECT
 public:
-    std::function<void()> OnSave;
+    std::function<void(const SdltmFilter &filter)> OnSave;
     std::function<void(const QString&)> OnApply;
     std::function<bool()> IsQueryRunning;
 public:
@@ -26,7 +26,7 @@ public:
 
     void resizeEvent(QResizeEvent* event) override;
 
-    void SetEditFilter(std::shared_ptr<SdltmFilter> filter);
+    void SetEditFilter(const SdltmFilter& filter);
     void SetCustomFields(const std::vector<CustomField> customFields);
 private:
     void SaveFilter();
@@ -91,7 +91,7 @@ private:
 
 
     Ui::EditSdltmFilter* ui;
-    std::shared_ptr< SdltmFilter > _filter;
+    SdltmFilter  _filter;
     // these are the custom fields available for this database
     std::vector<CustomField> _customFields;
 

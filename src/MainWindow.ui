@@ -755,6 +755,22 @@ You can drag SQL statements from an object row and drop them into other applicat
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_8">
         <item>
+         <widget class="SdltmFiltersList" name="filtersList" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>30</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="EditSdltmFilter" name="editSdltmFilter" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -2358,6 +2374,12 @@ You can drag SQL statements from the Schema column and drop them into the SQL ed
    <class>SdltmSqlView</class>
    <extends>QWidget</extends>
    <header>sdltmsqlview.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SdltmFiltersList</class>
+   <extends>QWidget</extends>
+   <header>sdltmfilterslist.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

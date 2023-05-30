@@ -221,43 +221,43 @@ namespace
 	}
 }
 
-void EditSdltmFilter::SetEditFilter(std::shared_ptr<SdltmFilter> filter)
+void EditSdltmFilter::SetEditFilter(const SdltmFilter & filter)
 {
 	_filter = filter;
 
-	for (auto& item : filter->FilterItems)
+	for (auto& item : _filter.FilterItems)
 		if (item.CustomFieldName != "" && std::find_if(_customFields.begin(), _customFields.end(), 
 			[item](const CustomField& f) { return f.FieldName == item.CustomFieldName; }) == _customFields.end())
 			// custom field not available for this database
 			item.IsVisible = false;
 
-	if (filter->IsLocked)
+	if (_filter.IsLocked)
 	{
 		// for Locked filters - only editable values are visible
-		for (auto& item : filter->FilterItems)
+		for (auto& item : _filter.FilterItems)
 			item.IsVisible = false;
 
 		std::vector<SdltmFilterItem> metaItems;
-		std::copy_if(filter->FilterItems.begin(), filter->FilterItems.end(), std::back_inserter(metaItems), [](const SdltmFilterItem& fi) { return fi.IsMetaFieldValue(); });
+		std::copy_if(_filter.FilterItems.begin(), _filter.FilterItems.end(), std::back_inserter(metaItems), [](const SdltmFilterItem& fi) { return fi.IsMetaFieldValue(); });
 		for(const auto & meta : metaItems)
 		{
 			auto editableName = meta.MetaFieldValue();
-			auto found = std::find_if(filter->FilterItems.begin(), filter->FilterItems.end(), [editableName](const SdltmFilterItem& fi) { return fi.CustomFieldName == editableName; });
-			if (found != filter->FilterItems.end())
+			auto found = std::find_if(_filter.FilterItems.begin(), _filter.FilterItems.end(), [editableName](const SdltmFilterItem& fi) { return fi.CustomFieldName == editableName; });
+			if (found != _filter.FilterItems.end())
 				found->IsVisible = true;
 			else
-				filter->FilterItems.push_back(meta.ToUserEditableFilterItem());
+				_filter.FilterItems.push_back(meta.ToUserEditableFilterItem());
 		}
 	}
 
-	ui->addSimpleFilterItem->setEnabled(!filter->IsLocked);
-	ui->insertSimpleFilterItem->setEnabled(!filter->IsLocked);
-	ui->delSimpleFilterItem->setEnabled(!filter->IsLocked);
+	ui->addSimpleFilterItem->setEnabled(!_filter.IsLocked);
+	ui->insertSimpleFilterItem->setEnabled(!_filter.IsLocked);
+	ui->delSimpleFilterItem->setEnabled(!_filter.IsLocked);
 
 	_editableFilterItems.clear();
 	_hiddenFilterItems.clear();
-	std::copy_if(filter->FilterItems.begin(), filter->FilterItems.end(), std::back_inserter(_editableFilterItems), [](const SdltmFilterItem& fi) { return fi.IsVisible; });
-	std::copy_if(filter->FilterItems.begin(), filter->FilterItems.end(), std::back_inserter(_hiddenFilterItems), [](const SdltmFilterItem& fi) { return !fi.IsVisible; });
+	std::copy_if(_filter.FilterItems.begin(), _filter.FilterItems.end(), std::back_inserter(_editableFilterItems), [](const SdltmFilterItem& fi) { return fi.IsVisible; });
+	std::copy_if(_filter.FilterItems.begin(), _filter.FilterItems.end(), std::back_inserter(_hiddenFilterItems), [](const SdltmFilterItem& fi) { return !fi.IsVisible; });
 
 	ui->simpleFilterTable->setModel(createFilterItemModel(_editableFilterItems));
 	ui->simpleFilterTable->setColumnWidth(0, 60);
@@ -267,22 +267,22 @@ void EditSdltmFilter::SetEditFilter(std::shared_ptr<SdltmFilter> filter)
 
 	++_ignoreUpdate;
 	UpdateQuickSearchVisibility();
-	ui->quickSearchSourceAndTarget->setChecked(_filter->QuickSearchSearchSourceAndTarget);
-	ui->quickSearchCaseSensitive->setChecked(_filter->QuickSearchCaseSensitive);
+	ui->quickSearchSourceAndTarget->setChecked(_filter.QuickSearchSearchSourceAndTarget);
+	ui->quickSearchCaseSensitive->setChecked(_filter.QuickSearchCaseSensitive);
 
-	if (filter->AdvancedSql != "")
+	if (_filter.AdvancedSql != "")
 	{
-		ui->advancedEdit->setText(filter->AdvancedSql);
+		ui->advancedEdit->setText(_filter.AdvancedSql);
 		ui->tabWidget->setCurrentIndex(1); // go to advanced
 	}
 	else
 	{
-		SdltmCreateSqlSimpleFilter createFilter(*_filter, _customFields);
+		SdltmCreateSqlSimpleFilter createFilter(_filter, _customFields);
 		ui->advancedEdit->setText(createFilter.ToSqlFilter());
 
 		ui->tabWidget->setCurrentIndex(0); // go to simple
 	}
-	EnableSimpleTab(filter->AdvancedSql == "");
+	EnableSimpleTab(_filter.AdvancedSql == "");
 
 	--_ignoreUpdate;
 
@@ -299,23 +299,23 @@ void EditSdltmFilter::SetCustomFields(const std::vector<CustomField> customField
 void EditSdltmFilter::UpdateQuickSearchVisibility()
 {
 	++_ignoreUpdate;
-	ui->quickSearchSourceTextLabel->setText(_filter->QuickSearchSearchSourceAndTarget ? "Text" : "Source Text");
-	ui->quickSearchSource->setPlainText(_filter->QuickSearch);
-	ui->quickSearchTarget->setPlainText(_filter->QuickSearchTarget);
-	ui->quickSearchTarget->setVisible(!_filter->QuickSearchSearchSourceAndTarget);
-	ui->quickSearchTargetLabel->setVisible(!_filter->QuickSearchSearchSourceAndTarget);
+	ui->quickSearchSourceTextLabel->setText(_filter.QuickSearchSearchSourceAndTarget ? "Text" : "Source Text");
+	ui->quickSearchSource->setPlainText(_filter.QuickSearch);
+	ui->quickSearchTarget->setPlainText(_filter.QuickSearchTarget);
+	ui->quickSearchTarget->setVisible(!_filter.QuickSearchSearchSourceAndTarget);
+	ui->quickSearchTargetLabel->setVisible(!_filter.QuickSearchSearchSourceAndTarget);
 	--_ignoreUpdate;
 }
 
 
 void EditSdltmFilter::SaveFilter()
 {
-	_filter->FilterItems.clear();
-	std::copy(_hiddenFilterItems.begin(), _hiddenFilterItems.end(), std::back_inserter(_filter->FilterItems));
-	std::copy(_editableFilterItems.begin(), _editableFilterItems.end(), std::back_inserter(_filter->FilterItems));
+	_filter.FilterItems.clear();
+	std::copy(_hiddenFilterItems.begin(), _hiddenFilterItems.end(), std::back_inserter(_filter.FilterItems));
+	std::copy(_editableFilterItems.begin(), _editableFilterItems.end(), std::back_inserter(_filter.FilterItems));
 
 	if(OnSave)
-		OnSave();
+		OnSave(_filter);
 }
 
 void EditSdltmFilter::EditRow(int idx)
@@ -804,7 +804,7 @@ void EditSdltmFilter::onQuickSourceTextChanged()
 	if (_ignoreUpdate > 0)
 		return;
 
-	_filter->QuickSearch = ui->quickSearchSource->toPlainText();
+	_filter.QuickSearch = ui->quickSearchSource->toPlainText();
 	SaveFilter();
 }
 
@@ -813,7 +813,7 @@ void EditSdltmFilter::onQuickTargetTextChanged()
 	if (_ignoreUpdate > 0)
 		return;
 
-	_filter->QuickSearchTarget = ui->quickSearchTarget->toPlainText();
+	_filter.QuickSearchTarget = ui->quickSearchTarget->toPlainText();
 	SaveFilter();
 }
 
@@ -822,7 +822,7 @@ void EditSdltmFilter::onQuickSourceAndTargetChanged()
 	if (_ignoreUpdate > 0)
 		return;
 
-	_filter->QuickSearchSearchSourceAndTarget = ui->quickSearchSourceAndTarget->isChecked();
+	_filter.QuickSearchSearchSourceAndTarget = ui->quickSearchSourceAndTarget->isChecked();
 	UpdateQuickSearchVisibility();
 	SaveFilter();
 }
@@ -832,7 +832,7 @@ void EditSdltmFilter::onQuickCaseSensitiveChanged()
 	if (_ignoreUpdate > 0)
 		return;
 
-	_filter->QuickSearchCaseSensitive = ui->quickSearchCaseSensitive->isChecked();
+	_filter.QuickSearchCaseSensitive = ui->quickSearchCaseSensitive->isChecked();
 	SaveFilter();
 }
 
@@ -992,7 +992,7 @@ void EditSdltmFilter::onTabChanged(int tabIndex)
 
 	bool isSimple = tabIndex == 0;
 	bool isAdvanced = tabIndex == 1;
-	SdltmCreateSqlSimpleFilter createFilter(*_filter, _customFields);
+	SdltmCreateSqlSimpleFilter createFilter(_filter, _customFields);
 	if (isSimple)
 	{
 		// advanced to simple
@@ -1003,7 +1003,7 @@ void EditSdltmFilter::onTabChanged(int tabIndex)
 		if (!SameStringLineByLine(simple, advanced))
 		{
 			// user modified something non-trivial in Advanced tab
-			_filter->AdvancedSql = advanced;
+			_filter.AdvancedSql = advanced;
 			EnableSimpleTab(false);
 		} else
 			EnableSimpleTab(true);
@@ -1024,7 +1024,7 @@ void EditSdltmFilter::onTabChanged(int tabIndex)
 
 void EditSdltmFilter::onReEnableClick()
 {
-	_filter->AdvancedSql = "";
+	_filter.AdvancedSql = "";
 	EnableSimpleTab(true);
 }
 
@@ -1035,10 +1035,10 @@ void EditSdltmFilter::onSaveAdvancedFilterTimer()
 		// in this case -> user hasn't yet modified anything consequential
 		return;
 
-	if (_filter->AdvancedSql != curText && (QDateTime::currentDateTime().toMSecsSinceEpoch() - _lastAdvancedTextChange.toMSecsSinceEpoch()) > 1000)
+	if (_filter.AdvancedSql != curText && (QDateTime::currentDateTime().toMSecsSinceEpoch() - _lastAdvancedTextChange.toMSecsSinceEpoch()) > 1000)
 	{
 		_lastAdvancedTextChange = QDateTime::currentDateTime();
-		_filter->AdvancedSql = curText;
+		_filter.AdvancedSql = curText;
 		SaveFilter();
 	}
 }
@@ -1096,11 +1096,11 @@ bool EditSdltmFilter::CanApplyCurrentFilter()
 
 QString EditSdltmFilter::FilterString() const
 {
-	if (!_filter)
+	if (_filter.IsEmpty())
 		return "";
 
-	SdltmCreateSqlSimpleFilter createFilter(*_filter, _customFields);
-	auto filterText = _filter->AdvancedSql != "" ? _filter->AdvancedSql : createFilter.ToSqlFilter();
+	SdltmCreateSqlSimpleFilter createFilter(_filter, _customFields);
+	auto filterText = _filter.AdvancedSql != "" ? _filter.AdvancedSql : createFilter.ToSqlFilter();
 	return filterText;
 }
 
