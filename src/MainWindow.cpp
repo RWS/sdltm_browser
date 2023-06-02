@@ -82,6 +82,14 @@ MainWindow::MainWindow(QWidget* parent)
     activateFields(false);
     updateRecentFileActions();
 
+    // open last file, by default
+    // IMPORTANT: do it here, before loading filters, since filters may contain Custom fields from this db
+    auto files = Settings::getValue("General", "recentFileList").toStringList();
+    if (files.size() > 0 && QFileInfo::exists(files[0]))
+    {
+        fileOpen(files[0], true, false);
+    }
+
     ui->sdltmSqlView->SetDb(db);
     ui->editSdltmFilter->OnApply = [this](const QString& sql)
     {
@@ -107,12 +115,6 @@ MainWindow::MainWindow(QWidget* parent)
     };
     ui->filtersList->SetFilters(_filters);
 
-    // open last file, by default
-    auto files = Settings::getValue("General", "recentFileList").toStringList();
-	if (files.size() > 0 && QFileInfo::exists(files[0]))
-	{
-        fileOpen(files[0], true, false);
-	}
 }
 
 MainWindow::~MainWindow()

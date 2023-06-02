@@ -34,11 +34,14 @@ private slots:
 	void OnExport();
 	void OnFilterChange(int);
 	void OnFilterNameChange(const QString& text);
+	void OnCheckSave();
 
 private:
 	Ui::SdltmFiltersList* ui;
+	QTimer* _saveTimer;
 	std::vector<SdltmFilter> _filters;
-	int _ignoreUpdate;
-	int _editIdx;
+	int _ignoreUpdate = 0;
+	int _editIdx = -1;
+	bool _needsSave = false;
 };
 

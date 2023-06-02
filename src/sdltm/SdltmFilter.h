@@ -68,7 +68,9 @@ enum class MultiComparisonType
 
 
 
-
+// IMPORTANT:
+//		any change here, need to update JsonToFilter(Item)/Filter(Item)ToJson functions
+//
 struct SdltmFilterItem
 {
 	bool IsNegated = false;
@@ -130,6 +132,9 @@ struct SdltmFilterItem
 
 
 
+// IMPORTANT:
+//		any change here, need to update JsonToFilter(Item)/Filter(Item)ToJson functions
+//
 struct SdltmFilter
 {
 	QString Name;

@@ -278,7 +278,8 @@ void EditSdltmFilter::SetEditFilter(const SdltmFilter & filter)
 	else
 	{
 		SdltmCreateSqlSimpleFilter createFilter(_filter, _customFields);
-		ui->advancedEdit->setText(createFilter.ToSqlFilter());
+		auto str = createFilter.ToSqlFilter();
+		ui->advancedEdit->setText(str);
 
 		ui->tabWidget->setCurrentIndex(0); // go to simple
 	}

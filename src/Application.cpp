@@ -86,35 +86,16 @@ void printArgument(const QString& argument, const QString& description)
 Application::Application(int& argc, char** argv) :
     QApplication(argc, argv)
 {
-    //// Get 'DB4S_SETTINGS_FILE' environment variable
-    //const auto env = qgetenv("DB4S_SETTINGS_FILE");
+    // Set organisation and application names
+    //
+    // IMPORTANT: set these first, because application settings paths depend on them
+    setOrganizationName("Trados");
+    setApplicationName("TM Fusion for Trados");
 
-    //// If 'DB4S_SETTINGS_FILE' environment variable exists
-    //if(!env.isEmpty())
-    //    Settings::setUserSettingsFile(env);
-
-    //for(int i=1;i<arguments().size();i++)
-    //{
-    //    if(arguments().at(i) == "-S" || arguments().at(i) == "--settings")
-    //    {
-    //        if(++i < arguments().size())
-    //        {
-    //            if(!env.isEmpty())
-    //            {
-    //                qWarning() << qPrintable(tr("The user settings file location is replaced with the argument value instead of the environment variable value."));
-    //                qWarning() << qPrintable(tr("Ignored environment variable(DB4S_SETTINGS_FILE) value : ") + env);
-    //            }
-    //            Settings::setUserSettingsFile(arguments().at(i));
-    //        }
-    //    }
-    //}
     auto settingsFile = UserSettingsFile();
     if (settingsFile != "")
         Settings::setUserSettingsFile(settingsFile);
 
-    // Set organisation and application names
-    setOrganizationName("Trados");
-    setApplicationName("TM Fusion for Trados");
 
     // Set character encoding to UTF8
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));

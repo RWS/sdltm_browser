@@ -7,8 +7,6 @@
 SdltmFiltersList::SdltmFiltersList(QWidget* parent)
 	: QWidget(parent)
 	, ui(new Ui::SdltmFiltersList)
-	, _ignoreUpdate(0)
-	, _editIdx(-1)
 {
 	ui->setupUi(this);
 
@@ -21,6 +19,10 @@ SdltmFiltersList::SdltmFiltersList(QWidget* parent)
 
 	connect(ui->filterCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(OnFilterChange(int)));
 	connect(ui->filterCombo, SIGNAL(editTextChanged(const QString&)), this, SLOT(OnFilterNameChange(const QString&)));
+
+	_saveTimer = new QTimer(this);
+	connect(_saveTimer, SIGNAL(timeout()), this, SLOT(OnCheckSave()));
+	_saveTimer->start(2000);
 }
 
 void SdltmFiltersList::SetFilters(const std::vector<SdltmFilter>& filters)
@@ -53,8 +55,7 @@ void SdltmFiltersList::SaveEdit(const SdltmFilter& filter)
 
 void SdltmFiltersList::SaveFilters()
 {
-	if (Save)
-		Save(_filters);
+	_needsSave = true;
 }
 
 void SdltmFiltersList::AddFilter(const SdltmFilter& filter)
@@ -142,10 +143,36 @@ void SdltmFiltersList::OnReset()
 
 void SdltmFiltersList::OnImport()
 {
+	QString file = QFileDialog::getOpenFileName(this, QApplication::applicationName(), AppDir(), "SDLTM Filter files (*.sdlfilters)");
+	if (file != "")
+	{
+		// do import
+		auto import = ::LoadFilters(file);
+		for(auto & filter : import)
+		{
+			bool nameOk = false;
+			QString name;
+			for (int suffix = 0; !nameOk ; ++suffix)
+			{
+				name = filter.Name + (suffix > 0 ? " Copy " + QString::number(suffix) : "");
+				nameOk = std::find_if(_filters.begin(), _filters.end(), [name](const SdltmFilter& f) { return f.Name == name; }) == _filters.end();
+			}
+			filter.Name = name;
+			_filters.push_back(filter);
+		}
+	}
+	SetFilters(_filters);
+	SaveFilters();
 }
 
 void SdltmFiltersList::OnExport()
 {
+	QString file = QFileDialog::getSaveFileName(this, QApplication::applicationName(), AppDir(), "SDLTM Filter files (*.sdlfilters)");
+	if (file != "")
+	{
+		// do export
+		::SaveFilters(_filters, file);
+	}
 }
 
 void SdltmFiltersList::OnFilterChange(int idx)
@@ -183,4 +210,13 @@ void SdltmFiltersList::OnFilterNameChange(const QString& text)
 
 		SaveFilters();
 	}
+}
+
+void SdltmFiltersList::OnCheckSave()
+{
+	if(!_needsSave)
+		return;
+	_needsSave = false;
+	if (Save)
+		Save(_filters);
 }

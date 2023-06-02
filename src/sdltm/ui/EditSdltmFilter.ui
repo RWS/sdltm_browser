@@ -196,6 +196,10 @@
           <property name="text">
            <string>Add</string>
           </property>
+          <property name="icon">
+           <iconset resource="../../icons/icons.qrc">
+            <normaloff>:/icons/add</normaloff>:/icons/add</iconset>
+          </property>
          </widget>
         </item>
         <item>
@@ -203,12 +207,20 @@
           <property name="text">
            <string>Insert</string>
           </property>
+          <property name="icon">
+           <iconset resource="../../icons/icons.qrc">
+            <normaloff>:/icons/add</normaloff>:/icons/add</iconset>
+          </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="delSimpleFilterItem">
           <property name="text">
            <string>Delete</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../icons/icons.qrc">
+            <normaloff>:/icons/delete</normaloff>:/icons/delete</iconset>
           </property>
          </widget>
         </item>
@@ -515,8 +527,8 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset>
-           <normaloff>:/icons/save_table</normaloff>:/icons/save_table</iconset>
+          <iconset resource="../../icons/icons.qrc">
+           <normaloff>:/icons/ok</normaloff>:/icons/ok</iconset>
          </property>
         </widget>
        </item>
@@ -535,8 +547,8 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset>
-           <normaloff>:/icons/cancel</normaloff>:/icons/cancel</iconset>
+          <iconset resource="../../icons/icons.qrc">
+           <normaloff>:/icons/cancel2</normaloff>:/icons/cancel2</iconset>
          </property>
         </widget>
        </item>
@@ -669,6 +681,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../../icons/icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

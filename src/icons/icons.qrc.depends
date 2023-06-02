@@ -104,5 +104,16 @@
         <file alias="text_underline">text_underlined.svg</file>
         <file alias="set_to_null">textfield_delete.svg</file>
         <file alias="settings">wrench.svg</file>
+        <file alias="add">add.ico</file>
+        <file alias="cancel2">cancel.ico</file>
+        <file alias="close">close.ico</file>
+        <file alias="delete">delete.ico</file>
+        <file alias="filter_add">filter_add.ico</file>
+        <file alias="filter_copy">filter_copy.ico</file>
+        <file alias="filter_delete">filter_delete.ico</file>
+        <file alias="filter_reset">filter_reset.ico</file>
+        <file alias="insert">insert.ico</file>
+        <file alias="ok">ok.ico</file>
+        <file alias="save">save.ico</file>
     </qresource>
 </RCC>
