@@ -810,6 +810,9 @@ bool MainWindow::fileClose()
 
 void MainWindow::closeEvent( QCloseEvent* event )
 {
+    ui->editSdltmFilter->Close();
+    ui->filtersList->Close ();
+
     if(closeFiles())
     {
         Settings::setValue("MainWindow", "geometry", saveGeometry());

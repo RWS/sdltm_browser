@@ -53,6 +53,7 @@ void SdltmFiltersList::SaveEdit(const SdltmFilter& filter)
 	SaveFilters();
 }
 
+
 void SdltmFiltersList::SaveFilters()
 {
 	_needsSave = true;
@@ -76,6 +77,12 @@ void SdltmFiltersList::EditFilter()
 		Edit(_filters[_editIdx]);
 
 	DebugWriteLine("Editing filter " + QString::number(_editIdx));
+}
+
+void SdltmFiltersList::Close()
+{
+	if (Save)
+		Save(_filters);
 }
 
 void SdltmFiltersList::OnAdd()

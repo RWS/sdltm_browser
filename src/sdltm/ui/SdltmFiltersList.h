@@ -20,6 +20,8 @@ public:
 
 	void SetFilters(const std::vector<SdltmFilter>& filters);
 	void SaveEdit(const SdltmFilter& filter);
+
+	void Close();
 private:
 	void SaveFilters();
 	void AddFilter(const SdltmFilter& filter);

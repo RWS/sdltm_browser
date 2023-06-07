@@ -29,29 +29,52 @@ LEFT JOIN
 ORDER BY
 	t.id; */
 
-QString SdltmFilterItem::MetaFieldValue() const
-{
-	assert(IsMetaFieldValue());
-	// ignore $
-	auto meta = FieldValue.mid(1);
-	auto idxComma = meta.indexOf(',');
-	if (idxComma >= 0)
-		meta = meta.left(idxComma);
-	return meta;
-}
 
-SdltmFilterItem SdltmFilterItem::ToUserEditableFilterItem() const
+std::vector<SdltmFilterItem> SdltmFilterItem::ToUserEditableFilterItems() const
 {
-	assert(IsMetaFieldValue());
-	SdltmFilterItem editable;
-	editable.CustomFieldName = MetaFieldValue();
-	editable.FieldType = FieldType;
-	editable.FieldMetaType = FieldMetaType;
-	editable.NumberComparison = NumberComparison;
-	editable.StringComparison = StringComparison;
-	editable.MultiComparisson = MultiComparisson;
-	editable.MultiStringComparison = MultiStringComparison;
-	return editable;
+	assert(IsCustomExpressionWithUserEditableArgs());
+	auto idxNext = 0;
+	auto expr = FieldValue;
+	std::vector<SdltmFilterItem> items;
+	while (expr.indexOf('{', idxNext) >= 0)
+	{
+		auto start = expr.indexOf('{', idxNext);
+		auto end = expr.indexOf('}', start);
+		if (end >= 0)
+		{
+			++start;
+			auto name = expr.mid(start, end - start);
+			QString type = "s";
+			auto typeIdx = name.indexOf(',');
+			if (typeIdx >= 0)
+			{
+				type = name.right(name.size() - typeIdx - 1);
+				name = name.left(typeIdx);
+			}
+
+			SdltmFilterItem arg;
+			arg.CustomFieldName = name;
+			arg.IsUserEditableArg = true;
+			arg.FieldType = SdltmFieldType::CustomField;
+			arg.NumberComparison = NumberComparisonType::Equal;
+			arg.StringComparison = StringComparisonType::Equal;
+			arg.MultiComparisson = MultiComparisonType::HasItem;
+			arg.MultiStringComparison = MultiStringComparisonType::AnyEqual;
+
+			if (type == "n") // number (int)
+				arg.FieldMetaType = SdltmFieldMetaType::Int;
+			else if (type == "d") // double
+				arg.FieldMetaType = SdltmFieldMetaType::Double;
+			else if (type == "s") // string
+				arg.FieldMetaType = SdltmFieldMetaType::Text;
+			else // default - string
+				arg.FieldMetaType = SdltmFieldMetaType::Text;
+			items.push_back(arg);
+		}
+		idxNext = end;
+	}
+
+	return items;
 }
 
 SdltmFieldMetaType SdltmFilterItem::PresetFieldMetaType(SdltmFieldType fieldType)

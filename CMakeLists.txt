@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 project(trados_sdltm
-    VERSION 1.0.9
+    VERSION 1.0.11
     DESCRIPTION "TM Fusion for Trados"
 )
 
@@ -386,6 +386,9 @@ set(LICENSE_FILES
     LICENSE-PLUGINS
 )
 
+set(CONTENT_FILES
+    default_filter_settings.sdlfilters)
+
 qt5_wrap_ui(SQLB_FORM_HDR ${SQLB_FORMS})
 if(SQLB_TSS)
     # add translations
@@ -617,6 +620,12 @@ if(WIN32 AND MSVC)
     install(FILES
         ${LICENSE_FILES}
         DESTINATION licenses
+    )
+
+    # The license files
+    install(FILES
+        ${CONTENT_FILES}
+        DESTINATION "/"
     )
 
     # The batch file launcher

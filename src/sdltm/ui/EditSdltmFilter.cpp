@@ -221,6 +221,41 @@ namespace
 	}
 }
 
+void EditSdltmFilter::UpdateCustomExpressionUserEditableArgs()
+{
+	// FIXME at this time, if I update a custom expression to use other names, I can end up with the old user-editable values as well
+
+	std::vector<SdltmFilterItem> customExprWithEditableArgs;
+	std::copy_if(_filter.FilterItems.begin(), _filter.FilterItems.end(), std::back_inserter(customExprWithEditableArgs),
+		[](const SdltmFilterItem& fi) { return fi.IsCustomExpressionWithUserEditableArgs(); });
+
+	// the idea: any user-editable arg needs to be visible to the user
+	for (const auto& meta : customExprWithEditableArgs)
+	{
+		auto editableUserArgs = meta.ToUserEditableFilterItems();
+		for (const auto & arg : editableUserArgs)
+		{
+			auto found = std::find_if(_filter.FilterItems.begin(), _filter.FilterItems.end(),
+				[arg](const SdltmFilterItem& fi) { return fi.CustomFieldName == arg.CustomFieldName; });
+			if (found == _filter.FilterItems.end())
+				_filter.FilterItems.push_back(arg);
+		}
+	}
+
+	for (auto& item : _filter.FilterItems)
+		if (item.IsUserEditableArg)
+			item.IsVisible = !EditCustomExpressionWithUserEditableArgs;
+
+	for (auto& item : _filter.FilterItems)
+		if (item.IsCustomExpressionWithUserEditableArgs())
+			item.IsVisible = EditCustomExpressionWithUserEditableArgs;
+
+	_userEditableArgsItems.clear();
+	if (!EditCustomExpressionWithUserEditableArgs)
+		std::copy_if(_filter.FilterItems.begin(), _filter.FilterItems.end(), std::back_inserter(_userEditableArgsItems),
+			[](const SdltmFilterItem& fi) { return fi.IsUserEditableArg; });
+}
+
 void EditSdltmFilter::SetEditFilter(const SdltmFilter & filter)
 {
 	_filter = filter;
@@ -231,28 +266,7 @@ void EditSdltmFilter::SetEditFilter(const SdltmFilter & filter)
 			// custom field not available for this database
 			item.IsVisible = false;
 
-	if (_filter.IsLocked)
-	{
-		// for Locked filters - only editable values are visible
-		for (auto& item : _filter.FilterItems)
-			item.IsVisible = false;
-
-		std::vector<SdltmFilterItem> metaItems;
-		std::copy_if(_filter.FilterItems.begin(), _filter.FilterItems.end(), std::back_inserter(metaItems), [](const SdltmFilterItem& fi) { return fi.IsMetaFieldValue(); });
-		for(const auto & meta : metaItems)
-		{
-			auto editableName = meta.MetaFieldValue();
-			auto found = std::find_if(_filter.FilterItems.begin(), _filter.FilterItems.end(), [editableName](const SdltmFilterItem& fi) { return fi.CustomFieldName == editableName; });
-			if (found != _filter.FilterItems.end())
-				found->IsVisible = true;
-			else
-				_filter.FilterItems.push_back(meta.ToUserEditableFilterItem());
-		}
-	}
-
-	ui->addSimpleFilterItem->setEnabled(!_filter.IsLocked);
-	ui->insertSimpleFilterItem->setEnabled(!_filter.IsLocked);
-	ui->delSimpleFilterItem->setEnabled(!_filter.IsLocked);
+	UpdateCustomExpressionUserEditableArgs();
 
 	_editableFilterItems.clear();
 	_hiddenFilterItems.clear();
@@ -297,6 +311,12 @@ void EditSdltmFilter::SetCustomFields(const std::vector<CustomField> customField
 	_customFields = customFields;
 }
 
+void EditSdltmFilter::Close()
+{
+	if (_editRowIndex >= 0)
+		onFilterSave();
+}
+
 void EditSdltmFilter::UpdateQuickSearchVisibility()
 {
 	++_ignoreUpdate;
@@ -337,19 +357,35 @@ void EditSdltmFilter::EditRow(int idx)
 	ui->caseSensitive->setVisible(item.CustomFieldName == "" && (item.FieldMetaType == SdltmFieldMetaType::Text || item.FieldMetaType == SdltmFieldMetaType::MultiText) );
 	ui->caseSensitive->setChecked(item.CaseSensitive);
 
+	// custom sql expression -> combo makes no sense
+	// user-editable arg -> user just needs to enter a value for the arg
+	ui->operationCombo->setVisible(item.FieldType != SdltmFieldType::CustomSqlExpression && !item.IsUserEditableArg);
+
 	UpdateFieldCombo();
 	UpdateOperationCombo();
 	UpdateValue();
 
 	if (item.CustomFieldName != "")
 	{
-		auto field = std::find_if(_customFields.begin(), _customFields.end(), [item](const CustomField& cf) { return cf.FieldName == item.CustomFieldName; });
-		auto idx = field - _customFields.begin();
-		ui->fieldCombo->setCurrentIndex(idx);
-	} else
+		auto userEditable = std::find_if(_userEditableArgsItems.begin(), _userEditableArgsItems.end(), 
+										 [item](const SdltmFilterItem& fi) { return fi.CustomFieldName == item.CustomFieldName; });
+		if (userEditable != _userEditableArgsItems.end())
+		{
+			auto idx = userEditable - _userEditableArgsItems.begin();
+			ui->fieldCombo->setCurrentIndex(idx);
+		}
+		else
+		{
+			auto field = std::find_if(_customFields.begin(), _customFields.end(), 
+									  [item](const CustomField& cf) { return cf.FieldName == item.CustomFieldName; });
+			auto idx = field - _customFields.begin();
+			ui->fieldCombo->setCurrentIndex(idx + _userEditableArgsItems.size());
+		}
+	}
+	else
 	{
 		// preset
-		ui->fieldCombo->setCurrentIndex(_customFields.size() + (int)item.FieldType);
+		ui->fieldCombo->setCurrentIndex(_customFields.size() + _userEditableArgsItems.size() + (int)item.FieldType);
 	}
 
 
@@ -404,6 +440,10 @@ namespace
 void EditSdltmFilter::UpdateFieldCombo()
 {
 	ui->fieldCombo->clear();
+
+	for (const auto& fi : _userEditableArgsItems)
+		ui->fieldCombo->addItem(fi.CustomFieldName);
+
 	for (const auto& cf : _customFields)
 		ui->fieldCombo->addItem(cf.FieldName);
 

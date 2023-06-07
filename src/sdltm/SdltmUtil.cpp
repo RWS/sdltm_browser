@@ -34,6 +34,7 @@ namespace
         item.IsAnd = json["IsAnd"].toBool();
         item.CaseSensitive = json["CaseSensitive"].toBool();
         item.IsVisible = json["IsVisible"].toBool();
+        item.IsUserEditableArg = json["IsUserEditableArg"].toBool();
         return item;
     }
 
@@ -45,7 +46,6 @@ namespace
         filter.QuickSearchTarget = json["QuickSearchTarget"].toString();
         filter.QuickSearchSearchSourceAndTarget = json["QuickSearchSearchSourceAndTarget"].toBool();
         filter.AdvancedSql = json["AdvancedSql"].toString();
-        filter.IsLocked = json["IsLocked"].toBool();
         auto items = json["FilterItems"].toArray();
         for (int i = 0; i < items.count(); ++i)
             filter.FilterItems.push_back(JsonToFilterItem(items[i].toObject()));
@@ -78,6 +78,7 @@ namespace
         json["IsAnd"] = item.IsAnd;
         json["CaseSensitive"] = item.CaseSensitive;
         json["IsVisible"] = item.IsVisible;
+        json["IsUserEditableArg"] = item.IsUserEditableArg;
         return json;
     }
 
@@ -89,7 +90,6 @@ namespace
         json["QuickSearchTarget"] = filter.QuickSearchTarget;
         json["QuickSearchSearchSourceAndTarget"] = filter.QuickSearchSearchSourceAndTarget;
         json["AdvancedSql"] = filter.AdvancedSql;
-        json["IsLocked"] = filter.IsLocked;
 
         QJsonArray items;
         for (const auto& item : filter.FilterItems)
@@ -151,12 +151,17 @@ QString FiltersFile()
     return "";
 }
 
-// FIXME this need to be a resource
 QString DefaultFiltersFile()
 {
     auto locations = QStandardPaths::standardLocations(QStandardPaths::AppDataLocation);
-    if (locations.count() > 0)
-        return locations[0] + "/default_filter_settings.sdlfilters";
+    for (const auto &location: locations)
+    {
+        auto possible = location + "/default_filter_settings.sdlfilters";
+        if (QFile::exists(possible))
+            return possible;
+    }
+    // in this case, we don't have it -- the only time when this can happen is in Debug mode, since
+    // I manually copy this file during installation process
     return "";
 }
 

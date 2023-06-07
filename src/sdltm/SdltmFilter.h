@@ -73,6 +73,7 @@ enum class MultiComparisonType
 //
 struct SdltmFilterItem
 {
+
 	bool IsNegated = false;
 
 	SdltmFilterItem()
@@ -102,20 +103,22 @@ struct SdltmFilterItem
 	MultiStringComparisonType MultiStringComparison = MultiStringComparisonType::AnyEqual;
 	MultiComparisonType MultiComparisson = MultiComparisonType::HasItem;
 
-	// if FieldValue starts with $, it's a meta value
-	// we can create common scenarios, where the user only needs to enter one or two values, and the rest is pre-computed
+	// for custom expressions, we can embed user-editable fields, in the format
+	// {FieldName,<type>}
+	// FieldName -> what the user sees to edit
+	// <type> - n (integer), d (double), s (string)
 	//
-	// Example: "Last X Days" - I want to allow the user to specify the number of days
+	// Example: custom expression "Last X Days" - I want to allow the user to specify the number of days
 	QString FieldValue;
 	// in case user selects several items from a list
 	std::vector<QString> FieldValues;
 
-	bool IsMetaFieldValue() const
+	bool IsCustomExpressionWithUserEditableArgs() const
 	{
-		return FieldValue.startsWith("$");
+		return FieldType == SdltmFieldType::CustomSqlExpression && FieldValue.contains('{') && FieldValue.contains('}');
 	}
-	QString MetaFieldValue() const;
-	SdltmFilterItem ToUserEditableFilterItem() const;
+
+	std::vector<SdltmFilterItem> ToUserEditableFilterItems() const;
 
 	static SdltmFieldMetaType PresetFieldMetaType(SdltmFieldType fieldType);
 
@@ -126,6 +129,9 @@ struct SdltmFilterItem
 
 	// can be hidden when this is not available for the current database (for instance, it's using a custom field not available here)
 	bool IsVisible = true;
+
+	// if so, it's a user-editable arg, from a custom sql expression
+	bool IsUserEditableArg = false;
 
 	QString FriendlyString() const;
 };
@@ -164,8 +170,5 @@ struct SdltmFilter
 	// if user goes to "advanced" tab and modifies anything
 	QString AdvancedSql;
 
-	// we'll be using this when creating presets (common scenarios)
-	// in this case, I don't want the user to add/insert/delete , just allow it to set one or two values and hit "Run"
-	bool IsLocked = false;
 };
 

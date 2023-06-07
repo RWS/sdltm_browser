@@ -28,7 +28,9 @@ public:
 
     void SetEditFilter(const SdltmFilter& filter);
     void SetCustomFields(const std::vector<CustomField> customFields);
+    void Close();
 private:
+    void UpdateCustomExpressionUserEditableArgs();
     void SaveFilter();
     void EditRow(int idx);
     void ShowEditControlsForRow(int idx);
@@ -96,11 +98,20 @@ private:
     std::vector<CustomField> _customFields;
 
     std::vector<SdltmFilterItem> _hiddenFilterItems;
+    std::vector<SdltmFilterItem> _userEditableArgsItems;
     std::vector<SdltmFilterItem> _editableFilterItems;
 
     int _editRowIndex;
     SdltmFilterItem _originalEditFilterItem;
     SdltmFilterItem _editFilterItem;
+
+    // true - we allow editing custom users filters (custom sql expressions that contain user-editable values)
+    //        in this case, we visually show those custom sql expressions and hide the user-editable values
+    //
+    // false (default) - we don't allow editing users filters
+    //                   in this case, the user only sees the user-editable values
+    static const bool EditCustomExpressionWithUserEditableArgs = false;// true;
 };
+
 
 

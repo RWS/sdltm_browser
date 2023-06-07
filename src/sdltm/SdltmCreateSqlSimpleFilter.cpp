@@ -46,11 +46,12 @@ namespace
 			case SdltmFieldType::SourceSegment: fieldName ="source_segment"; break;
 			case SdltmFieldType::TargetSegment: fieldName ="target_segment"; break;
 
-				// FIXME each of these needs separate handling
-			case SdltmFieldType::SourceSegmentLength: fieldName ="source_segment"; break;
-			case SdltmFieldType::TargetSegmentLength: fieldName ="target_segment"; break;
-			case SdltmFieldType::NumberOfTagsInSourceSegment: fieldName ="source_tags"; break;
-			case SdltmFieldType::NumberOfTagsInTargetSegment: fieldName ="target_tags"; break;
+			// 23 = len(<Elements><Text>) + len(</Text>)
+			case SdltmFieldType::SourceSegmentLength: return "(length(substr(t.source_segment,instr(t.source_segment,'<Elements>'),instr(t.source_segment,'</Elements>') - instr(t.source_segment,'<Elements>'))) - 23)"; 
+				// 23 = len(<Elements><Text>) + len(</Text>)
+			case SdltmFieldType::TargetSegmentLength: return "(length(substr(t.target_segment,instr(t.target_segment,'<Elements>'),instr(t.target_segment,'</Elements>') - instr(t.target_segment,'<Elements>'))) - 23)"; 
+			case SdltmFieldType::NumberOfTagsInSourceSegment: return  "((length(t.source_segment) - length(replace(t.source_segment,'<Tag>',''))) / 5)"; 
+			case SdltmFieldType::NumberOfTagsInTargetSegment: return  "((length(t.target_segment) - length(replace(t.target_segment,'<Tag>',''))) / 5)";
 
 			case SdltmFieldType::CustomSqlExpression: 
 				assert(false); fieldName =""; break;
@@ -164,6 +165,24 @@ namespace
 		}
 	}
 
+	bool IsSqlNumber(SdltmFieldMetaType metaType)
+	{
+		switch (metaType)
+		{
+		case SdltmFieldMetaType::Int:
+		case SdltmFieldMetaType::Double:
+		case SdltmFieldMetaType::Number: return true;
+
+		case SdltmFieldMetaType::Text:
+		case SdltmFieldMetaType::MultiText:
+		case SdltmFieldMetaType::List:
+		case SdltmFieldMetaType::CheckboxList:
+		case SdltmFieldMetaType::DateTime: return false;
+
+		default: assert(false); return false;
+		}
+	}
+
 	bool IsList(SdltmFieldMetaType metaType)
 	{
 		switch (metaType)
@@ -184,6 +203,9 @@ namespace
 
 	void AppendSql(QString & sql, const QString & subQuery, bool isAnd, bool prependEnter = false)
 	{
+		if (subQuery.trimmed() == "")
+			return;
+
 		if (sql != "")
 		{
 			if (prependEnter)
@@ -204,6 +226,11 @@ namespace
 
 		// custom field: present only if ID > 0
 		assert(fi.FieldType != SdltmFieldType::CustomSqlExpression);
+
+		if (IsSqlNumber(fi.FieldMetaType) && fi.FieldValue.trimmed() == "")
+			// user hasn't filled the number
+			return  "";
+
 		auto subQuery = SqlFieldName(tableName, fi, customField) + " " + SqlCompare(fi) + " ";
 		if (fi.IsNegated)
 			subQuery = "NOT (" + subQuery + ")";
@@ -362,17 +389,43 @@ QString SdltmCreateSqlSimpleFilter::ToSqlFilter() const
 		}
 	}
 
+	QString limit;
 	for (const auto & fi : filterItems)
 	{
 		if (fi.CustomFieldName != "")
 			continue;
+		if (fi.IsUserEditableArg)
+			continue;;
 
-		QString condition =  SqlFieldName("t", fi) + " " + SqlCompare(fi) + " ";
-		if (fi.FieldType == SdltmFieldType::CustomSqlExpression)
-			condition = fi.FieldValue;
+		QString condition;
+		if (fi.FieldType != SdltmFieldType::CustomSqlExpression)
+		{
+			condition = SqlFieldName("t", fi) + " " + SqlCompare(fi) + " ";
 
-		if (fi.IsNegated)
-			condition = "NOT (" + condition + ")";
+			if (IsSqlNumber(fi.FieldMetaType) && fi.FieldValue.trimmed() == "")
+				// user hasn't filled the number
+				condition = "";
+
+			if (fi.IsNegated && condition != "")
+				condition = "NOT (" + condition + ")";
+		}
+		else
+		{
+			condition = CustomExpression(fi);
+			if (condition == "")
+				// custom expression with user-editable args, but user hasn't entered all values
+				continue;
+		}
+
+		if (condition.startsWith("LIMIT "))
+			condition = " " + condition; // so that we match LIMIT clause all the time
+		auto limitIdx = condition.indexOf(" LIMIT ");
+		if (limitIdx >= 0)
+		{
+			limit = condition.right(condition.size() - limitIdx);
+			condition = condition.left(limitIdx);
+		}
+
 		auto prependEnter = true;
 		AppendSql(where, condition, fi.IsAnd, prependEnter);
 	}
@@ -380,6 +433,51 @@ QString SdltmCreateSqlSimpleFilter::ToSqlFilter() const
 	sql += "FROM translation_units t ";
 	if (where != "")
 		sql += "\r\n            WHERE " + where;
-	sql += "\r\n\r\n            ORDER BY t.id\r\n";
+	sql += "\r\n\r\n            ORDER BY t.id";
+	if (limit != "")
+		sql += " DESC " + limit;
+	sql += "\r\n";
 	return sql;
+}
+
+QString SdltmCreateSqlSimpleFilter::CustomExpression(const SdltmFilterItem& fi) const
+{
+	// see if i have user-editable args
+	auto expression = fi.FieldValue;
+	if (fi.IsCustomExpressionWithUserEditableArgs())
+	{
+		auto userEditableArgs = fi.ToUserEditableFilterItems();
+		auto idxNext = 0;
+		while (expression.indexOf('{', idxNext) >= 0)
+		{
+			auto start = expression.indexOf('{', idxNext);
+			auto end = expression.indexOf('}', start);
+			if (end >= 0)
+			{
+				auto name = expression.mid(start + 1, end - start - 1);
+				auto typeIdx = name.indexOf(',');
+				if (typeIdx >= 0)
+					name = name.left(typeIdx);
+
+				auto found = std::find_if(_filter.FilterItems.begin(), _filter.FilterItems.end(), 
+					[name](const SdltmFilterItem& of) { return of.CustomFieldName == name; });
+				if (found != _filter.FilterItems.end())
+				{
+					if (found->FieldValue != "")
+						expression.replace(start, end + 1 - start, found->FieldValue);
+					else
+						//  user hasn't yet entered a value for <name>
+						return fi.FieldValue;
+				}
+				else
+					// the {<name>} was not found as a filter item
+					return fi.FieldValue;
+			}
+			else
+				// user is still editing - { without }
+				return fi.FieldValue;
+			idxNext = end;
+		}
+	}
+	return expression;
 }

@@ -1,0 +1,345 @@
+{
+    "Filters": [
+        {
+            "AdvancedSql": "",
+            "FilterItems": [
+                {
+                    "CaseSensitive": false,
+                    "CustomFieldName": "",
+                    "CustomValues": [
+                    ],
+                    "FieldMetaType": 2,
+                    "FieldType": 13,
+                    "FieldValue": "t.change_date >= datetime('now','-{DaysCount,n} day')",
+                    "FieldValues": [
+                    ],
+                    "IndentLevel": 0,
+                    "IsAnd": true,
+                    "IsNegated": false,
+                    "IsUserEditableArg": false,
+                    "IsVisible": false,
+                    "MultiComparisson": 0,
+                    "MultiStringComparison": 0,
+                    "NumberComparison": 0,
+                    "StringComparison": 0
+                },
+                {
+                    "CaseSensitive": false,
+                    "CustomFieldName": "DaysCount",
+                    "CustomValues": [
+                    ],
+                    "FieldMetaType": 0,
+                    "FieldType": 14,
+                    "FieldValue": "10",
+                    "FieldValues": [
+                    ],
+                    "IndentLevel": 0,
+                    "IsAnd": true,
+                    "IsNegated": false,
+                    "IsUserEditableArg": true,
+                    "IsVisible": true,
+                    "MultiComparisson": 0,
+                    "MultiStringComparison": 0,
+                    "NumberComparison": 0,
+                    "StringComparison": 0
+                }
+            ],
+            "Name": "Last X Days",
+            "QuickSearch": "",
+            "QuickSearchSearchSourceAndTarget": true,
+            "QuickSearchTarget": ""
+        },
+        {
+            "AdvancedSql": "",
+            "FilterItems": [
+                {
+                    "CaseSensitive": false,
+                    "CustomFieldName": "",
+                    "CustomValues": [
+                    ],
+                    "FieldMetaType": 2,
+                    "FieldType": 13,
+                    "FieldValue": "LIMIT {EntriesCount,n}",
+                    "FieldValues": [
+                    ],
+                    "IndentLevel": 0,
+                    "IsAnd": true,
+                    "IsNegated": false,
+                    "IsUserEditableArg": false,
+                    "IsVisible": false,
+                    "MultiComparisson": 0,
+                    "MultiStringComparison": 0,
+                    "NumberComparison": 0,
+                    "StringComparison": 0
+                },
+                {
+                    "CaseSensitive": false,
+                    "CustomFieldName": "EntriesCount",
+                    "CustomValues": [
+                    ],
+                    "FieldMetaType": 0,
+                    "FieldType": 14,
+                    "FieldValue": "10",
+                    "FieldValues": [
+                    ],
+                    "IndentLevel": 0,
+                    "IsAnd": true,
+                    "IsNegated": false,
+                    "IsUserEditableArg": true,
+                    "IsVisible": true,
+                    "MultiComparisson": 0,
+                    "MultiStringComparison": 0,
+                    "NumberComparison": 0,
+                    "StringComparison": 0
+                }
+            ],
+            "Name": "Last X Entries",
+            "QuickSearch": "",
+            "QuickSearchSearchSourceAndTarget": true,
+            "QuickSearchTarget": ""
+        },
+        {
+            "AdvancedSql": "",
+            "FilterItems": [
+                {
+                    "CaseSensitive": false,
+                    "CustomFieldName": "",
+                    "CustomValues": [
+                    ],
+                    "FieldMetaType": 2,
+                    "FieldType": 1,
+                    "FieldValue": "MyName",
+                    "FieldValues": [
+                    ],
+                    "IndentLevel": 0,
+                    "IsAnd": true,
+                    "IsNegated": false,
+                    "IsUserEditableArg": false,
+                    "IsVisible": true,
+                    "MultiComparisson": 0,
+                    "MultiStringComparison": 0,
+                    "NumberComparison": 0,
+                    "StringComparison": 0
+                }
+            ],
+            "Name": "Modified By",
+            "QuickSearch": "",
+            "QuickSearchSearchSourceAndTarget": true,
+            "QuickSearchTarget": ""
+        },
+        {
+            "AdvancedSql": "",
+            "FilterItems": [
+                {
+                    "CaseSensitive": false,
+                    "CustomFieldName": "",
+                    "CustomValues": [
+                    ],
+                    "FieldMetaType": 2,
+                    "FieldType": 1,
+                    "FieldValue": "MyName",
+                    "FieldValues": [
+                    ],
+                    "IndentLevel": 0,
+                    "IsAnd": true,
+                    "IsNegated": true,
+                    "IsUserEditableArg": false,
+                    "IsVisible": true,
+                    "MultiComparisson": 0,
+                    "MultiStringComparison": 0,
+                    "NumberComparison": 0,
+                    "StringComparison": 0
+                }
+            ],
+            "Name": "Not Modified By",
+            "QuickSearch": "",
+            "QuickSearchSearchSourceAndTarget": true,
+            "QuickSearchTarget": ""
+        },
+        {
+            "AdvancedSql": "",
+            "FilterItems": [
+                {
+                    "CaseSensitive": false,
+                    "CustomFieldName": "",
+                    "CustomValues": [
+                    ],
+                    "FieldMetaType": 2,
+                    "FieldType": 13,
+                    "FieldValue": "substr(t.source_segment, 0,instr(t.source_segment,'</Elements>')) == substr(t.target_segment, 0,instr(t.target_segment,'</Elements>'))",
+                    "FieldValues": [
+                    ],
+                    "IndentLevel": 0,
+                    "IsAnd": true,
+                    "IsNegated": false,
+                    "IsUserEditableArg": false,
+                    "IsVisible": true,
+                    "MultiComparisson": 0,
+                    "MultiStringComparison": 0,
+                    "NumberComparison": 0,
+                    "StringComparison": 0
+                }
+            ],
+            "Name": "Source Equals Target",
+            "QuickSearch": "",
+            "QuickSearchSearchSourceAndTarget": true,
+            "QuickSearchTarget": ""
+        },
+        {
+            "AdvancedSql": "",
+            "FilterItems": [
+                {
+                    "CaseSensitive": false,
+                    "CustomFieldName": "",
+                    "CustomValues": [
+                    ],
+                    "FieldMetaType": 2,
+                    "FieldType": 13,
+                    "FieldValue": "instr(t.source_segment,char(1)) > 0 OR  instr(t.source_segment,char(2)) > 0 OR instr(t.source_segment,char(3)) > 0 OR instr(t.source_segment,char(4)) > 0 OR instr(t.source_segment,char(5)) > 0 OR instr(t.source_segment,char(6)) > 0 OR instr(t.source_segment,char(7)) > 0 OR instr(t.source_segment,char(8)) > 0 OR  instr(t.source_segment,char(11)) > 0 OR  instr(t.source_segment,char(12)) > 0 OR instr(t.source_segment,char(14)) > 0 OR instr(t.source_segment,char(15)) > 0 OR instr(t.source_segment,char(16)) > 0 OR instr(t.source_segment,char(17)) > 0 OR instr(t.source_segment,char(18)) > 0 OR instr(t.source_segment,char(19)) > 0 OR instr(t.source_segment,char(20)) > 0 OR  instr(t.source_segment,char(21)) > 0 OR  instr(t.source_segment,char(22)) > 0 OR instr(t.source_segment,char(23)) > 0 OR instr(t.source_segment,char(24)) > 0 OR instr(t.source_segment,char(25)) > 0 OR instr(t.source_segment,char(26)) > 0 OR instr(t.source_segment,char(27)) > 0 OR instr(t.source_segment,char(28)) > 0 OR instr(t.source_segment,char(29)) > 0 OR instr(t.source_segment,char(30)) > 0 OR instr(t.source_segment,char(31)) > 0 OR  instr(t.target_segment,char(1)) > 0 OR  instr(t.target_segment,char(2)) > 0 OR instr(t.target_segment,char(3)) > 0 OR instr(t.target_segment,char(4)) > 0 OR instr(t.target_segment,char(5)) > 0 OR instr(t.target_segment,char(6)) > 0 OR instr(t.target_segment,char(7)) > 0 OR instr(t.target_segment,char(8)) > 0 OR  instr(t.target_segment,char(11)) > 0 OR  instr(t.target_segment,char(12)) > 0 OR instr(t.target_segment,char(14)) > 0 OR instr(t.target_segment,char(15)) > 0 OR instr(t.target_segment,char(16)) > 0 OR instr(t.target_segment,char(17)) > 0 OR instr(t.target_segment,char(18)) > 0 OR instr(t.target_segment,char(19)) > 0 OR instr(t.target_segment,char(20)) > 0 OR  instr(t.target_segment,char(21)) > 0 OR  instr(t.target_segment,char(22)) > 0 OR instr(t.target_segment,char(23)) > 0 OR instr(t.target_segment,char(24)) > 0 OR instr(t.target_segment,char(25)) > 0 OR instr(t.target_segment,char(26)) > 0 OR instr(t.target_segment,char(27)) > 0 OR instr(t.target_segment,char(28)) > 0 OR instr(t.target_segment,char(29)) > 0 OR instr(t.target_segment,char(30)) > 0 OR instr(t.target_segment,char(31)) > 0 ",
+                    "FieldValues": [
+                    ],
+                    "IndentLevel": 0,
+                    "IsAnd": true,
+                    "IsNegated": false,
+                    "IsUserEditableArg": false,
+                    "IsVisible": true,
+                    "MultiComparisson": 0,
+                    "MultiStringComparison": 0,
+                    "NumberComparison": 0,
+                    "StringComparison": 0
+                }
+            ],
+            "Name": "Has Invalid Characters",
+            "QuickSearch": "",
+            "QuickSearchSearchSourceAndTarget": true,
+            "QuickSearchTarget": ""
+        },
+        {
+            "AdvancedSql": "",
+            "FilterItems": [
+                {
+                    "CaseSensitive": false,
+                    "CustomFieldName": "",
+                    "CustomValues": [
+                    ],
+                    "FieldMetaType": 2,
+                    "FieldType": 13,
+                    "FieldValue": "instr(t.source_segment,'<Tag>') > 0 or instr(t.target_segment,'<Tag>') > 0",
+                    "FieldValues": [
+                    ],
+                    "IndentLevel": 0,
+                    "IsAnd": true,
+                    "IsNegated": false,
+                    "IsUserEditableArg": false,
+                    "IsVisible": true,
+                    "MultiComparisson": 0,
+                    "MultiStringComparison": 0,
+                    "NumberComparison": 0,
+                    "StringComparison": 0
+                }
+            ],
+            "Name": "Has Tags",
+            "QuickSearch": "",
+            "QuickSearchSearchSourceAndTarget": true,
+            "QuickSearchTarget": ""
+        },
+        {
+            "AdvancedSql": "",
+            "FilterItems": [
+                {
+                    "CaseSensitive": false,
+                    "CustomFieldName": "",
+                    "CustomValues": [
+                    ],
+                    "FieldMetaType": 0,
+                    "FieldType": 11,
+                    "FieldValue": "5",
+                    "FieldValues": [
+                    ],
+                    "IndentLevel": 0,
+                    "IsAnd": true,
+                    "IsNegated": false,
+                    "IsUserEditableArg": false,
+                    "IsVisible": true,
+                    "MultiComparisson": 0,
+                    "MultiStringComparison": 0,
+                    "NumberComparison": 0,
+                    "StringComparison": 0
+                },
+                {
+                    "CaseSensitive": false,
+                    "CustomFieldName": "",
+                    "CustomValues": [
+                    ],
+                    "FieldMetaType": 0,
+                    "FieldType": 12,
+                    "FieldValue": "5",
+                    "FieldValues": [
+                    ],
+                    "IndentLevel": 0,
+                    "IsAnd": true,
+                    "IsNegated": false,
+                    "IsUserEditableArg": false,
+                    "IsVisible": true,
+                    "MultiComparisson": 0,
+                    "MultiStringComparison": 0,
+                    "NumberComparison": 0,
+                    "StringComparison": 0
+                }
+            ],
+            "Name": "Number of Tags",
+            "QuickSearch": "",
+            "QuickSearchSearchSourceAndTarget": true,
+            "QuickSearchTarget": ""
+        },
+        {
+            "AdvancedSql": "",
+            "FilterItems": [
+                {
+                    "CaseSensitive": false,
+                    "CustomFieldName": "",
+                    "CustomValues": [
+                    ],
+                    "FieldMetaType": 0,
+                    "FieldType": 8,
+                    "FieldValue": "",
+                    "FieldValues": [
+                    ],
+                    "IndentLevel": 0,
+                    "IsAnd": true,
+                    "IsNegated": false,
+                    "IsUserEditableArg": false,
+                    "IsVisible": true,
+                    "MultiComparisson": 0,
+                    "MultiStringComparison": 0,
+                    "NumberComparison": 3,
+                    "StringComparison": 0
+                },
+                {
+                    "CaseSensitive": false,
+                    "CustomFieldName": "",
+                    "CustomValues": [
+                    ],
+                    "FieldMetaType": 0,
+                    "FieldType": 10,
+                    "FieldValue": "250",
+                    "FieldValues": [
+                    ],
+                    "IndentLevel": 0,
+                    "IsAnd": true,
+                    "IsNegated": false,
+                    "IsUserEditableArg": false,
+                    "IsVisible": true,
+                    "MultiComparisson": 0,
+                    "MultiStringComparison": 0,
+                    "NumberComparison": 3,
+                    "StringComparison": 0
+                }
+            ],
+            "Name": "Filter 9",
+            "QuickSearch": "",
+            "QuickSearchSearchSourceAndTarget": true,
+            "QuickSearchTarget": ""
+        }
+    ]
+}

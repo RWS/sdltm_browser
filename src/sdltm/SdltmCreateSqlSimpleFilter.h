@@ -11,6 +11,9 @@ public:
 	QString ToSqlFilter() const;
 
 private:
+	QString CustomExpression(const SdltmFilterItem& fi) const;
+
+private:
 	SdltmFilter _filter;
 	std::vector<CustomField> _customFields;
 };
