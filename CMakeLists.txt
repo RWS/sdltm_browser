@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 project(trados_sdltm
-    VERSION 1.0.11
+    VERSION 1.0.13
     DESCRIPTION "TM Fusion for Trados"
 )
 

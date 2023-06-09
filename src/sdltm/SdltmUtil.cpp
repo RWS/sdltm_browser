@@ -27,7 +27,8 @@ namespace
         item.NumberComparison = static_cast<NumberComparisonType>(json["NumberComparison"].toInt());
         item.StringComparison = static_cast<StringComparisonType>(json["StringComparison"].toInt());
         item.MultiStringComparison = static_cast<MultiStringComparisonType>(json["MultiStringComparison"].toInt());
-        item.MultiComparisson = static_cast<MultiComparisonType>(json["MultiComparisson"].toInt());
+        item.MultiComparison = static_cast<MultiComparisonType>(json["MultiComparison"].toInt());
+        item.ChecklistComparison = static_cast<ChecklistComparisonType>(json["ChecklistComparison"].toInt());
         item.FieldValue = json["FieldValue"].toString();
         item.FieldValues = JsonToStringArray(json["FieldValues"].toArray());
         item.IndentLevel = json["IndentLevel"].toInt();
@@ -71,7 +72,8 @@ namespace
         json["NumberComparison"] = static_cast<int>(item.NumberComparison);
         json["StringComparison"] = static_cast<int>(item.StringComparison);
         json["MultiStringComparison"] = static_cast<int>(item.MultiStringComparison);
-        json["MultiComparisson"] = static_cast<int>(item.MultiComparisson);
+        json["MultiComparison"] = static_cast<int>(item.MultiComparison);
+        json["ChecklistComparison"] = static_cast<int>(item.ChecklistComparison);
         json["FieldValue"] = item.FieldValue;
         json["FieldValues"] = StringArrayToJson(item.FieldValues) ;
         json["IndentLevel"] = item.IndentLevel;

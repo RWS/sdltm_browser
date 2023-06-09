@@ -58,8 +58,9 @@ std::vector<SdltmFilterItem> SdltmFilterItem::ToUserEditableFilterItems() const
 			arg.FieldType = SdltmFieldType::CustomField;
 			arg.NumberComparison = NumberComparisonType::Equal;
 			arg.StringComparison = StringComparisonType::Equal;
-			arg.MultiComparisson = MultiComparisonType::HasItem;
+			arg.MultiComparison = MultiComparisonType::HasItem;
 			arg.MultiStringComparison = MultiStringComparisonType::AnyEqual;
+			arg.ChecklistComparison = ChecklistComparisonType::HasAnyOf;
 
 			if (type == "n") // number (int)
 				arg.FieldMetaType = SdltmFieldMetaType::Int;
@@ -197,7 +198,11 @@ QString SdltmFilterItem::FriendlyString() const
 
 		// multi-comparison (has-item) -- several values
 	case SdltmFieldMetaType::CheckboxList: 
-		friendly += " Has Any Of ";
+		switch (ChecklistComparison) {
+			case ChecklistComparisonType::HasAnyOf: friendly += " Has Any Of "; break;
+			case ChecklistComparisonType::HasAllOf: friendly += " Has All Of "; break;
+		default: ;
+		}
 		break;
 	default: assert(false); break;
 	}

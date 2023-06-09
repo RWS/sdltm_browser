@@ -515,7 +515,7 @@ void EditSdltmFilter::UpdateOperationCombo()
 		break;
 		// multi-comparison (has-item) -- several values
 	case SdltmFieldMetaType::CheckboxList: 
-		operations = { "Has Any Of" };
+		operations = { "Has Any Of", "Has All Of" };
 		break;
 	default: ;
 	}
@@ -542,7 +542,7 @@ void EditSdltmFilter::UpdateOperationCombo()
 		break;
 	case ComparisonType::CheckList: 
 		// multi-comparison (has-item) -- several values
-		ui->operationCombo->setCurrentIndex(0);
+		ui->operationCombo->setCurrentIndex((int)item.ChecklistComparison);
 		break;
 	default: ;
 	}
@@ -739,7 +739,7 @@ void EditSdltmFilter::onOperationComboChanged(int idx)
 		// nothing to do, single value
 		break;
 	case ComparisonType::CheckList: 
-		// nothing to do, single value
+		_editFilterItem.ChecklistComparison = static_cast<ChecklistComparisonType>(idx);
 		break;
 	default: ;
 	}

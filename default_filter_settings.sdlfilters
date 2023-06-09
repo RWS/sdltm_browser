@@ -291,55 +291,6 @@
             "QuickSearch": "",
             "QuickSearchSearchSourceAndTarget": true,
             "QuickSearchTarget": ""
-        },
-        {
-            "AdvancedSql": "",
-            "FilterItems": [
-                {
-                    "CaseSensitive": false,
-                    "CustomFieldName": "",
-                    "CustomValues": [
-                    ],
-                    "FieldMetaType": 0,
-                    "FieldType": 8,
-                    "FieldValue": "",
-                    "FieldValues": [
-                    ],
-                    "IndentLevel": 0,
-                    "IsAnd": true,
-                    "IsNegated": false,
-                    "IsUserEditableArg": false,
-                    "IsVisible": true,
-                    "MultiComparisson": 0,
-                    "MultiStringComparison": 0,
-                    "NumberComparison": 3,
-                    "StringComparison": 0
-                },
-                {
-                    "CaseSensitive": false,
-                    "CustomFieldName": "",
-                    "CustomValues": [
-                    ],
-                    "FieldMetaType": 0,
-                    "FieldType": 10,
-                    "FieldValue": "250",
-                    "FieldValues": [
-                    ],
-                    "IndentLevel": 0,
-                    "IsAnd": true,
-                    "IsNegated": false,
-                    "IsUserEditableArg": false,
-                    "IsVisible": true,
-                    "MultiComparisson": 0,
-                    "MultiStringComparison": 0,
-                    "NumberComparison": 3,
-                    "StringComparison": 0
-                }
-            ],
-            "Name": "Filter 9",
-            "QuickSearch": "",
-            "QuickSearchSearchSourceAndTarget": true,
-            "QuickSearchTarget": ""
         }
     ]
 }

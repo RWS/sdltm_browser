@@ -9,6 +9,16 @@ struct CustomField
 	int ID = 0;
 	QString FieldName;
 	SdltmFieldMetaType FieldType = SdltmFieldMetaType::Text;
+
+	int StringValueToID(const QString & val) const
+	{
+		auto it = std::find(Values.begin(), Values.end(), val);
+		if (it != Values.end())
+			return ValueToID[ it - Values.begin()];
+		else
+			return -1;
+	}
+
 	// only when it's a list of strings 
 	std::vector<QString> Values;
 	// each picklist value has an ID

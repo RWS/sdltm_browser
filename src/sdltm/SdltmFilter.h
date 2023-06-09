@@ -66,6 +66,13 @@ enum class MultiComparisonType
 	HasItem,	
 };
 
+enum class ChecklistComparisonType
+{
+	HasAnyOf, HasAllOf,
+	// not implemented yet
+	// Equals,
+};
+
 
 
 // IMPORTANT:
@@ -101,7 +108,8 @@ struct SdltmFilterItem
 	NumberComparisonType NumberComparison = NumberComparisonType::Equal;
 	StringComparisonType StringComparison = StringComparisonType::Equal;
 	MultiStringComparisonType MultiStringComparison = MultiStringComparisonType::AnyEqual;
-	MultiComparisonType MultiComparisson = MultiComparisonType::HasItem;
+	MultiComparisonType MultiComparison = MultiComparisonType::HasItem;
+	ChecklistComparisonType ChecklistComparison = ChecklistComparisonType::HasAnyOf;
 
 	// for custom expressions, we can embed user-editable fields, in the format
 	// {FieldName,<type>}

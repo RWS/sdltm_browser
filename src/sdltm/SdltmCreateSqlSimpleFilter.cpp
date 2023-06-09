@@ -28,11 +28,34 @@ namespace
 		return false;
 	}
 
+	bool IsList(SdltmFieldMetaType metaType)
+	{
+		switch (metaType)
+		{
+		case SdltmFieldMetaType::List:
+		case SdltmFieldMetaType::CheckboxList: return true;
+
+		case SdltmFieldMetaType::Int:
+		case SdltmFieldMetaType::Double:
+		case SdltmFieldMetaType::Text:
+		case SdltmFieldMetaType::MultiText:
+		case SdltmFieldMetaType::Number:
+		case SdltmFieldMetaType::DateTime: return false;
+
+		default: assert(false); return false;
+		}
+	}
+
 	QString SqlFieldName(QString tableName, const SdltmFilterItem & fi, const CustomField & customField = CustomField())
 	{
 		QString fieldName;
 		if (customField.IsPresent())
-			fieldName = "value";
+		{
+			if (IsList(fi.FieldMetaType))
+				fieldName = "picklist_value_id";
+			else
+				fieldName = "value";
+		}
 		else 
 			switch (fi.FieldType)
 			{
@@ -183,23 +206,6 @@ namespace
 		}
 	}
 
-	bool IsList(SdltmFieldMetaType metaType)
-	{
-		switch (metaType)
-		{
-		case SdltmFieldMetaType::List:
-		case SdltmFieldMetaType::CheckboxList: return true;
-
-		case SdltmFieldMetaType::Int: 
-		case SdltmFieldMetaType::Double: 
-		case SdltmFieldMetaType::Text: 
-		case SdltmFieldMetaType::MultiText: 
-		case SdltmFieldMetaType::Number: 
-		case SdltmFieldMetaType::DateTime: return false;
-
-		default: assert(false); return false;
-		}
-	}
 
 	void AppendSql(QString & sql, const QString & subQuery, bool isAnd, bool prependEnter = false)
 	{
@@ -221,9 +227,6 @@ namespace
 					const QString & tableName, 
 					const CustomField & customField = CustomField(), const QString& customFieldSqlFieldName = "")
 	{
-		if (IsList(fi.FieldMetaType))
-			return ""; // ignore list fields for now
-
 		// custom field: present only if ID > 0
 		assert(fi.FieldType != SdltmFieldType::CustomSqlExpression);
 
@@ -231,11 +234,48 @@ namespace
 			// user hasn't filled the number
 			return  "";
 
-		auto subQuery = SqlFieldName(tableName, fi, customField) + " " + SqlCompare(fi) + " ";
-		if (fi.IsNegated)
-			subQuery = "NOT (" + subQuery + ")";
+		if (!IsList(fi.FieldMetaType))
+		{
+			auto subQuery = SqlFieldName(tableName, fi, customField) + " " + SqlCompare(fi) + " ";
+			if (fi.IsNegated)
+				subQuery = "NOT (" + subQuery + ")";
 
-		return subQuery;
+			return subQuery;
+		} else
+		{
+			// list or checklist
+			auto fieldName = SqlFieldName(tableName, fi, customField);
+			auto isList = fi.FieldMetaType == SdltmFieldMetaType::List;
+			QString subQuery;
+			if (isList)
+			{
+				// list
+				auto id = customField.StringValueToID(fi.FieldValue);
+				if (id < 0)
+					// field not found in our database
+					return "";
+				subQuery = fieldName + " = " + QString::number(id) ;
+			} else
+			{
+				// checklist
+				for(const auto & value : fi.FieldValues)
+				{
+					auto id = customField.StringValueToID(value);
+					if (id < 0)
+						// field not found in our database
+						continue;
+					if (subQuery != "")
+						subQuery += " OR ";
+					subQuery += fieldName + " = " + QString::number(id);
+				}
+			}
+
+			if (fi.IsNegated)
+				subQuery = "NOT (" + subQuery + ")";
+
+			return subQuery;
+		}
+
 	}
 
 	struct CustomFieldQuery
@@ -243,6 +283,15 @@ namespace
 		// this is always ANDed with the rest
 		QString QueryPrefix;
 		SqlFilterBuilder Query;
+
+		QString QueryString() const
+		{
+			if (QueryPrefix == "")
+				return Query.Get();
+			auto fieldSql = QueryPrefix;
+			fieldSql += " AND (" + Query.Get() + ")";
+			return fieldSql;
+		}
 	};
 
 	CustomField FindCustomField(const QString & fieldName, const std::vector<CustomField> & allCustomFields)
@@ -259,10 +308,26 @@ namespace
 		if (filterItems.empty())
 			return "";// no such fields
 
+		// IMPORTANT:
+		// dealing with checkbox list is quite far from trivial. At this time, I assume the user is looking for a single such field. If you'll create
+		// a query for several checkboxlist fields, things might not work as expected. Especially for "Has all of" query.
+		//
+		// the reason for the extra complication is to check for "Has all of", i will count the number of "|" inside the SELECT group_concat,
+		// so for instance, for 1|3|5, I know there are 3 values (because there are 2 separators)
+		//
+		// To check for "Has all of", I will count the number of separator and make sure they are 3. If you have several such fields,
+		// we can end up with more than 3 values, and thus valid values won't be shown in the results
+
 		QString distinctTableName = joinTableName + "_d";
+		auto isCheckboxList = filterItems[0].FieldMetaType == SdltmFieldMetaType::CheckboxList;
+		if (isCheckboxList)
+			// i want 2 distinct clauses for List and CheckboxList
+			distinctTableName += "2";
+
 		QString separator = "|";
+		QString valueFieldName = IsList(filterItems[0].FieldMetaType) ? "picklist_value_id" : "value";
 		QString sql = "\r\n    , (SELECT group_concat(" + distinctTableName + ", '" + separator + "') FROM (\r\n"
-			+ "       SELECT DISTINCT " + joinTableName + ".translation_unit_id, " +joinTableName + ".value as "
+			+ "       SELECT DISTINCT " + joinTableName + ".translation_unit_id, " +joinTableName + "." + valueFieldName + " as "
 			+ distinctTableName + " FROM " + joinTableName + "\r\n         WHERE t.id = " + joinTableName+ ".translation_unit_id";
 		// find field value -> custom field
 		std::map<QString, CustomFieldQuery> customFields;
@@ -277,7 +342,7 @@ namespace
 				continue;
 
 			auto& subField = customFields[fi.CustomFieldName];
-			auto queryPrefix = joinTableName + "." + joinFieldName + " = " + QString::number(customField.ID) ;
+			auto queryPrefix = IsList(fi.FieldMetaType) ? "" : joinTableName + "." + joinFieldName + " = " + QString::number(customField.ID);
 			subField.QueryPrefix = queryPrefix;
 
 			if (fi.IsAnd)
@@ -300,20 +365,24 @@ namespace
 		auto prependEnter = true;
 		for (const auto & cf : customFields)
 		{
-			auto fieldSql = cf.second.QueryPrefix;
-			fieldSql += " AND (" + cf.second.Query.Get() + ")";
-			AppendSql(subQuery, fieldSql, isAnd, prependEnter);
+			AppendSql(subQuery, cf.second.QueryString(), isAnd, prependEnter);
 		}
 
 		auto distinctFieldName = "distinct_" + joinTableName;
+		if (isCheckboxList)
+			// i want 2 distinct clauses for List and CheckboxList
+			distinctFieldName += "2";
 		sql += " AND (" + subQuery + ")\r\n       ) AS " + distinctFieldName + ") AS " + distinctFieldName + " ";
 
 		auto fieldCount = customFields.size();
 		auto globalSql = distinctFieldName + " is not NULL";
-		if (fieldCount > 1 && isAnd)
+		auto isCheckboxListAll = isCheckboxList && filterItems[0].ChecklistComparison == ChecklistComparisonType::HasAllOf;
+		if (isCheckboxListAll)
+			fieldCount = filterItems[0].FieldValues.size();
+		if ((fieldCount > 1 && isAnd) || isCheckboxListAll)
 		{
 			// count number of separators
-			auto lenOfSeparators = "len(" + distinctFieldName + ") - len(replace(" + distinctFieldName + ",'" + separator + "','')) = " + QString::number(fieldCount);
+			auto lenOfSeparators = "length(" + distinctFieldName + ") - length(replace(" + distinctFieldName + ",'" + separator + "','')) = " + QString::number(fieldCount - 1);
 			globalSql += " AND (" + lenOfSeparators + ")";
 		}
 		AppendSql(globalWhere, globalSql, globalIsAnd, prependEnter);
@@ -362,6 +431,13 @@ QString SdltmCreateSqlSimpleFilter::ToSqlFilter() const
 	sql += FieldValueQuery(
 				FilterCustomFields(_filter.FilterItems, SdltmFieldMetaType::DateTime),
 				"date_attributes", "attribute_id", _customFields, where, customFieldsIsAnd);
+
+	sql += FieldValueQuery(
+		FilterCustomFields(_filter.FilterItems, SdltmFieldMetaType::List),
+		"picklist_attributes", "picklist_value_id", _customFields, where, customFieldsIsAnd);
+	sql += FieldValueQuery(
+		FilterCustomFields(_filter.FilterItems, SdltmFieldMetaType::CheckboxList),
+		"picklist_attributes", "picklist_value_id", _customFields, where, customFieldsIsAnd);
 	// FIXME lists/picklists/ multi-text ?
 
 	auto filterItems = _filter.FilterItems;
