@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.15)
+
+set(CMAKE_FIND_NO_INSTALL_PREFIX True)
 project(trados_sdltm
-    VERSION 1.0.13
+    VERSION 1.0.20
     DESCRIPTION "TM Fusion for Trados"
 )
 
@@ -643,10 +645,23 @@ if(APPLE)
     set(CPACK_DEFAULT_GEN TBZ2)
 elseif(WIN32)
     set(CPACK_DEFAULT_GEN NSIS)
-    set(CPACK_PACKAGE_VENDOR "RWS")
-    set(CPACK_NSIS_MODIFY_PATH ON)
-    set(CPACK_WIX_CMAKE_PACKAGE_REGISTRY ON)
-    set(CPACK_WIX_UPGRADE_GUID "78c885a7-e9c8-4ded-9b62-9abe47466950")
+    set(CPACK_PACKAGE_VENDOR "Trados AppStore Team")
+    # set(CPACK_NSIS_MODIFY_PATH ON)
+    # set(CPACK_WIX_CMAKE_PACKAGE_REGISTRY ON)
+    # set(CPACK_WIX_UPGRADE_GUID "78c885a7-e9c8-4ded-9b63-9abe47466950")
+
+    set(CPACK_NSIS_PACKAGE_NAME "TM Fusion for Trados")
+    set(CPACK_NSIS_DISPLAY_NAME "TM Fusion for Trados")
+    set(CMAKE_INSTALL_PREFIX "TM Fusion for Trados")
+    set(CPACK_PACKAGE_INSTALL_DIRECTORY, "TM Fusion for Trados")
+    set(CPACK_PACKAGING_INSTALL_PREFIX, "TM Fusion for Trados")
+
+    set(CPACK_PACKAGE_NAME "TM Fusion for")
+    set(CPACK_PACKAGE_VERSION "Trados b")
+
+    set(CPACK_NSIS_MUI_ICON "${CMAKE_SOURCE_DIR}/src/iconwin.ico")
+    set(CPACK_NSIS_MUI_UNIICON "${CMAKE_SOURCE_DIR}/src/iconwin.ico")
+
 elseif(UNIX)
     set(CPACK_DEFAULT_GEN DEB)
     set(CPACK_SET_DESTDIR 1)

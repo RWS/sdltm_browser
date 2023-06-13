@@ -56,3 +56,5 @@ trados_sdltm-*.exe
 
 install_manifest.txt
 CMakeCache.txt
+
+*.exe
