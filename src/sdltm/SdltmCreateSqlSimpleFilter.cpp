@@ -300,8 +300,10 @@ namespace
 		return found != allCustomFields.end() ? *found : CustomField();
 	}
 
+	// distinct suffix -- we want distinct queries, for instance, for Text and Multi-text, or List and checklist
 	QString FieldValueQuery(const std::vector<SdltmFilterItem> & filterItems, const QString & joinTableName, 
-							const QString & joinFieldName, 
+							const QString & joinFieldName,
+							const QString& distinctSuffix,
 							const std::vector<CustomField> & allCustomFields, 
 							QString & globalWhere, bool globalIsAnd)
 	{
@@ -318,11 +320,8 @@ namespace
 		// To check for "Has all of", I will count the number of separator and make sure they are 3. If you have several such fields,
 		// we can end up with more than 3 values, and thus valid values won't be shown in the results
 
-		QString distinctTableName = joinTableName + "_d";
+		QString distinctTableName = joinTableName + "_d" + distinctSuffix;
 		auto isCheckboxList = filterItems[0].FieldMetaType == SdltmFieldMetaType::CheckboxList;
-		if (isCheckboxList)
-			// i want 2 distinct clauses for List and CheckboxList
-			distinctTableName += "2";
 
 		QString separator = "|";
 		QString valueFieldName = IsList(filterItems[0].FieldMetaType) ? "picklist_value_id" : "value";
@@ -368,10 +367,7 @@ namespace
 			AppendSql(subQuery, cf.second.QueryString(), isAnd, prependEnter);
 		}
 
-		auto distinctFieldName = "distinct_" + joinTableName;
-		if (isCheckboxList)
-			// i want 2 distinct clauses for List and CheckboxList
-			distinctFieldName += "2";
+		auto distinctFieldName = "distinct_" + joinTableName + distinctSuffix;
 		sql += " AND (" + subQuery + ")\r\n       ) AS " + distinctFieldName + ") AS " + distinctFieldName + " ";
 
 		auto fieldCount = customFields.size();
@@ -421,24 +417,23 @@ QString SdltmCreateSqlSimpleFilter::ToSqlFilter() const
 	QString where;
 	sql += FieldValueQuery(
 				FilterCustomFields(_filter.FilterItems, SdltmFieldMetaType::Number), 
-				"numeric_attributes", "attribute_id", _customFields, where, customFieldsIsAnd);
+				"numeric_attributes", "attribute_id", "", _customFields, where, customFieldsIsAnd);
 	sql += FieldValueQuery(
 				FilterCustomFields(_filter.FilterItems, SdltmFieldMetaType::Text),
-				"string_attributes", "attribute_id", _customFields, where, customFieldsIsAnd);
+				"string_attributes", "attribute_id", "", _customFields, where, customFieldsIsAnd);
 	sql += FieldValueQuery(
 				FilterCustomFields(_filter.FilterItems, SdltmFieldMetaType::MultiText),
-				"string_attributes", "attribute_id", _customFields, where, customFieldsIsAnd);
+				"string_attributes", "attribute_id", "_mt", _customFields, where, customFieldsIsAnd);
 	sql += FieldValueQuery(
 				FilterCustomFields(_filter.FilterItems, SdltmFieldMetaType::DateTime),
-				"date_attributes", "attribute_id", _customFields, where, customFieldsIsAnd);
+				"date_attributes", "attribute_id", "", _customFields, where, customFieldsIsAnd);
 
 	sql += FieldValueQuery(
 		FilterCustomFields(_filter.FilterItems, SdltmFieldMetaType::List),
-		"picklist_attributes", "picklist_value_id", _customFields, where, customFieldsIsAnd);
+		"picklist_attributes", "picklist_value_id", "", _customFields, where, customFieldsIsAnd);
 	sql += FieldValueQuery(
 		FilterCustomFields(_filter.FilterItems, SdltmFieldMetaType::CheckboxList),
-		"picklist_attributes", "picklist_value_id", _customFields, where, customFieldsIsAnd);
-	// FIXME lists/picklists/ multi-text ?
+		"picklist_attributes", "picklist_value_id", "_pa", _customFields, where, customFieldsIsAnd);
 
 	auto filterItems = _filter.FilterItems;
 	// quick source/target - if present

@@ -101,8 +101,6 @@ namespace
 EditSdltmFilter::EditSdltmFilter(QWidget* parent ) 
 	: QWidget(parent) 
     , ui(new Ui::EditSdltmFilter)
-	, _ignoreUpdate(0)
-	, _editRowIndex(-1)
 {
 	++_ignoreUpdate;
     ui->setupUi(this);
@@ -316,6 +314,7 @@ void EditSdltmFilter::Close()
 	if (_editRowIndex >= 0)
 		onFilterSave();
 }
+
 
 void EditSdltmFilter::UpdateQuickSearchVisibility()
 {
@@ -791,8 +790,10 @@ void EditSdltmFilter::onFilterSave()
 
 	auto isAndChanged = _editableFilterItems[idx].IsAnd != _editFilterItem.IsAnd;
 	_editableFilterItems[idx] = _editFilterItem;
-	FilterItemToRow(_editableFilterItems[idx],
-		static_cast<QStandardItemModel*>(ui->simpleFilterTable->model()), idx, idx == _editableFilterItems.size() - 1);
+	FilterItemToRow(_editableFilterItems[idx], static_cast<QStandardItemModel*>(ui->simpleFilterTable->model()), idx, idx == _editableFilterItems.size() - 1);
+	if (idx == _editableFilterItems.size() - 1 && idx > 0 && _isNew)
+		// the idea - we have a new item appended at the end - thus, we now need to show the AND/OR of the former end (which was empty)
+		FilterItemToRow(_editableFilterItems[idx - 1], static_cast<QStandardItemModel*>(ui->simpleFilterTable->model()), idx - 1, false);
 
 	if (isAndChanged)
 	{
@@ -822,6 +823,7 @@ void EditSdltmFilter::onFilterSave()
 	ui->disabledBg->hide();
 	ui->editCondition->hide();
 	_editRowIndex = -1;
+	_isNew = false;
 }
 
 void EditSdltmFilter::onFilterCancel()
@@ -836,8 +838,12 @@ void EditSdltmFilter::onFilterCancel()
 	ui->disabledBg->hide();
 	ui->editCondition->hide();
 
-	//FIXME add/insert -> remove the item altogether
+	if (_isNew) {
+		onDelItem();
+	}
+
 	_editRowIndex = -1;
+	_isNew = false;
 }
 
 void EditSdltmFilter::onQuickSourceTextChanged()
@@ -926,19 +932,22 @@ void EditSdltmFilter::onFilterComboCheckboxChanged()
 	SaveFilter();
 }
 
-namespace
-{
-	SdltmFilterItem NewItem()
+
+SdltmFilterItem EditSdltmFilter::NewItem(int basedOnItemIdx) {
+	SdltmFilterItem newItem(SdltmFieldType::LastModifiedOn);
+	if (basedOnItemIdx >= 0)
 	{
-		SdltmFilterItem newItem(SdltmFieldType::LastModifiedOn);
-		return newItem;
+		newItem.IndentLevel = _editableFilterItems[basedOnItemIdx].IndentLevel;
+		newItem.IsAnd = _editableFilterItems[basedOnItemIdx].IsAnd;
 	}
+	return newItem;
 }
+
 
 void EditSdltmFilter::onAddItem()
 {
 	ui->editCondition->hide();
-	SdltmFilterItem newItem = NewItem();
+	SdltmFilterItem newItem = NewItem( _editableFilterItems.size() - 1);
 	_editableFilterItems.push_back(newItem);
 
 	auto model = (QStandardItemModel*)ui->simpleFilterTable->model();
@@ -947,19 +956,25 @@ void EditSdltmFilter::onAddItem()
 	ui->simpleFilterTable->scrollTo(model->item(_editableFilterItems.size() - 1)->index());
 
 	_editRowIndex = _editableFilterItems.size() - 1;
+	_isNew = true;
 	EditRow(_editRowIndex);
 }
 
 void EditSdltmFilter::onInsertItem()
 {
 	ui->editCondition->hide();
-	SdltmFilterItem newItem = NewItem();
-	auto editIdx = _editRowIndex >= 0 ? _editRowIndex : 0;
-	if (_editRowIndex >= 0)
-	{
-		newItem.IndentLevel = _editableFilterItems[_editRowIndex].IndentLevel;
-		newItem.IsAnd = _editableFilterItems[_editRowIndex].IsAnd;
+	auto editIdx = _editRowIndex;
+	if (editIdx < 0)
+		editIdx = ui->simpleFilterTable->currentIndex().row();
+	if (editIdx < 0 && _editableFilterItems.size() > 0)
+		editIdx = 0;
+
+	if (editIdx < 0) {
+		onAddItem();
+		return;
 	}
+
+	SdltmFilterItem newItem = NewItem(editIdx);
 	_editableFilterItems.insert(_editableFilterItems.begin() + editIdx, newItem);
 
 	auto model = (QStandardItemModel*)ui->simpleFilterTable->model();
@@ -969,6 +984,7 @@ void EditSdltmFilter::onInsertItem()
 	FilterItemToRow(newItem, model, editIdx, true);
 
 	_editRowIndex = editIdx;
+	_isNew = true;
 	EditRow(_editRowIndex);
 }
 

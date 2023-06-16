@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 
 set(CMAKE_FIND_NO_INSTALL_PREFIX True)
 project(trados_sdltm
-    VERSION 1.0.20
+    VERSION 1.0.23
     DESCRIPTION "TM Fusion for Trados"
 )
 
@@ -657,7 +657,7 @@ elseif(WIN32)
     set(CPACK_PACKAGING_INSTALL_PREFIX, "TM Fusion for Trados")
 
     set(CPACK_PACKAGE_NAME "TM Fusion for")
-    set(CPACK_PACKAGE_VERSION "Trados b")
+    set(CPACK_PACKAGE_VERSION "Trados")
 
     set(CPACK_NSIS_MUI_ICON "${CMAKE_SOURCE_DIR}/src/iconwin.ico")
     set(CPACK_NSIS_MUI_UNIICON "${CMAKE_SOURCE_DIR}/src/iconwin.ico")

@@ -30,6 +30,8 @@ public:
     void SetCustomFields(const std::vector<CustomField> customFields);
     void Close();
 private:
+    SdltmFilterItem NewItem(int basedOnItemIdx);
+
     void UpdateCustomExpressionUserEditableArgs();
     void SaveFilter();
     void EditRow(int idx);
@@ -81,7 +83,7 @@ private slots:
     void onApplyFilterTimer();
 
 private:
-    int _ignoreUpdate;
+    int _ignoreUpdate = 0;
 
     QDateTime _lastAdvancedTextChange;
     QString _lastFilterString;
@@ -101,7 +103,11 @@ private:
     std::vector<SdltmFilterItem> _userEditableArgsItems;
     std::vector<SdltmFilterItem> _editableFilterItems;
 
-    int _editRowIndex;
+    int _editRowIndex = -1;
+
+    // if true, it's an INS or ADD
+    bool _isNew = false;
+
     SdltmFilterItem _originalEditFilterItem;
     SdltmFilterItem _editFilterItem;
 

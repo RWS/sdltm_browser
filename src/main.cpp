@@ -6,6 +6,8 @@
 #include <QMessageBox>
 #include <qsslsocket.h>
 
+#include "SqlFilterBuilder.h"
+
 static QString message = QString();
 
 void db4sMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
