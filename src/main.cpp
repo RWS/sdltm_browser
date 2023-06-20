@@ -66,6 +66,8 @@ int main( int argc, char ** argv )
     if(!a.showMainWindow())
         return 0;
 
+    //TestSqlFilterBuilder();
+
     qInstallMessageHandler(db4sMessageOutput);
 
     // Run application

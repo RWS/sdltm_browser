@@ -115,6 +115,27 @@ MainWindow::MainWindow(QWidget* parent)
     };
     ui->filtersList->SetFilters(_filters);
 
+    connect(ui->batchEdit, SIGNAL(clicked(bool)), this, SLOT(OnBatchEdit()));
+    connect(ui->batchDelete, SIGNAL(clicked(bool)), this, SLOT(OnBatchDelete()));
+
+    ui->batchEditCtrl->Back = [this]()
+    {
+        ui->filtersStack->setCurrentIndex(0);
+    };
+
+    ui->batchEditCtrl->FindAndReplace = [this](const FindAndReplaceInfo&info)
+    {
+        ui->editSdltmFilter->ForceSaveNow();
+        int replaceCount = 0;
+        int errorCode = 0;
+        QString errrorMsg;
+        if (TryFindAndReplace(ui->filtersList->GetEditFilter(), _customFieldService.GetFields(), info, db, replaceCount, errorCode, errrorMsg)) {
+            QMessageBox::information(this, qApp->applicationName(), "Success! We've updated " + QString::number(replaceCount) + " records.");
+        } else
+            QMessageBox::warning(this, qApp->applicationName(), tr("Could not run Find and Replace.\nReason: %1").arg(db.lastError()));
+        // the idea: we now what to see the results (in the filter we already have)
+        ui->editSdltmFilter->ReapplyFilter();
+    };
 }
 
 MainWindow::~MainWindow()
@@ -122,6 +143,13 @@ MainWindow::~MainWindow()
     delete dbSelected;
     delete dockDbSelected;
     delete ui;
+}
+
+void MainWindow::OnBatchEdit() {
+    ui->filtersStack->setCurrentIndex(1);
+}
+
+void MainWindow::OnBatchDelete() {
 }
 
 void MainWindow::init()
@@ -4027,6 +4055,7 @@ void MainWindow::changeTableBrowserTab(TableBrowserDock* dock)
             plotDock->updatePlot(m_currentTabTableModel, &dock->tableBrowser()->settings(current_table_name), true, false);
     }
 }
+
 
 QList<TableBrowserDock*> MainWindow::allTableBrowserDocks() const
 {

@@ -96,16 +96,23 @@ std::vector<SqlFilterBuilder::Item> SqlFilterBuilder::ProcessIndentLevel(const s
 // test the SqlFilterBuilder class
 void TestSqlFilterBuilder() {
 	SqlFilterBuilder sql;
-	sql.AddAnd("a == 1", 1);
-	sql.AddAnd("b > 2", 2);
-	sql.AddAnd("b < 5", 2);
-	sql.AddOr("c >= 10", 3);
-	sql.AddOr("c <= 20", 3);
-	sql.AddOr("c == 200", 3);
-	sql.AddAnd("d == 1", 1);
-	sql.AddOr("e < 100", 2);
-	sql.AddOr("e > 10", 2);
-	assert(sql.Get() == "(a == 1) AND (((b > 2) AND (b < 5) AND (((c >= 10) OR (c <= 20) OR (c == 200))))) AND (d == 1) AND ((e < 100) OR (e > 10))");
+	sql.AddAnd("a == 1", 5);
+	sql.AddAnd("1=1", 0);
+	sql.AddOr("b=1", 1);
+	sql.AddOr("b=2", 1);
+	auto result = sql.Get();
+
+	SqlFilterBuilder sql1;
+	sql1.AddAnd("a == 1", 1);
+	sql1.AddAnd("b > 2", 2);
+	sql1.AddAnd("b < 5", 2);
+	sql1.AddOr("c >= 10", 3);
+	sql1.AddOr("c <= 20", 3);
+	sql1.AddOr("c == 200", 3);
+	sql1.AddAnd("d == 1", 1);
+	sql1.AddOr("e < 100", 2);
+	sql1.AddOr("e > 10", 2);
+	assert(sql1.Get() == "(a == 1) AND (((b > 2) AND (b < 5) AND (((c >= 10) OR (c <= 20) OR (c == 200))))) AND (d == 1) AND ((e < 100) OR (e > 10))");
 
 	SqlFilterBuilder sql2;
 	sql2.AddOr("a == 10", 2);

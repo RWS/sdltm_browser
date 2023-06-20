@@ -19,6 +19,7 @@ Q_OBJECT
 
 public:
 	explicit SdltmSqlView(QWidget* parent = nullptr);
+	~SdltmSqlView() override;
 
 	void SetDb(DBBrowserDB& db);
 	void SetSql(const QString& sql);

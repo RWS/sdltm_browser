@@ -210,6 +210,7 @@ target_sources(${PROJECT_NAME}
     src/sdltm/ui/EditSdltmFilter.h
     src/sdltm/ui/SdltmSqlView.h
     src/sdltm/ui/SdltmFiltersList.h
+    src/sdltm/ui/BatchEdit.h
     src/sdltm/SdltmCreateSqlSimpleFilter.h
     src/sdltm/CustomFieldService.h
     src/sdltm/DbFieldValueService.h
@@ -284,6 +285,7 @@ target_sources(${PROJECT_NAME}
     src/sdltm/ui/EditSdltmFilter.cpp
     src/sdltm/ui/SdltmSqlView.cpp
     src/sdltm/ui/SdltmFiltersList.cpp
+    src/sdltm/ui/BatchEdit.cpp
     src/sdltm/SdltmCreateSqlSimpleFilter.cpp
     src/sdltm/CustomFieldService.cpp
     src/sdltm/DbFieldValueService.cpp
@@ -319,6 +321,7 @@ set(SQLB_FORMS
     src/sdltm/ui/EditSdltmFilter.ui
     src/sdltm/ui/SdltmSqlView.ui
     src/sdltm/ui/SdltmFiltersList.ui
+    src/sdltm/ui/BatchEdit.ui
 )
 
 set(SQLB_RESOURCES

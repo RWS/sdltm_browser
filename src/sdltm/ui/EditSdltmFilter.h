@@ -29,6 +29,9 @@ public:
     void SetEditFilter(const SdltmFilter& filter);
     void SetCustomFields(const std::vector<CustomField> customFields);
     void Close();
+
+    void ForceSaveNow();
+    void ReapplyFilter();
 private:
     SdltmFilterItem NewItem(int basedOnItemIdx);
 

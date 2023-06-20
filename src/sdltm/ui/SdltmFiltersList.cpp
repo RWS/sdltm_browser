@@ -25,6 +25,10 @@ SdltmFiltersList::SdltmFiltersList(QWidget* parent)
 	_saveTimer->start(2000);
 }
 
+SdltmFiltersList::~SdltmFiltersList() {
+	delete ui;
+}
+
 void SdltmFiltersList::SetFilters(const std::vector<SdltmFilter>& filters)
 {
 	_filters = filters;

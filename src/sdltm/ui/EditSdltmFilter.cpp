@@ -122,13 +122,13 @@ EditSdltmFilter::EditSdltmFilter(QWidget* parent )
 	connect(ui->editFilterSave, SIGNAL(clicked(bool)), this, SLOT(onFilterSave()));
 	connect(ui->editFilterCancel, SIGNAL(clicked(bool)), this, SLOT(onFilterCancel()));
 
-	connect(ui->quickSearchSource, SIGNAL(textChanged()), this, SLOT(onQuickSourceTextChanged()));
-	connect(ui->quickSearchTarget, SIGNAL(textChanged()), this, SLOT(onQuickTargetTextChanged()));
+	connect(ui->quickSearchSource, SIGNAL(textChanged(const QString&)), this, SLOT(onQuickSourceTextChanged()));
+	connect(ui->quickSearchTarget, SIGNAL(textChanged(const QString&)), this, SLOT(onQuickTargetTextChanged()));
 
 	connect(ui->quickSearchSourceAndTarget, SIGNAL(stateChanged(int)), this, SLOT(onQuickSourceAndTargetChanged()));
 	connect(ui->quickSearchCaseSensitive, SIGNAL(stateChanged(int)), this, SLOT(onQuickCaseSensitiveChanged()));
 
-	connect(ui->textValue, SIGNAL(textChanged()), this, SLOT(onFilterTextChanged()));
+	connect(ui->textValue, SIGNAL(textChanged(const QString&)), this, SLOT(onFilterTextChanged()));
 	connect(ui->dateValue, SIGNAL(dateTimeChanged(const QDateTime&)), this, SLOT(onFilterDateTimeChanged()));
 	connect(ui->comboValue, SIGNAL(currentIndexChanged(int)), this, SLOT(onFilterComboChanged()));
 	connect(ui->comboCheckboxesValue, SIGNAL(dataChanged()), this, SLOT(onFilterComboCheckboxChanged()));
@@ -315,13 +315,21 @@ void EditSdltmFilter::Close()
 		onFilterSave();
 }
 
+void EditSdltmFilter::ForceSaveNow() {
+	if (ui->tabWidget->currentIndex() == 1)
+		onSaveAdvancedFilterTimer();
+	else if (_editRowIndex >= 0)
+		onFilterSave();
+}
+
+
 
 void EditSdltmFilter::UpdateQuickSearchVisibility()
 {
 	++_ignoreUpdate;
 	ui->quickSearchSourceTextLabel->setText(_filter.QuickSearchSearchSourceAndTarget ? "Text" : "Source Text");
-	ui->quickSearchSource->setPlainText(_filter.QuickSearch);
-	ui->quickSearchTarget->setPlainText(_filter.QuickSearchTarget);
+	ui->quickSearchSource->setText(_filter.QuickSearch);
+	ui->quickSearchTarget->setText(_filter.QuickSearchTarget);
 	ui->quickSearchTarget->setVisible(!_filter.QuickSearchSearchSourceAndTarget);
 	ui->quickSearchTargetLabel->setVisible(!_filter.QuickSearchSearchSourceAndTarget);
 	--_ignoreUpdate;
@@ -351,7 +359,7 @@ void EditSdltmFilter::EditRow(int idx)
 	ui->indentSpin->setValue(item.IndentLevel);
 	ui->notBox->setChecked(item.IsNegated);
 	ui->andorCombo->setCurrentIndex(item.IsAnd ? 0 : 1);
-	ui->textValue->setPlainText(item.FieldValue);
+	ui->textValue->setText(item.FieldValue);
 	// for custom fields -> no case sensitivity
 	ui->caseSensitive->setVisible(item.CustomFieldName == "" && (item.FieldMetaType == SdltmFieldMetaType::Text || item.FieldMetaType == SdltmFieldMetaType::MultiText) );
 	ui->caseSensitive->setChecked(item.CaseSensitive);
@@ -633,7 +641,7 @@ void EditSdltmFilter::UpdateValue()
 	}
 
 	if (isNumber || isString)
-		ui->textValue->setPlainText(_editFilterItem.FieldValue);
+		ui->textValue->setText(_editFilterItem.FieldValue);
 	else if (isDatetime)
 	{
 		QDateTime dt = QDateTime::fromString(_editFilterItem.FieldValue, Qt::ISODate);
@@ -851,7 +859,7 @@ void EditSdltmFilter::onQuickSourceTextChanged()
 	if (_ignoreUpdate > 0)
 		return;
 
-	_filter.QuickSearch = ui->quickSearchSource->toPlainText();
+	_filter.QuickSearch = ui->quickSearchSource->text();
 	SaveFilter();
 }
 
@@ -860,7 +868,7 @@ void EditSdltmFilter::onQuickTargetTextChanged()
 	if (_ignoreUpdate > 0)
 		return;
 
-	_filter.QuickSearchTarget = ui->quickSearchTarget->toPlainText();
+	_filter.QuickSearchTarget = ui->quickSearchTarget->text();
 	SaveFilter();
 }
 
@@ -888,7 +896,7 @@ void EditSdltmFilter::onFilterTextChanged()
 	if (_ignoreUpdate > 0)
 		return;
 
-	_editFilterItem.FieldValue = ui->textValue->toPlainText();
+	_editFilterItem.FieldValue = ui->textValue->text();
 	SaveFilter();
 }
 
@@ -1103,15 +1111,16 @@ void EditSdltmFilter::onSaveAdvancedFilterTimer()
 void EditSdltmFilter::onApplyFilterTimer()
 {
 	if (CanApplyCurrentFilter() )
-	{
-		auto filterText = FilterString();
-		_lastFilterString = filterText;
-		_lastFilterChange = QDateTime::currentDateTime();
-		if (OnApply)
-			OnApply(filterText);
-	}
+		ReapplyFilter();
 }
 
+void EditSdltmFilter::ReapplyFilter() {
+	auto filterText = FilterString();
+	_lastFilterString = filterText;
+	_lastFilterChange = QDateTime::currentDateTime();
+	if (OnApply)
+		OnApply(filterText);
+}
 
 
 void EditSdltmFilter::EnableSimpleTab(bool enable)

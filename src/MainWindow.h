@@ -251,6 +251,9 @@ private slots:
     TableBrowserDock* newTableBrowserTab(const sqlb::ObjectIdentifier& tableToBrowse = {}, bool forceHideTitleBar = false);
     void tableBrowserTabClosed();
     void changeTableBrowserTab(TableBrowserDock* dock);
+
+    void OnBatchEdit();
+    void OnBatchDelete();
 };
 
 #endif

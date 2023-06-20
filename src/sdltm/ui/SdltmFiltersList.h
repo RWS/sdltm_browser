@@ -14,6 +14,7 @@ class SdltmFiltersList : public QWidget
 	Q_OBJECT
 public:
 	explicit SdltmFiltersList(QWidget* parent = nullptr);
+	~SdltmFiltersList();
 
 	std::function<void(const std::vector<SdltmFilter>&)> Save;
 	std::function<void(const SdltmFilter&)> Edit;
@@ -22,6 +23,12 @@ public:
 	void SaveEdit(const SdltmFilter& filter);
 
 	void Close();
+
+	SdltmFilter GetEditFilter() const {
+		if (_editIdx >= 0 && _editIdx < _filters.size())
+			return _filters[_editIdx];
+		return SdltmFilter();
+	}
 private:
 	void SaveFilters();
 	void AddFilter(const SdltmFilter& filter);

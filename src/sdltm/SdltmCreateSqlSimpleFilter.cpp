@@ -288,8 +288,7 @@ namespace
 		{
 			if (QueryPrefix == "")
 				return Query.Get();
-			auto fieldSql = QueryPrefix;
-			fieldSql += " AND (" + Query.Get() + ")";
+			auto fieldSql ="(" + QueryPrefix + ") AND (" + Query.Get() + ")";
 			return fieldSql;
 		}
 	};
@@ -401,14 +400,16 @@ namespace
 
 QString SdltmCreateSqlSimpleFilter::ToSqlFilter() const
 {
-	auto lowestIndent = std::min_element(_filter.FilterItems.begin(), _filter.FilterItems.end(), [](const SdltmFilterItem& a, const SdltmFilterItem& b)
+	const int MAX_LEVEL = 100000;
+	auto lowestIndent = std::min_element(_filter.FilterItems.begin(), _filter.FilterItems.end(), [MAX_LEVEL](const SdltmFilterItem& a, const SdltmFilterItem& b)
 	{
 		auto aLevel = a.IndentLevel;
 		auto bLevel = b.IndentLevel;
+		// ... ignore those items when user hasn't entered anything
 		if (a.CustomFieldName == "")
-			aLevel = 100000;
+			aLevel = MAX_LEVEL;
 		if (b.CustomFieldName == "")
-			bLevel = 100000;
+			bLevel = MAX_LEVEL;
 		return aLevel < bLevel;
 	});
 	auto customFieldsIsAnd = lowestIndent != _filter.FilterItems.end() && lowestIndent->CustomFieldName != "" ? lowestIndent->IsAnd : true;
@@ -460,13 +461,22 @@ QString SdltmCreateSqlSimpleFilter::ToSqlFilter() const
 		}
 	}
 
+	SqlFilterBuilder globalBuilder;
+	if (where != "") {
+		auto indentLevel = lowestIndent != _filter.FilterItems.end() ? lowestIndent->IndentLevel : MAX_LEVEL;
+		if (customFieldsIsAnd)
+			globalBuilder.AddAnd(where, indentLevel);
+		else
+			globalBuilder.AddOr(where, indentLevel);
+	}
+
 	QString limit;
 	for (const auto & fi : filterItems)
 	{
 		if (fi.CustomFieldName != "")
-			continue;
+			continue; // already processed
 		if (fi.IsUserEditableArg)
-			continue;;
+			continue;
 
 		QString condition;
 		if (fi.FieldType != SdltmFieldType::CustomSqlExpression)
@@ -497,13 +507,15 @@ QString SdltmCreateSqlSimpleFilter::ToSqlFilter() const
 			condition = condition.left(limitIdx);
 		}
 
-		auto prependEnter = true;
-		AppendSql(where, condition, fi.IsAnd, prependEnter);
+		if (fi.IsAnd)
+			globalBuilder.AddAnd(condition, fi.IndentLevel);
+		else
+			globalBuilder.AddOr(condition, fi.IndentLevel);
 	}
 
 	sql += "FROM translation_units t ";
 	if (where != "")
-		sql += "\r\n            WHERE " + where;
+		sql += "\r\n            WHERE " + globalBuilder.Get();
 	sql += "\r\n\r\n            ORDER BY t.id";
 	if (limit != "")
 		sql += " DESC " + limit;

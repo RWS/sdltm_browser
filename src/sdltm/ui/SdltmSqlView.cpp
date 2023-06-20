@@ -20,6 +20,10 @@ SdltmSqlView::SdltmSqlView(QWidget* parent)
     connect(ui->buttonGoto, SIGNAL(clicked(bool)), this, SLOT(OnNavigateGoto()));
 }
 
+SdltmSqlView::~SdltmSqlView() {
+    delete ui;
+}
+
 void SdltmSqlView::SetDb(DBBrowserDB& db)
 {
 	_db = &db;
