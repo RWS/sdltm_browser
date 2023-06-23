@@ -154,7 +154,7 @@ void SdltmFiltersList::OnReset()
 
 void SdltmFiltersList::OnImport()
 {
-	QString file = QFileDialog::getOpenFileName(this, QApplication::applicationName(), AppDir(), "SDLTM Filter files (*.sdlfilters)");
+	QString file = QFileDialog::getOpenFileName(this, QApplication::applicationName(), AppRoamingDir(), "SDLTM Filter files (*.sdlfilters)");
 	if (file != "")
 	{
 		// do import
@@ -178,7 +178,7 @@ void SdltmFiltersList::OnImport()
 
 void SdltmFiltersList::OnExport()
 {
-	QString file = QFileDialog::getSaveFileName(this, QApplication::applicationName(), AppDir(), "SDLTM Filter files (*.sdlfilters)");
+	QString file = QFileDialog::getSaveFileName(this, QApplication::applicationName(), AppRoamingDir(), "SDLTM Filter files (*.sdlfilters)");
 	if (file != "")
 	{
 		// do export

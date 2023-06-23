@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 
 set(CMAKE_FIND_NO_INSTALL_PREFIX True)
 project(trados_sdltm
-    VERSION 1.0.23
+    VERSION 1.0.25
     DESCRIPTION "TM Fusion for Trados"
 )
 
@@ -394,6 +394,22 @@ set(LICENSE_FILES
 set(CONTENT_FILES
     default_filter_settings.sdlfilters)
 
+set(SQLEAN_FILES
+    "libs/sqlean-win-x64/crypto.dll" 
+    "libs/sqlean-win-x64/define.dll" 
+    "libs/sqlean-win-x64/fileio.dll" 
+    "libs/sqlean-win-x64/fuzzy.dll" 
+    "libs/sqlean-win-x64/json1.dll" 
+    "libs/sqlean-win-x64/math.dll" 
+    "libs/sqlean-win-x64/regexp.dll" 
+    "libs/sqlean-win-x64/sqlean.dll" 
+    "libs/sqlean-win-x64/stats.dll" 
+    "libs/sqlean-win-x64/text.dll" 
+    "libs/sqlean-win-x64/unicode.dll" 
+    "libs/sqlean-win-x64/uuid.dll" 
+    "libs/sqlean-win-x64/vsv.dll" 
+)
+
 qt5_wrap_ui(SQLB_FORM_HDR ${SQLB_FORMS})
 if(SQLB_TSS)
     # add translations
@@ -627,9 +643,13 @@ if(WIN32 AND MSVC)
         DESTINATION licenses
     )
 
-    # The license files
     install(FILES
         ${CONTENT_FILES}
+        DESTINATION "/"
+    )
+
+    install(FILES
+        ${SQLEAN_FILES}
         DESTINATION "/"
     )
 

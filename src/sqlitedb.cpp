@@ -26,6 +26,8 @@
 #include <cstring>
 #include <functional>
 
+#include "SdltmUtil.h"
+
 QStringList DBBrowserDB::Datatypes = {"INTEGER", "TEXT", "BLOB", "REAL", "NUMERIC"};
 QStringList DBBrowserDB::DatatypesStrict = {"INT", "INTEGER", "TEXT", "BLOB", "REAL", "ANY"};
 
@@ -97,6 +99,7 @@ static void sqlite_make_single_value(sqlite3_context* ctx, int num_arguments, sq
         delete cptr;
     });
 }
+
 
 DBBrowserDB::DBBrowserDB() :
     _db(nullptr),
@@ -259,6 +262,7 @@ bool DBBrowserDB::open(const QString& db, bool readOnly)
 
         // Load extensions
         loadExtensionsFromSettings();
+        LoadSqliteRegexExtensions(*this);
 
         // Execute default SQL
         if(!isReadOnly)

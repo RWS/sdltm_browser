@@ -172,13 +172,28 @@ QString DefaultFiltersFile()
     return "";
 }
 
-QString AppDir()
+QString AppRoamingDir()
 {
     auto locations = QStandardPaths::standardLocations(QStandardPaths::AppDataLocation);
     if (locations.count() > 0)
         return locations[0];
     return "";
 }
+
+QString AppExecutableDir() {
+    auto locations = QStandardPaths::standardLocations(QStandardPaths::AppDataLocation);
+    for (const auto& location : locations)
+    {
+        auto possible = location + "/TM Fusion for Trados.exe";
+        if (QFile::exists(possible))
+            return location;
+    }
+    // perhaps the .exe app name has changed
+    assert(false);
+    return "";
+
+}
+
 
 std::vector<int> RunQueryGetIDs(const QString& sql, DBBrowserDB& db) {
     auto forceWait = true;
@@ -369,4 +384,9 @@ bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>
         replaceSql = replaceTarget;
 
     return TryRunUpdateSql(selectSql, replaceSql, db, error, errorMsg);
+}
+
+void LoadSqliteRegexExtensions(DBBrowserDB& db) {
+    auto root = AppExecutableDir();
+    db.loadExtension(root + "/sqlean.dll");
 }

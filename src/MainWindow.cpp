@@ -77,6 +77,7 @@ MainWindow::MainWindow(QWidget* parent)
       _customFieldService(db)
 {
     ui->setupUi(this);
+
     init();
 
     activateFields(false);
