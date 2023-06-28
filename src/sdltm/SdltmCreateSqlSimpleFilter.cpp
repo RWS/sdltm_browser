@@ -1,5 +1,6 @@
 #include "SdltmCreateSqlSimpleFilter.h"
 
+#include "SdltmUtil.h"
 #include "SqlFilterBuilder.h"
 
 SdltmCreateSqlSimpleFilter::SdltmCreateSqlSimpleFilter(const SdltmFilter& filter, const std::vector<CustomField>& customFields)
@@ -49,6 +50,7 @@ namespace
 	QString SqlFieldName(QString tableName, const SdltmFilterItem & fi, const CustomField & customField = CustomField())
 	{
 		QString fieldName;
+		bool needsPrefixByTableName = true;
 		if (customField.IsPresent())
 		{
 			if (IsList(fi.FieldMetaType))
@@ -66,13 +68,11 @@ namespace
 			case SdltmFieldType::UseageCount: fieldName ="usage_counter"; break;
 			case SdltmFieldType::CreatedOn: fieldName ="creation_date"; break;
 			case SdltmFieldType::CreatedBy: fieldName ="creation_user"; break;
-			case SdltmFieldType::SourceSegment: fieldName ="source_segment"; break;
-			case SdltmFieldType::TargetSegment: fieldName ="target_segment"; break;
+			case SdltmFieldType::SourceSegment: fieldName = "sdltm_text(t.source_segment)"; needsPrefixByTableName = false; break;
+			case SdltmFieldType::TargetSegment: fieldName ="sdltm_text(t.target_segment)"; needsPrefixByTableName = false; break;
 
-			// 23 = len(<Elements><Text>) + len(</Text>)
-			case SdltmFieldType::SourceSegmentLength: return "(length(substr(t.source_segment,instr(t.source_segment,'<Elements>'),instr(t.source_segment,'</Elements>') - instr(t.source_segment,'<Elements>'))) - 23)"; 
-				// 23 = len(<Elements><Text>) + len(</Text>)
-			case SdltmFieldType::TargetSegmentLength: return "(length(substr(t.target_segment,instr(t.target_segment,'<Elements>'),instr(t.target_segment,'</Elements>') - instr(t.target_segment,'<Elements>'))) - 23)"; 
+			case SdltmFieldType::SourceSegmentLength: return "length(sdltm_friendly_text(t.source_segment))"; 
+			case SdltmFieldType::TargetSegmentLength: return "length(sdltm_friendly_text(t.target_segment))"; 
 			case SdltmFieldType::NumberOfTagsInSourceSegment: return  "((length(t.source_segment) - length(replace(t.source_segment,'<Tag>',''))) / 5)"; 
 			case SdltmFieldType::NumberOfTagsInTargetSegment: return  "((length(t.target_segment) - length(replace(t.target_segment,'<Tag>',''))) / 5)";
 
@@ -85,7 +85,8 @@ namespace
 			default: ;
 			}
 
-		fieldName = tableName + "." + fieldName;
+		if (needsPrefixByTableName)
+			fieldName = tableName + "." + fieldName;
 		if (CanHaveCaseInsensitive(fi.FieldMetaType) && !fi.CaseSensitive)
 			fieldName = "lower(" + fieldName + ")";
 
@@ -95,7 +96,8 @@ namespace
 	QString EscapeSqlString(const QString & s)
 	{
 		QString copy = s;
-		copy.replace("%", "%%").replace("'", "''");
+		// note: not escaping quotes ('), they were already escaped by EscapeXml
+		copy.replace("%", "%%");
 		return copy;
 	}
 
@@ -106,6 +108,7 @@ namespace
 		auto value = fi.FieldValue;
 		if (CanHaveCaseInsensitive(fi.FieldMetaType) && !fi.CaseSensitive)
 			value = value.toLower();
+		value = EscapeXml(value);
 
 		// care if number or string
 		switch (fi.FieldMetaType)
@@ -414,7 +417,7 @@ QString SdltmCreateSqlSimpleFilter::ToSqlFilter() const
 	});
 	auto customFieldsIsAnd = lowestIndent != _filter.FilterItems.end() && lowestIndent->CustomFieldName != "" ? lowestIndent->IsAnd : true;
 
-	QString sql = "SELECT t.id, t.source_segment, t.target_segment ";
+	QString sql = "SELECT t.id, sdltm_friendly_text(t.source_segment) as Source, sdltm_friendly_text(t.target_segment) as Target ";
 	QString where;
 	sql += FieldValueQuery(
 				FilterCustomFields(_filter.FilterItems, SdltmFieldMetaType::Number), 
@@ -449,6 +452,7 @@ QString SdltmCreateSqlSimpleFilter::ToSqlFilter() const
 			SdltmFilterItem fi(SdltmFieldType::SourceSegment);
 			fi.FieldValue = source;
 			fi.CaseSensitive = _filter.QuickSearchCaseSensitive;
+			fi.StringComparison = StringComparisonType::Contains;
 			filterItems.push_back(fi);
 		}
 		if (target != "")
@@ -456,6 +460,7 @@ QString SdltmCreateSqlSimpleFilter::ToSqlFilter() const
 			SdltmFilterItem fi(SdltmFieldType::TargetSegment);
 			fi.FieldValue = target;
 			fi.CaseSensitive = _filter.QuickSearchCaseSensitive;
+			fi.StringComparison = StringComparisonType::Contains;
 			fi.IsAnd = !isOr;
 			filterItems.push_back(fi);
 		}
@@ -514,8 +519,9 @@ QString SdltmCreateSqlSimpleFilter::ToSqlFilter() const
 	}
 
 	sql += "FROM translation_units t ";
+	where = globalBuilder.Get();
 	if (where != "")
-		sql += "\r\n            WHERE " + globalBuilder.Get();
+		sql += "\r\n            WHERE " + where;
 	sql += "\r\n\r\n            ORDER BY t.id";
 	if (limit != "")
 		sql += " DESC " + limit;

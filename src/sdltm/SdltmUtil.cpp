@@ -302,6 +302,7 @@ bool TryRunUpdateSql(const QString & selectSql, const QString & updateSql, DBBro
         errorMsg = sqlite3_errmsg(pDb.get());
     }
 
+    DebugWriteLine("update sql=" + sql);
     return ok;
 }
 
@@ -330,15 +331,6 @@ bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>
         source.FieldValue = info.Find;
         source.CaseSensitive = info.MatchCase;
         findAndReplace.FilterItems.push_back(source);
-
-        // the idea - we're searching for text, needs to be inside <Text></Text> tags
-        SdltmFilterItem source2(SdltmFieldType::SourceSegment);
-        source2.IndentLevel = 0;
-        source2.IsAnd = true;
-        source2.StringComparison = StringComparisonType::Contains;
-        source2.FieldValue = "<Text>";
-        source2.CaseSensitive = true;
-        findAndReplace.FilterItems.push_back(source2);
     }
 
     if (searchTarget) {
@@ -349,15 +341,6 @@ bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>
         target.FieldValue = info.Find;
         target.CaseSensitive = info.MatchCase;
         findAndReplace.FilterItems.push_back(target);
-
-        // the idea - we're searching for text, needs to be inside <Text></Text> tags
-        SdltmFilterItem target2(SdltmFieldType::TargetSegment);
-        target2.IndentLevel = 0;
-        target2.IsAnd = true;
-        target2.StringComparison = StringComparisonType::Contains;
-        target2.FieldValue = "<Text>";
-        target2.CaseSensitive = true;
-        findAndReplace.FilterItems.push_back(target2);
     }
 
     auto selectSql = SdltmCreateSqlSimpleFilter(findAndReplace, customFields).ToSqlFilter();
@@ -369,12 +352,12 @@ bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>
     QString replaceSql ;
     QString replaceSource, replaceTarget;
     if (searchSource) 
-        replaceSource = "source_segment = substr(source_segment,0,instr(source_segment,'<Text>')) || '<Text><Value>' || replace(substr(source_segment, instr(source_segment, '<Text>') + 13, instr(source_segment, '</Elements>') - instr(source_segment, '<Text>') - 28), '"
-    	+ info.Find + "', '" + info.Replace + "') || '</Value></Text>' || substr(source_segment, instr(source_segment, '</Elements>')) ";
+        replaceSource = "source_segment = sdltm_replace(source_segment,'"
+    	+ EscapeXml(info.Find) + "', '" + EscapeXml(info.Replace) + "'," + QString::number(info.MatchCase ? 1 : 0) + ") ";
     
     if (searchTarget) 
-        replaceTarget = "target_segment = substr(target_segment,0,instr(target_segment,'<Text>')) || '<Text><Value>' || replace(substr(target_segment, instr(target_segment, '<Text>') + 13, instr(target_segment, '</Elements>') - instr(target_segment, '<Text>') - 28), '"
-        + info.Find + "', '" + info.Replace + "') || '</Value></Text>' || substr(target_segment, instr(target_segment, '</Elements>')) ";
+        replaceTarget = "target_segment = sdltm_replace(target_segment,'"
+        + EscapeXml(info.Find) + "', '" + EscapeXml(info.Replace) + "'," + QString::number(info.MatchCase ? 1 : 0) + ") ";
 
     if (replaceSource != "" && replaceTarget != "")
         replaceSql = replaceSource + ", " + replaceTarget;
@@ -390,3 +373,161 @@ void LoadSqliteRegexExtensions(DBBrowserDB& db) {
     auto root = AppExecutableDir();
     db.loadExtension(root + "/sqlean.dll");
 }
+
+namespace {
+    QString StartTag = QString::fromWCharArray(L"\u23E9");
+    QString EndTag = QString::fromWCharArray(L"\u23EA");
+    QString ConvertXmlToSimpleTags(const QString & txt) {
+        QString simple;
+        auto idxStart = 0;
+        while(true) {
+            auto idxNextStartTag = txt.indexOf("<Type>Start</Type>", idxStart);
+            auto idxNextEndTag = txt.indexOf("<Type>End</Type>", idxStart);
+            if (idxNextStartTag < 0 && idxNextEndTag < 0)
+                break;
+            if (idxNextStartTag < 0)
+                idxNextStartTag = INT_MAX;
+            if (idxNextEndTag < 0)
+                idxNextEndTag = INT_MAX;
+            auto minIsStart = idxNextStartTag < idxNextEndTag;
+            simple += minIsStart ? StartTag : EndTag;
+            idxStart = (minIsStart ? idxNextStartTag : idxNextEndTag) + 1;
+        }
+        return simple;
+    }
+
+    QString TrimRight(const QString& str) {
+        int n = str.size() - 1;
+        for (; n >= 0; --n) {
+            if (!str.at(n).isSpace()) {
+                return str.left(n + 1);
+            }
+        }
+        return "";
+    }
+
+    void AppendTags(QString & str, const QString & tags) {
+	    if (tags.isEmpty())
+            return;
+        str = TrimRight(str);
+        str += tags + " ";
+    }
+
+    // each sub-string will be on a separate line, to avoid matching text from different sub-tags
+	QString GetNonXmlText(const QString & inputText, const char * appendAfterSubtext, bool addTagChars) {
+        QString outputText;
+        // ... most of the string is xml anyway
+        outputText.reserve(inputText.size() / 2);
+        auto idxStart = 0;
+        while (true) {
+            auto idxNext = inputText.indexOf("<Text><Value>", idxStart);
+            if (idxNext < 0)
+                break;
+            idxNext += 13; // 13 = len(<Text><Value>)
+            auto idxEnd = inputText.indexOf('<', idxNext); 
+            if (idxEnd < 0)
+                break;
+            if (!outputText.isEmpty())
+                outputText += appendAfterSubtext;
+            if (addTagChars) 
+                AppendTags(outputText, ConvertXmlToSimpleTags(inputText.mid(idxStart, idxNext - idxStart))) ;
+
+            outputText += inputText.mid(idxNext, idxEnd - idxNext);
+            idxStart = idxEnd + 1;
+        }
+
+        if (addTagChars)
+            AppendTags( outputText, ConvertXmlToSimpleTags(inputText.mid(idxStart)));
+
+        return outputText;
+	}
+
+    struct SubFindInfo {
+        int FindPosition;
+        int FindLength;
+        QString FindText;
+	};
+    std::vector<SubFindInfo> GetNonXmlTextDetails(const QString & inputText) {
+        std::vector<SubFindInfo> result;
+        auto idxStart = 0;
+        while (true) {
+            auto idxNext = inputText.indexOf("<Text><Value>", idxStart);
+            if (idxNext < 0)
+                break;
+            idxNext += 13; // 13 = len(<Text><Value>)
+            auto idxEnd = inputText.indexOf('<', idxNext);
+            if (idxEnd < 0)
+                break;
+
+            result.push_back(SubFindInfo{ idxNext, idxEnd - idxNext, inputText.mid(idxNext, idxEnd - idxNext) });
+            idxStart = idxEnd + 1;
+        }
+        return result;
+    }
+
+    QString GetSdltmReplacedText(const QString & inputTextXml, const QString & search, const QString & replace, bool caseSensitive) {
+        auto findResult = GetNonXmlTextDetails(inputTextXml);
+        QString outputText;
+
+        for (int i = 0; i < findResult.size(); ++i) {
+            auto prevEndIdx = i > 0 ? findResult[i - 1].FindPosition + findResult[i - 1].FindLength : 0;
+            outputText += inputTextXml.mid(prevEndIdx, findResult[i].FindPosition - prevEndIdx);
+            outputText += findResult[i].FindText.replace(search, replace, caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive);
+        }
+
+        if (findResult.size() > 0) {
+            outputText += inputTextXml.mid(findResult.back().FindPosition + findResult.back().FindLength);
+        }
+
+        return outputText;
+    }
+}
+
+// 1 arg - the source (xml) text
+void SdltmGetFriendlyText(sqlite3_context* ctx, int num_arguments, sqlite3_value* arguments[]) {
+    auto inputText = QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_value_text(arguments[0])));
+    bool addTags = true;
+    auto outputText = UnescapeXml(GetNonXmlText(inputText, " ", addTags) );
+    auto asUtf8 = outputText.toUtf8();
+    sqlite3_result_text(ctx, asUtf8.begin(), asUtf8.size(), SQLITE_TRANSIENT);
+}
+
+// 1 arg - the source (xml) text
+void SdltmGetText(sqlite3_context* ctx, int num_arguments, sqlite3_value* arguments[]) {
+    auto inputText = QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_value_text(arguments[0])));
+    bool addTags = false;
+    auto outputText = GetNonXmlText(inputText, "\r\n", addTags);
+    auto asUtf8 = outputText.toUtf8();
+    sqlite3_result_text(ctx, asUtf8.begin(), asUtf8.size(), SQLITE_TRANSIENT);
+}
+
+// 3 args
+// - the source (xml) text,
+// - what to search
+// - what to replace with
+void SdltmReplaceText(sqlite3_context* ctx, int num_arguments, sqlite3_value* arguments[]) {
+    auto inputText = QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_value_text(arguments[0])));
+    auto search = QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_value_text(arguments[1])));
+    auto replace = QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_value_text(arguments[2])));
+    bool caseSensitive = true;
+    if (num_arguments == 4)
+		caseSensitive = sqlite3_value_int(arguments[3]) != 0;
+
+    auto outputText = GetSdltmReplacedText(inputText, search, replace, caseSensitive);
+    auto asUtf8 = outputText.toUtf8();
+    sqlite3_result_text(ctx, asUtf8.begin(), asUtf8.size(), SQLITE_TRANSIENT);
+}
+
+QString EscapeXml(const QString& str) {
+    auto copy = str;
+    copy.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("'", "''");
+    return copy;
+}
+
+QString UnescapeXml(const QString& str) {
+    auto copy = str;
+    copy.replace("&gt;", ">").replace("&lt;", "<").replace("&amp;", "&").replace("&nbsp;", " ");
+    return copy;
+}
+
+

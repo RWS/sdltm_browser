@@ -573,6 +573,8 @@ void MainWindow::init()
     ui->dockPlot->setWindowTitle(ui->dockPlot->windowTitle().remove('&'));
     ui->dockSchema->setWindowTitle(ui->dockSchema->windowTitle().remove('&'));
     ui->dockRemote->setWindowTitle(ui->dockRemote->windowTitle().remove('&'));
+
+    //ui->mainTab->setWindowIcon(QIcon(":/icons/appicon"));
 }
 
 bool MainWindow::fileOpen(const QString& fileName, bool openFromProject, bool readOnly)
@@ -2139,6 +2141,9 @@ void MainWindow::loadPragmas()
     pragmaValues.wal_autocheckpoint = db.getPragma("wal_autocheckpoint").toInt();
     pragmaValues.case_sensitive_like = db.getPragma("case_sensitive_like").toInt();
 
+    // note: I always want case-sensitive like
+    pragmaValues.case_sensitive_like = true;
+
     updatePragmaUi();
 }
 
@@ -2191,7 +2196,8 @@ void MainWindow::savePragmas()
     db.setPragma("temp_store", ui->comboboxPragmaTempStore->currentIndex(), pragmaValues.temp_store);
     db.setPragma("user_version", ui->spinPragmaUserVersion->value(), pragmaValues.user_version);
     db.setPragma("wal_autocheckpoint", ui->spinPragmaWalAutoCheckpoint->value(), pragmaValues.wal_autocheckpoint);
-    db.setPragma("case_sensitive_like", ui->checkboxPragmaCaseSensitiveLike->isChecked(), pragmaValues.case_sensitive_like);
+    // note: we have case_sensitive_like turned on all the time
+    //db.setPragma("case_sensitive_like", ui->checkboxPragmaCaseSensitiveLike->isChecked(), pragmaValues.case_sensitive_like);
     isProjectModified = true;
 
     updatePragmaUi();
@@ -2217,46 +2223,14 @@ void MainWindow::logSql(const QString& sql, int msgtype)
 // Return true unless user wants to cancel the invoking action.
 bool MainWindow::askSaveSqlTab(int index, bool& ignoreUnattachedBuffers)
 {
+    // note: auto-save
     SqlExecutionArea* sqlExecArea = qobject_cast<SqlExecutionArea*>(ui->tabSqlAreas->widget(index));
-    const bool isPromptSQLTabsInNewProject = Settings::getValue("General", "promptsqltabsinnewproject").toBool();
 
     if(sqlExecArea->getEditor()->isModified()) {
-        if(sqlExecArea->fileName().isEmpty() && !ignoreUnattachedBuffers && isPromptSQLTabsInNewProject) {
-            // Once the project is saved, remaining SQL tabs will not be modified, so this is only expected to be asked once.
-            QString message = currentProjectFilename.isEmpty() ?
-                tr("Do you want to save the changes made to SQL tabs in a new project file?") :
-                tr("Do you want to save the changes made to SQL tabs in the project file '%1'?").
-                arg(QFileInfo(currentProjectFilename).fileName());
-            QMessageBox::StandardButton reply = QMessageBox::question(nullptr,
-                                                                      QApplication::applicationName(),
-                                                                      message,
-                                                                      QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
-            switch(reply) {
-            case QMessageBox::Save:
-                saveProject();
-                break;
-            case QMessageBox::Cancel:
-                return false;
-            default:
-                ignoreUnattachedBuffers = true;
-                break;
-            }
+        if(sqlExecArea->fileName().isEmpty() && !ignoreUnattachedBuffers ) {
+            saveProject();
         } else if(!sqlExecArea->fileName().isEmpty()) {
-            QMessageBox::StandardButton reply =
-                QMessageBox::question(nullptr,
-                                      QApplication::applicationName(),
-                                      tr("Do you want to save the changes made to the SQL file %1?").
-                                      arg(QFileInfo(sqlExecArea->fileName()).fileName()),
-                                      QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
-            switch(reply) {
-            case QMessageBox::Save:
-                saveSqlFile(index);
-                break;
-            case QMessageBox::Cancel:
-                return false;
-            default:
-                break;
-            }
+            saveSqlFile(index);
         }
     }
     return true;
@@ -2851,8 +2825,9 @@ bool MainWindow::loadProject(QString filename, bool readOnly)
                     // PRAGMAs
                     if(xml.attributes().hasAttribute("foreign_keys"))
                         db.setPragma("foreign_keys", xml.attributes().value("foreign_keys").toString());
-                    if(xml.attributes().hasAttribute("case_sensitive_like"))
-                        db.setPragma("case_sensitive_like", xml.attributes().value("case_sensitive_like").toString());
+                    // note: we have case_sensitive_like turned on all the time
+                    //if(xml.attributes().hasAttribute("case_sensitive_like"))
+                      //  db.setPragma("case_sensitive_like", xml.attributes().value("case_sensitive_like").toString());
                     if(xml.attributes().hasAttribute("temp_store"))
                         db.setPragma("temp_store", xml.attributes().value("temp_store").toString());
                     if(xml.attributes().hasAttribute("wal_autocheckpoint"))

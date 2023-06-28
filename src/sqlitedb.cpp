@@ -233,9 +233,10 @@ bool DBBrowserDB::open(const QString& db, bool readOnly)
         bool foreignkeys = Settings::getValue("db", "foreignkeys").toBool();
         setPragma("foreign_keys", foreignkeys ? "1" : "0");
 
-        // Register REGEXP function
-        if(Settings::getValue("extensions", "disableregex").toBool() == false)
-            sqlite3_create_function(_db, "REGEXP", 2, SQLITE_UTF8, nullptr, regexp, nullptr, nullptr);
+        // note: we already have several regex functions, from sqlean module
+        //
+        //if(Settings::getValue("extensions", "disableregex").toBool() == false)
+        //    sqlite3_create_function(_db, "REGEXP", 2, SQLITE_UTF8, nullptr, regexp, nullptr, nullptr);
 
         // Register our internal helper function for putting multiple values into a single column
         sqlite3_create_function_v2(
@@ -249,6 +250,42 @@ bool DBBrowserDB::open(const QString& db, bool readOnly)
             nullptr,
             nullptr
         );
+
+        sqlite3_create_function_v2(
+            _db,
+            "sdltm_text",
+            1,
+            SQLITE_UTF8 | SQLITE_DETERMINISTIC,
+            nullptr,
+            SdltmGetText,
+            nullptr,
+            nullptr,
+            nullptr
+        );
+        // for the UI
+        sqlite3_create_function_v2(
+            _db,
+            "sdltm_friendly_text",
+            1,
+            SQLITE_UTF8 | SQLITE_DETERMINISTIC,
+            nullptr,
+            SdltmGetFriendlyText,
+            nullptr,
+            nullptr,
+            nullptr
+        );
+        sqlite3_create_function_v2(
+            _db,
+            "sdltm_replace",
+            4,
+            SQLITE_UTF8 | SQLITE_DETERMINISTIC,
+            nullptr,
+            SdltmReplaceText,
+            nullptr,
+            nullptr,
+            nullptr
+        );
+
 
         // Check if file is read only. In-memory databases are never read only
         if(db == ":memory:")
@@ -275,6 +312,8 @@ bool DBBrowserDB::open(const QString& db, bool readOnly)
         curDBFilename = db;
 
         updateSchema();
+        int caseSensitiveLike = 0;
+        setPragma("case_sensitive_like", 1, caseSensitiveLike);
 
         return true;
     } else {

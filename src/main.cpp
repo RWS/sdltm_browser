@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <qsslsocket.h>
 
+#include "SdltmUtil.h"
 #include "SqlFilterBuilder.h"
 
 static QString message = QString();
