@@ -69,6 +69,8 @@ private slots:
     void onQuickTargetTextChanged();
     void onQuickSourceAndTargetChanged();
     void onQuickCaseSensitiveChanged();
+    void onQuickWholeWordChanged();
+    void onQuickRegexChanged();
 
     void onFilterTextChanged();
     void onFilterDateTimeChanged();

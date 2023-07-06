@@ -127,6 +127,8 @@ EditSdltmFilter::EditSdltmFilter(QWidget* parent )
 
 	connect(ui->quickSearchSourceAndTarget, SIGNAL(stateChanged(int)), this, SLOT(onQuickSourceAndTargetChanged()));
 	connect(ui->quickSearchCaseSensitive, SIGNAL(stateChanged(int)), this, SLOT(onQuickCaseSensitiveChanged()));
+	connect(ui->quickSearchWholeWordOnly, SIGNAL(stateChanged(int)), this, SLOT(onQuickWholeWordChanged()));
+	connect(ui->quickSearchRegex, SIGNAL(stateChanged(int)), this, SLOT(onQuickRegexChanged()));
 
 	connect(ui->textValue, SIGNAL(textChanged(const QString&)), this, SLOT(onFilterTextChanged()));
 	connect(ui->dateValue, SIGNAL(dateTimeChanged(const QDateTime&)), this, SLOT(onFilterDateTimeChanged()));
@@ -281,6 +283,8 @@ void EditSdltmFilter::SetEditFilter(const SdltmFilter & filter)
 	UpdateQuickSearchVisibility();
 	ui->quickSearchSourceAndTarget->setChecked(_filter.QuickSearchSearchSourceAndTarget);
 	ui->quickSearchCaseSensitive->setChecked(_filter.QuickSearchCaseSensitive);
+	ui->quickSearchWholeWordOnly->setChecked(_filter.QuickSearchWholeWordOnly);
+	ui->quickSearchRegex->setChecked(_filter.QuickSearchUseRegex);
 
 	if (_filter.AdvancedSql != "")
 	{
@@ -888,6 +892,24 @@ void EditSdltmFilter::onQuickCaseSensitiveChanged()
 		return;
 
 	_filter.QuickSearchCaseSensitive = ui->quickSearchCaseSensitive->isChecked();
+	SaveFilter();
+}
+
+void EditSdltmFilter::onQuickWholeWordChanged() {
+	if (_ignoreUpdate > 0)
+		return;
+
+	_filter.QuickSearchWholeWordOnly = ui->quickSearchWholeWordOnly->isChecked();
+	SaveFilter();
+}
+
+void EditSdltmFilter::onQuickRegexChanged() {
+	if (_ignoreUpdate > 0)
+		return;
+	ui->quickSearchCaseSensitive->setEnabled(!ui->quickSearchRegex->isChecked());
+	ui->quickSearchWholeWordOnly->setEnabled(!ui->quickSearchRegex->isChecked());
+
+	_filter.QuickSearchUseRegex = ui->quickSearchRegex->isChecked();
 	SaveFilter();
 }
 

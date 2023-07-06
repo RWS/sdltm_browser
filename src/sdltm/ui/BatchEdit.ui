@@ -190,10 +190,24 @@
                 <bool>true</bool>
                </property>
                <property name="text">
-                <string>Match case</string>
+                <string>Case Sensitive</string>
                </property>
                <property name="checked">
                 <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="findWordOnly">
+               <property name="text">
+                <string>Whole Word Only</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="findUseRegex">
+               <property name="text">
+                <string>Use Regular Expressions</string>
                </property>
               </widget>
              </item>

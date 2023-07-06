@@ -39,6 +39,8 @@ namespace
         item.IndentLevel = json["IndentLevel"].toInt();
         item.IsAnd = json["IsAnd"].toBool();
         item.CaseSensitive = json["CaseSensitive"].toBool();
+        item.WholeWordOnly= json["WholeWordOnly"].toBool();
+        item.UseRegex = json["UseRegex"].toBool();
         item.IsVisible = json["IsVisible"].toBool();
         item.IsUserEditableArg = json["IsUserEditableArg"].toBool();
         return item;
@@ -51,6 +53,12 @@ namespace
         filter.QuickSearch = json["QuickSearch"].toString();
         filter.QuickSearchTarget = json["QuickSearchTarget"].toString();
         filter.QuickSearchSearchSourceAndTarget = json["QuickSearchSearchSourceAndTarget"].toBool();
+
+        filter.QuickSearchCaseSensitive = json["QuickSearchCaseSensitive"].toBool();
+        filter.QuickSearchWholeWordOnly = json["QuickSearchWholeWordOnly"].toBool();
+        filter.QuickSearchUseRegex = json["QuickSearchUseRegex"].toBool();
+
+
         filter.AdvancedSql = json["AdvancedSql"].toString();
         auto items = json["FilterItems"].toArray();
         for (int i = 0; i < items.count(); ++i)
@@ -84,6 +92,8 @@ namespace
         json["IndentLevel"] = item.IndentLevel;
         json["IsAnd"] = item.IsAnd;
         json["CaseSensitive"] = item.CaseSensitive;
+        json["WholeWordOnly"] = item.WholeWordOnly;
+        json["UseRegex"] = item.UseRegex;
         json["IsVisible"] = item.IsVisible;
         json["IsUserEditableArg"] = item.IsUserEditableArg;
         return json;
@@ -96,6 +106,11 @@ namespace
         json["QuickSearch"] = filter.QuickSearch;
         json["QuickSearchTarget"] = filter.QuickSearchTarget;
         json["QuickSearchSearchSourceAndTarget"] = filter.QuickSearchSearchSourceAndTarget;
+
+        json["QuickSearchCaseSensitive"] = filter.QuickSearchCaseSensitive;
+        json["QuickSearchWholeWordOnly"] = filter.QuickSearchWholeWordOnly;
+        json["QuickSearchUseRegex"] = filter.QuickSearchUseRegex;
+
         json["AdvancedSql"] = filter.AdvancedSql;
 
         QJsonArray items;
@@ -306,6 +321,7 @@ bool TryRunUpdateSql(const QString & selectSql, const QString & updateSql, DBBro
     return ok;
 }
 
+
 bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>& customFields, const FindAndReplaceInfo& info, DBBrowserDB& db, int& replaceCount, int& error, QString& errorMsg) {
     if (info.Find == "")
         return false;
@@ -351,13 +367,25 @@ bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>
 
     QString replaceSql ;
     QString replaceSource, replaceTarget;
-    if (searchSource) 
-        replaceSource = "source_segment = sdltm_replace(source_segment,'"
-    	+ EscapeXml(info.Find) + "', '" + EscapeXml(info.Replace) + "'," + QString::number(info.MatchCase ? 1 : 0) + ") ";
-    
-    if (searchTarget) 
-        replaceTarget = "target_segment = sdltm_replace(target_segment,'"
-        + EscapeXml(info.Find) + "', '" + EscapeXml(info.Replace) + "'," + QString::number(info.MatchCase ? 1 : 0) + ") ";
+    // whole-word only is implemented with regex
+    auto needsRegex = info.UseRegex || info.WholeWordOnly;
+    if (needsRegex) {
+        if (searchSource)
+            replaceSource = "source_segment = sdltm_regex_replace(source_segment,'"
+            + ToRegexFindString(info.Find, info.MatchCase, info.WholeWordOnly, info.UseRegex) + "', '" + EscapeXml(info.Replace) + "') " ;
+
+        if (searchTarget)
+            replaceTarget = "target_segment = sdltm_regex_replace(target_segment,'"
+            + ToRegexFindString(info.Find, info.MatchCase, info.WholeWordOnly, info.UseRegex) + "', '" + EscapeXml(info.Replace) + "') ";
+    } else {
+        if (searchSource)
+            replaceSource = "source_segment = sdltm_replace(source_segment,'"
+            + EscapeXml(info.Find) + "', '" + EscapeXml(info.Replace) + "'," + QString::number(info.MatchCase ? 1 : 0) + ") ";
+
+        if (searchTarget)
+            replaceTarget = "target_segment = sdltm_replace(target_segment,'"
+            + EscapeXml(info.Find) + "', '" + EscapeXml(info.Replace) + "'," + QString::number(info.MatchCase ? 1 : 0) + ") ";
+    }
 
     if (replaceSource != "" && replaceTarget != "")
         replaceSql = replaceSource + ", " + replaceTarget;
@@ -481,6 +509,22 @@ namespace {
 
         return outputText;
     }
+    QString GetSdltmRegexReplacedText(const QString& inputTextXml, const QString& regexSearch, const QString& replace) {
+        auto findResult = GetNonXmlTextDetails(inputTextXml);
+        QString outputText;
+
+        for (int i = 0; i < findResult.size(); ++i) {
+            auto prevEndIdx = i > 0 ? findResult[i - 1].FindPosition + findResult[i - 1].FindLength : 0;
+            outputText += inputTextXml.mid(prevEndIdx, findResult[i].FindPosition - prevEndIdx);
+            outputText += findResult[i].FindText.replace(QRegularExpression(regexSearch), replace);
+        }
+
+        if (findResult.size() > 0) {
+            outputText += inputTextXml.mid(findResult.back().FindPosition + findResult.back().FindLength);
+        }
+
+        return outputText;
+    }
 }
 
 // 1 arg - the source (xml) text
@@ -501,19 +545,32 @@ void SdltmGetText(sqlite3_context* ctx, int num_arguments, sqlite3_value* argume
     sqlite3_result_text(ctx, asUtf8.begin(), asUtf8.size(), SQLITE_TRANSIENT);
 }
 
-// 3 args
+// 4 args
 // - the source (xml) text,
 // - what to search
 // - what to replace with
+// - case sensitive
 void SdltmReplaceText(sqlite3_context* ctx, int num_arguments, sqlite3_value* arguments[]) {
     auto inputText = QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_value_text(arguments[0])));
     auto search = QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_value_text(arguments[1])));
     auto replace = QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_value_text(arguments[2])));
-    bool caseSensitive = true;
-    if (num_arguments == 4)
-		caseSensitive = sqlite3_value_int(arguments[3]) != 0;
+	auto caseSensitive = sqlite3_value_int(arguments[3]) != 0;
 
     auto outputText = GetSdltmReplacedText(inputText, search, replace, caseSensitive);
+    auto asUtf8 = outputText.toUtf8();
+    sqlite3_result_text(ctx, asUtf8.begin(), asUtf8.size(), SQLITE_TRANSIENT);
+}
+
+// 3 args
+// - the source (xml) text,
+// - what to search
+// - what to replace with
+void SdltmRegexReplaceText(sqlite3_context* ctx, int num_arguments, sqlite3_value* arguments[]) {
+    auto inputText = QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_value_text(arguments[0])));
+    auto search = QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_value_text(arguments[1])));
+    auto replace = QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_value_text(arguments[2])));
+
+    auto outputText = GetSdltmRegexReplacedText(inputText, search, replace);
     auto asUtf8 = outputText.toUtf8();
     sqlite3_result_text(ctx, asUtf8.begin(), asUtf8.size(), SQLITE_TRANSIENT);
 }
@@ -528,6 +585,47 @@ QString UnescapeXml(const QString& str) {
     auto copy = str;
     copy.replace("&gt;", ">").replace("&lt;", "<").replace("&amp;", "&").replace("&nbsp;", " ");
     return copy;
+}
+
+QString EscapeSqlString(const QString& s)
+{
+    QString copy = s;
+    // note: not escaping quotes ('), they were already escaped by EscapeXml
+    copy.replace("%", "%%");
+    return copy;
+}
+
+
+QString ToRegexFindString(const QString& find, bool matchCase, bool wholeWord, bool useRegex) {
+    auto text = EscapeXml(find);
+    if (useRegex)
+        // this overrides case-sensive, whole-world
+        return text;
+
+    text.replace("\\", "\\\\");
+    text.replace("(", "\\(");
+
+    if (!matchCase) {
+        auto words = text.split(QRegularExpression("\\s"));
+        QString includeBothCases = "";
+        for (const auto& word : words) {
+            if (includeBothCases.size() > 0)
+                includeBothCases += " ";
+            if (word.size() > 0 && word[0].isLetter()) {
+                QString lower = word[0].toLower();
+                QString higher = word[0].toUpper();
+                includeBothCases += "(" + lower + "|" + higher + ")" + word.right(word.size() - 1);
+            }
+            else
+                includeBothCases += word;
+        }
+        text = includeBothCases;
+    }
+
+    if (wholeWord)
+        text = "\\b" + text + "\\b";
+
+    return text;
 }
 
 

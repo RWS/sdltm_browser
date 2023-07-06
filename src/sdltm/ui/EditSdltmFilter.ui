@@ -160,6 +160,26 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QCheckBox" name="quickSearchWholeWordOnly">
+          <property name="toolTip">
+           <string>WholeWord Only</string>
+          </property>
+          <property name="text">
+           <string>Words</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="quickSearchRegex">
+          <property name="toolTip">
+           <string>Use Regular Expressions</string>
+          </property>
+          <property name="text">
+           <string>Regex</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>

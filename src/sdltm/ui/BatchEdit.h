@@ -14,6 +14,8 @@ struct FindAndReplaceInfo {
 	};
 	SearchType Type = SearchType::Both;
 	bool MatchCase = false;
+	bool WholeWordOnly = false;
+	bool UseRegex = false;
 };
 
 class BatchEdit : public QWidget
@@ -33,6 +35,7 @@ private slots:
 	void OnClickPreview();
 	void OnClickRun();
 	void OnClickBack();
+	void OnUseRegexChanged();
 
 private:
 	Ui::BatchEdit* ui;

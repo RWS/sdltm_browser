@@ -46,6 +46,11 @@ namespace
 		default: assert(false); return false;
 		}
 	}
+	// whole-word only is implemented with regex
+	bool NeedsRegex(const SdltmFilterItem& fi) {
+		auto usesRegex = fi.WholeWordOnly || fi.UseRegex;
+		return usesRegex;
+	}
 
 	QString SqlFieldName(QString tableName, const SdltmFilterItem & fi, const CustomField & customField = CustomField())
 	{
@@ -87,18 +92,20 @@ namespace
 
 		if (needsPrefixByTableName)
 			fieldName = tableName + "." + fieldName;
-		if (CanHaveCaseInsensitive(fi.FieldMetaType) && !fi.CaseSensitive)
+		// note: whole word only is implemented with regex
+		auto usesRegex = NeedsRegex(fi);
+		if (CanHaveCaseInsensitive(fi.FieldMetaType) && !fi.CaseSensitive && !usesRegex)
 			fieldName = "lower(" + fieldName + ")";
 
 		return fieldName;
 	}
 
-	QString EscapeSqlString(const QString & s)
-	{
-		QString copy = s;
-		// note: not escaping quotes ('), they were already escaped by EscapeXml
-		copy.replace("%", "%%");
-		return copy;
+
+	QString SqlCompareRegex(const SdltmFilterItem& fi) {
+		// for now, only for the source + target text
+		auto fieldName = SqlFieldName("", fi);
+		auto text = ToRegexFindString(fi.FieldValue, fi.CaseSensitive, fi.WholeWordOnly, fi.UseRegex);
+		return " regexp_like(" + fieldName + ",'" + text + "')";
 	}
 
 	QString SqlCompare(const SdltmFilterItem & fi)
@@ -106,7 +113,8 @@ namespace
 		// note: even this is a number, and it's case-insensitive (which would make no sense),
 		// converting a number to lower is the equivalent of a no-op
 		auto value = fi.FieldValue;
-		if (CanHaveCaseInsensitive(fi.FieldMetaType) && !fi.CaseSensitive)
+		auto usesRegex = NeedsRegex(fi);
+		if (CanHaveCaseInsensitive(fi.FieldMetaType) && !fi.CaseSensitive && !usesRegex)
 			value = value.toLower();
 		value = EscapeXml(value);
 
@@ -133,6 +141,8 @@ namespace
 
 			// string
 		case SdltmFieldMetaType::Text:
+			if (usesRegex)
+				return SqlCompareRegex(fi);
 			switch (fi.StringComparison)
 			{
 			case StringComparisonType::Equal: return " = '" + EscapeSqlString(value) + "'";
@@ -141,10 +151,13 @@ namespace
 			case StringComparisonType::EndsWith: return " LIKE '%" + EscapeSqlString(value) + "'";
 			default: assert(false); 
 			}
+			break;
 			
 
 			// multi-string
 		case SdltmFieldMetaType::MultiText:
+			if (usesRegex)
+				return SqlCompareRegex(fi);
 			switch (fi.MultiStringComparison)
 			{
 			case MultiStringComparisonType::AnyEqual: return " = '" + EscapeSqlString(value) + "'";
@@ -153,7 +166,8 @@ namespace
 			case MultiStringComparisonType::AnyEndsWith: return " LIKE '%" + EscapeSqlString(value) + "'";
 			default: assert(false); 
 			}
-			
+			break;
+
 
 			// multi-comparison (has-item) -- single value
 		case SdltmFieldMetaType::List:
@@ -452,6 +466,8 @@ QString SdltmCreateSqlSimpleFilter::ToSqlFilter() const
 			SdltmFilterItem fi(SdltmFieldType::SourceSegment);
 			fi.FieldValue = source;
 			fi.CaseSensitive = _filter.QuickSearchCaseSensitive;
+			fi.WholeWordOnly = _filter.QuickSearchWholeWordOnly;
+			fi.UseRegex = _filter.QuickSearchUseRegex;
 			fi.StringComparison = StringComparisonType::Contains;
 			filterItems.push_back(fi);
 		}
@@ -460,6 +476,8 @@ QString SdltmCreateSqlSimpleFilter::ToSqlFilter() const
 			SdltmFilterItem fi(SdltmFieldType::TargetSegment);
 			fi.FieldValue = target;
 			fi.CaseSensitive = _filter.QuickSearchCaseSensitive;
+			fi.WholeWordOnly = _filter.QuickSearchWholeWordOnly;
+			fi.UseRegex = _filter.QuickSearchUseRegex;
 			fi.StringComparison = StringComparisonType::Contains;
 			fi.IsAnd = !isOr;
 			filterItems.push_back(fi);
@@ -486,7 +504,10 @@ QString SdltmCreateSqlSimpleFilter::ToSqlFilter() const
 		QString condition;
 		if (fi.FieldType != SdltmFieldType::CustomSqlExpression)
 		{
-			condition = SqlFieldName("t", fi) + " " + SqlCompare(fi) + " ";
+			if (NeedsRegex(fi))
+				condition = SqlCompareRegex(fi);
+			else
+				condition = SqlFieldName("t", fi) + " " + SqlCompare(fi) + " ";
 
 			if (IsSqlNumber(fi.FieldMetaType) && fi.FieldValue.trimmed() == "")
 				// user hasn't filled the number

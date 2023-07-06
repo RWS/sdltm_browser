@@ -285,6 +285,17 @@ bool DBBrowserDB::open(const QString& db, bool readOnly)
             nullptr,
             nullptr
         );
+        sqlite3_create_function_v2(
+            _db,
+            "sdltm_regex_replace",
+            3,
+            SQLITE_UTF8 | SQLITE_DETERMINISTIC,
+            nullptr,
+            SdltmRegexReplaceText,
+            nullptr,
+            nullptr,
+            nullptr
+        );
 
 
         // Check if file is read only. In-memory databases are never read only

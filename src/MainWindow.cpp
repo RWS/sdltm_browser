@@ -448,7 +448,7 @@ void MainWindow::init()
     statusBusyLabel = new QLabel(ui->statusbar);
     statusBusyLabel->setEnabled(false);
     statusBusyLabel->setVisible(false);
-    statusBusyLabel->setToolTip(tr("The database is currenctly busy."));
+    statusBusyLabel->setToolTip(tr("The database is currently busy."));
     ui->statusbar->addPermanentWidget(statusBusyLabel);
 
     statusStopButton = new QToolButton(ui->statusbar);
@@ -573,8 +573,6 @@ void MainWindow::init()
     ui->dockPlot->setWindowTitle(ui->dockPlot->windowTitle().remove('&'));
     ui->dockSchema->setWindowTitle(ui->dockSchema->windowTitle().remove('&'));
     ui->dockRemote->setWindowTitle(ui->dockRemote->windowTitle().remove('&'));
-
-    //ui->mainTab->setWindowIcon(QIcon(":/icons/appicon"));
 }
 
 bool MainWindow::fileOpen(const QString& fileName, bool openFromProject, bool readOnly)
@@ -867,13 +865,15 @@ void MainWindow::closeEvent( QCloseEvent* event )
 
 bool MainWindow::closeFiles()
 {
-    bool ignoreUnattachedBuffers = false;
-    // Ask for saving all modified open SQL files in their files and all the unattached tabs in a project file.
-    for(int i=0; i<ui->tabSqlAreas->count(); i++) {
-        // Ask for saving and comply with cancel answer.
-        if(!askSaveSqlTab(i, ignoreUnattachedBuffers))
-            return false;
-    }
+    // john.torjo - no need for project files
+
+    //bool ignoreUnattachedBuffers = false;
+    //// Ask for saving all modified open SQL files in their files and all the unattached tabs in a project file.
+    //for(int i=0; i<ui->tabSqlAreas->count(); i++) {
+    //    // Ask for saving and comply with cancel answer.
+    //    if(!askSaveSqlTab(i, ignoreUnattachedBuffers))
+    //        return false;
+    //}
 
     bool projectClosed = closeProject();
 
@@ -3160,6 +3160,9 @@ static void saveBrowseDataTableSettings(const BrowseDataTableSettings& object, s
 
 void MainWindow::saveProject(const QString& currentFilename)
 {
+    // john.torjo - no need for this at this time
+    return;
+
     QString filename;
     if(currentFilename.isEmpty()) {
         QString basePathName = db.currentFile();

@@ -133,7 +133,12 @@ struct SdltmFilterItem
 	int IndentLevel = 0;
 	bool IsAnd = true;
 
+	// for string searches -> if true, care about case-sensitivity
 	bool CaseSensitive = false;
+	// for string searches -> if true, care only for whole-words
+	bool WholeWordOnly = false;
+	// for string searches -> if true, treat the FieldValue as a Regex
+	bool UseRegex = false;
 
 	// can be hidden when this is not available for the current database (for instance, it's using a custom field not available here)
 	bool IsVisible = true;
@@ -172,6 +177,8 @@ struct SdltmFilter
 	QString QuickSearch;
 	QString QuickSearchTarget;
 	bool QuickSearchCaseSensitive = false;
+	bool QuickSearchWholeWordOnly = false;
+	bool QuickSearchUseRegex = false;
 	// if true, search both source + target for the same text
 	bool QuickSearchSearchSourceAndTarget = true;
 

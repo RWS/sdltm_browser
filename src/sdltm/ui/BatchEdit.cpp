@@ -11,6 +11,9 @@ BatchEdit::BatchEdit(QWidget* parent)
 	connect(ui->preview, SIGNAL(clicked(bool)), this, SLOT(OnClickPreview()));
 	connect(ui->run, SIGNAL(clicked(bool)), this, SLOT(OnClickRun()));
 	connect(ui->back, SIGNAL(clicked(bool)), this, SLOT(OnClickBack()));
+
+	connect(ui->findUseRegex, SIGNAL(stateChanged(int)), this, SLOT(OnUseRegexChanged()));
+
 	ui->findSearchInBoth->setChecked(true);
 }
 
@@ -22,7 +25,11 @@ FindAndReplaceInfo BatchEdit::GetFindAndReplaceInfo() const {
 	FindAndReplaceInfo far;
 	far.Find = ui->findText->text();
 	far.Replace = ui->replaceWithText->text();
+
 	far.MatchCase = ui->findMatchCase->isChecked();
+	far.WholeWordOnly = ui->findWordOnly->isChecked();
+	far.UseRegex = ui->findUseRegex->isChecked();
+
 	far.Type = FindAndReplaceInfo::SearchType::Both;
 	if (ui->findSearchInSource->isChecked())
 		far.Type = FindAndReplaceInfo::SearchType::Source;
@@ -44,4 +51,9 @@ void BatchEdit::OnClickRun() {
 void BatchEdit::OnClickBack() {
 	if (Back)
 		Back();
+}
+
+void BatchEdit::OnUseRegexChanged() {
+	ui->findMatchCase->setEnabled(!ui->findUseRegex->isChecked());
+	ui->findWordOnly->setEnabled(!ui->findUseRegex->isChecked());
 }
