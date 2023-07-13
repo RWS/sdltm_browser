@@ -103,8 +103,6 @@ struct SdltmFilterItem
 	SdltmFieldType FieldType;
 	// only used when the field meta type is "CustomField"
 	QString CustomFieldName = "";
-	// only used when the field meta type is "CustomField" and it's a list 
-	std::vector<QString> CustomValues;
 	NumberComparisonType NumberComparison = NumberComparisonType::Equal;
 	StringComparisonType StringComparison = StringComparisonType::Equal;
 	MultiStringComparisonType MultiStringComparison = MultiStringComparisonType::AnyEqual;

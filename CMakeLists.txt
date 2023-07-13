@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 
 set(CMAKE_FIND_NO_INSTALL_PREFIX True)
 project(trados_sdltm
-    VERSION 1.0.31
+    VERSION 1.0.35
     DESCRIPTION "TM Fusion for Trados"
 )
 
@@ -216,6 +216,7 @@ target_sources(${PROJECT_NAME}
     src/sdltm/DbFieldValueService.h
     src/sdltm/SqlFilterBuilder.h
     src/sdltm/SdltmUtil.h
+    src/sdltm/SdltmHashCode.h
 )
 
 target_sources(${PROJECT_NAME}
@@ -291,6 +292,7 @@ target_sources(${PROJECT_NAME}
     src/sdltm/DbFieldValueService.cpp
     src/sdltm/SqlFilterBuilder.cpp
     src/sdltm/SdltmUtil.cpp
+    src/sdltm/SdltmHashCode.cpp
 )
 
 set(SQLB_FORMS

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>DB Browser for SQLite</string>
+   <string>TM Fusion for Trados</string>
   </property>
   <property name="windowIcon">
    <iconset resource="icons/icons.qrc">

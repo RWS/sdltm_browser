@@ -13,12 +13,12 @@ BEGIN
         BEGIN
             VALUE "FileVersion",      APP_VERSION "." BUILD_VERSION
             VALUE "ProductVersion",   APP_VERSION "." BUILD_VERSION
-            VALUE "FileDescription",  "DB Browser for SQLite"
-            VALUE "ProductName",      "DB Browser for SQLite"
-            VALUE "InternalName",     "DB Browser for SQLite"
-            VALUE "OriginalFilename", "DB Browser for SQLite.exe"
-            VALUE "CompanyName",      "DB Browser for SQLite Team"
-            VALUE "LegalCopyright",   "Copyright © DB Browser for SQLite Team"
+            VALUE "FileDescription",  "TM Fusion for Trados"
+            VALUE "ProductName",      "TM Fusion for Trados"
+            VALUE "InternalName",     "TM Fusion for Trados"
+            VALUE "OriginalFilename", "TM Fusion for Trados.exe"
+            VALUE "CompanyName",      "Trados AppStore Team"
+            VALUE "LegalCopyright",   "Copyright © Trados AppStore Team"
         END
     END
     BLOCK "VarFileInfo"

@@ -124,7 +124,7 @@ MainWindow::MainWindow(QWidget* parent)
         ui->filtersStack->setCurrentIndex(0);
     };
 
-    ui->batchEditCtrl->FindAndReplace = [this](const FindAndReplaceInfo&info)
+    ui->batchEditCtrl->FindAndReplaceText = [this](const FindAndReplaceTextInfo&info)
     {
         ui->editSdltmFilter->ForceSaveNow();
         int replaceCount = 0;
@@ -133,7 +133,21 @@ MainWindow::MainWindow(QWidget* parent)
         if (TryFindAndReplace(ui->filtersList->GetEditFilter(), _customFieldService.GetFields(), info, db, replaceCount, errorCode, errrorMsg)) {
             QMessageBox::information(this, qApp->applicationName(), "Success! We've updated " + QString::number(replaceCount) + " records.");
         } else
-            QMessageBox::warning(this, qApp->applicationName(), tr("Could not run Find and Replace.\nReason: %1").arg(db.lastError()));
+            QMessageBox::warning(this, qApp->applicationName(), tr("Could not run Find and Replace.\nReason: %1").arg(errrorMsg));
+        // the idea: we now what to see the results (in the filter we already have)
+        ui->editSdltmFilter->ReapplyFilter();
+    };
+    ui->batchEditCtrl->FindAndReplaceField = [this](const FindAndReplaceFieldInfo& info)
+    {
+        ui->editSdltmFilter->ForceSaveNow();
+        int replaceCount = 0;
+        int errorCode = 0;
+        QString errrorMsg;
+        if (TryFindAndReplace(ui->filtersList->GetEditFilter(), _customFieldService.GetFields(), info, db, replaceCount, errorCode, errrorMsg)) {
+            QMessageBox::information(this, qApp->applicationName(), "Success! We've updated " + QString::number(replaceCount) + " records.");
+        }
+        else
+            QMessageBox::warning(this, qApp->applicationName(), tr("Could not run Find and Replace.\nReason: %1").arg(errrorMsg));
         // the idea: we now what to see the results (in the filter we already have)
         ui->editSdltmFilter->ReapplyFilter();
     };
@@ -639,6 +653,7 @@ bool MainWindow::fileOpen(const QString& fileName, bool openFromProject, bool re
                 refreshTableBrowsers();
                 _customFieldService.Update();
                 ui->editSdltmFilter->SetCustomFields(_customFieldService.GetFields());
+                ui->batchEditCtrl->SetCustomFields(_customFieldService.GetFields());
 
                 // Update remote dock
                 remoteDock->fileOpened(wFile);

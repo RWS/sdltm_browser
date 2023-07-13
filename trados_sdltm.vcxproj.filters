@@ -217,6 +217,9 @@
     <ClCompile Include="C:\code\sdltm_browser\src\sdltm\SdltmUtil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\sdltm\SdltmHashCode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="C:\code\sdltm_browser\qrc_icons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -466,6 +469,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\code\sdltm_browser\src\sdltm\SdltmUtil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\sdltm\SdltmHashCode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\code\sdltm_browser\ui_AboutDialog.h">

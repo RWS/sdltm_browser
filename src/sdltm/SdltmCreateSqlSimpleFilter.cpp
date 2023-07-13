@@ -136,7 +136,20 @@ namespace
 			}
 			
 
-		case SdltmFieldMetaType::DateTime:
+		case SdltmFieldMetaType::DateTime: {
+			value = "datetime('" + value + "')";
+			switch (fi.NumberComparison)
+			{
+			case NumberComparisonType::Equal: return " = " + value;
+			case NumberComparisonType::Less:  return " < " + value;
+			case NumberComparisonType::LessOrEqual:  return " <=" + value;
+			case NumberComparisonType::Bigger:  return " > " + value;
+			case NumberComparisonType::BiggerOrEqual:  return " >= " + value;
+			default: assert(false);
+			}
+
+		}
+			break;
 			
 
 			// string

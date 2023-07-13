@@ -28,7 +28,6 @@ namespace
         item.FieldMetaType = static_cast<SdltmFieldMetaType>(json["FieldMetaType"].toInt());
         item.FieldType = static_cast<SdltmFieldType>(json["FieldType"].toInt());
         item.CustomFieldName = json["CustomFieldName"].toString();
-        item.CustomValues = JsonToStringArray(json["CustomValues"].toArray());
         item.NumberComparison = static_cast<NumberComparisonType>(json["NumberComparison"].toInt());
         item.StringComparison = static_cast<StringComparisonType>(json["StringComparison"].toInt());
         item.MultiStringComparison = static_cast<MultiStringComparisonType>(json["MultiStringComparison"].toInt());
@@ -81,7 +80,6 @@ namespace
         json["FieldMetaType"] = static_cast<int>(item.FieldMetaType);
         json["FieldType"] = static_cast<int>(item.FieldType);
         json["CustomFieldName"] = item.CustomFieldName;
-        json["CustomValues"] = StringArrayToJson(item.CustomValues) ;
         json["NumberComparison"] = static_cast<int>(item.NumberComparison);
         json["StringComparison"] = static_cast<int>(item.StringComparison);
         json["MultiStringComparison"] = static_cast<int>(item.MultiStringComparison);
@@ -298,31 +296,137 @@ int RunQueryGetCount(const QString &sql, DBBrowserDB &db) {
 		            ORDER BY t.id))
 
  */
-bool TryRunUpdateSql(const QString & selectSql, const QString & updateSql, DBBrowserDB &db, int& error, QString& errorMsg) {
-    auto sql = "UPDATE translation_units SET " + updateSql + " WHERE id in (SELECT id FROM ( " + selectSql + " ))";
+namespace  {
+    bool TryRunUpdateSourceOrTargetTextSql(const QString& selectSql, const QString& updateSql, DBBrowserDB& db, int& error, QString& errorMsg) {
+        auto sql = "UPDATE translation_units SET " + updateSql + " WHERE id in (SELECT id FROM ( " + selectSql + " ))";
 
-    auto forceWait = true;
-    auto pDb = db.get("run sql update", forceWait);
+        auto forceWait = true;
+        auto pDb = db.get("run sql update", forceWait);
 
-    bool ok = false;
-    sqlite3_stmt* stmt;
-    int status = sqlite3_prepare_v2(pDb.get(), sql.toStdString().c_str(), static_cast<int>(sql.size()), &stmt, nullptr);
-    if (status == SQLITE_OK) {
-        ok = sqlite3_step(stmt) == SQLITE_DONE;
-        sqlite3_finalize(stmt);
+        bool ok = false;
+        sqlite3_stmt* stmt;
+        int status = sqlite3_prepare_v2(pDb.get(), sql.toStdString().c_str(), static_cast<int>(sql.size()), &stmt, nullptr);
+        if (status == SQLITE_OK) {
+            ok = sqlite3_step(stmt) == SQLITE_DONE;
+            sqlite3_finalize(stmt);
+        }
+
+        if (!ok) {
+            error = sqlite3_errcode(pDb.get());
+            errorMsg = sqlite3_errmsg(pDb.get());
+        }
+
+        DebugWriteLine("update sql=" + sql);
+        return ok;
+    }
+}
+
+namespace  {
+	QString FieldTypeToAttributesTable(SdltmFieldMetaType fieldType) {
+		switch (fieldType) {
+        case SdltmFieldMetaType::Int: assert(false); break;
+		case SdltmFieldMetaType::Double: assert(false); break;
+		case SdltmFieldMetaType::Text: 
+            return "string_attributes";
+		case SdltmFieldMetaType::MultiText: 
+            return "string_attributes";
+        case SdltmFieldMetaType::Number: 
+            return "numeric_attributes";
+        case SdltmFieldMetaType::List: 
+            return "picklist_attributes";
+        case SdltmFieldMetaType::CheckboxList: 
+            return "picklist_attributes";
+        case SdltmFieldMetaType::DateTime: 
+            return "date_attributes";
+        default: ;
+		}
+
+        assert(false);
+        return "string_attributes";
+	}
+    QString FieldTypeToAttributesField(SdltmFieldMetaType fieldType) {
+        switch (fieldType) {
+        case SdltmFieldMetaType::Int: assert(false); break;
+        case SdltmFieldMetaType::Double: assert(false); break;
+        case SdltmFieldMetaType::Text:
+        case SdltmFieldMetaType::MultiText:
+        case SdltmFieldMetaType::Number:
+        case SdltmFieldMetaType::DateTime:
+            return "attribute_id";
+        case SdltmFieldMetaType::List:
+        case SdltmFieldMetaType::CheckboxList:
+            return "picklist_value_id";
+        default:;
+        }
+
+        assert(false);
+        return "attribute_id";
+    }
+    QString FieldTypeToAttributesUpdateValueField(SdltmFieldMetaType fieldType) {
+        switch (fieldType) {
+        case SdltmFieldMetaType::Int: assert(false); break;
+        case SdltmFieldMetaType::Double: assert(false); break;
+        case SdltmFieldMetaType::Text:
+        case SdltmFieldMetaType::MultiText:
+        case SdltmFieldMetaType::Number:
+        case SdltmFieldMetaType::DateTime:
+            return "value";
+        case SdltmFieldMetaType::List:
+        case SdltmFieldMetaType::CheckboxList:
+            return "picklist_value_id";
+        default:;
+        }
+
+        assert(false);
+        return "attribute_id";
     }
 
-    if (!ok) {
-        error = sqlite3_errcode(pDb.get());
-        errorMsg = sqlite3_errmsg(pDb.get());
+    bool TryRunUpdateSourceChangeFieldSql(const QString& selectSql, const QString& updateSql, const FindAndReplaceFieldInfo& info, DBBrowserDB& db, int& error, QString& errorMsg) {
+        auto fieldType = info.EditField.FieldType;
+        auto attributeId = info.EditField.ID;
+        auto field = FieldTypeToAttributesField(fieldType);
+        QString wherePrefix = "";
+        if (fieldType != SdltmFieldMetaType::List && fieldType != SdltmFieldMetaType::CheckboxList)
+            wherePrefix = field + " = " + QString::number(attributeId) + " AND ";
+        else if (fieldType == SdltmFieldMetaType::List) {
+            wherePrefix = field + " = " + QString::number(info.OldComboId()) + " AND ";
+        }
+        auto sql = "UPDATE " + FieldTypeToAttributesTable(fieldType) + " SET " + updateSql
+            + " WHERE  " + wherePrefix + " translation_unit_id in (SELECT id FROM ( " + selectSql + " ))";
+
+        auto forceWait = true;
+        auto pDb = db.get("run sql update change field", forceWait);
+
+        bool ok = false;
+        sqlite3_stmt* stmt;
+        int status = sqlite3_prepare_v2(pDb.get(), sql.toStdString().c_str(), static_cast<int>(sql.size()), &stmt, nullptr);
+        if (status == SQLITE_OK) {
+            ok = sqlite3_step(stmt) == SQLITE_DONE;
+            sqlite3_finalize(stmt);
+        }
+
+        if (!ok) {
+            error = sqlite3_errcode(pDb.get());
+            errorMsg = sqlite3_errmsg(pDb.get());
+        }
+
+        DebugWriteLine("update sql=" + sql);
+        return ok;
     }
 
-    DebugWriteLine("update sql=" + sql);
-    return ok;
+    bool TryRunUpdateSourceChangeFieldMultiTextSql(const QString& selectSql, const QString& updateSql, const FindAndReplaceFieldInfo& info, DBBrowserDB& db, int& error, QString& errorMsg) {
+        return false;
+    }
+    bool TryRunUpdateSourceChangeFieldCheckListSql(const QString& selectSql, const QString& updateSql, const FindAndReplaceFieldInfo& info, DBBrowserDB& db, int& error, QString& errorMsg) {
+        return false;
+    }
+
 }
 
 
-bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>& customFields, const FindAndReplaceInfo& info, DBBrowserDB& db, int& replaceCount, int& error, QString& errorMsg) {
+
+
+bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>& customFields, const FindAndReplaceTextInfo& info, DBBrowserDB& db, int& replaceCount, int& error, QString& errorMsg) {
     if (info.Find == "")
         return false;
 
@@ -330,15 +434,15 @@ bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>
     for (auto& item : findAndReplace.FilterItems)
         item.IndentLevel += 2;
 
-    // the idea: I want to AND the find-and-replace to the existing filter
+    // the idea: I want to AND them, the find-and-replace to the existing filter
     //           but, for "both", I actually have an OR
     SdltmFilterItem dummy(SdltmFieldType::CustomSqlExpression);
     dummy.IndentLevel = 0;
     dummy.FieldValue = "1=1";
     dummy.IsAnd = true;
     findAndReplace.FilterItems.push_back(dummy);
-    auto searchSource = info.Type == FindAndReplaceInfo::SearchType::Source || info.Type == FindAndReplaceInfo::SearchType::Both;
-    auto searchTarget = info.Type == FindAndReplaceInfo::SearchType::Target || info.Type == FindAndReplaceInfo::SearchType::Both;
+    auto searchSource = info.Type == FindAndReplaceTextInfo::SearchType::Source || info.Type == FindAndReplaceTextInfo::SearchType::Both;
+    auto searchTarget = info.Type == FindAndReplaceTextInfo::SearchType::Target || info.Type == FindAndReplaceTextInfo::SearchType::Both;
     if (searchSource) {
         SdltmFilterItem source(SdltmFieldType::SourceSegment);
         source.IndentLevel = 1;
@@ -394,7 +498,79 @@ bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>
     else
         replaceSql = replaceTarget;
 
-    return TryRunUpdateSql(selectSql, replaceSql, db, error, errorMsg);
+    return TryRunUpdateSourceOrTargetTextSql(selectSql, replaceSql, db, error, errorMsg);
+}
+
+namespace {
+    QString StringValueToSql(SdltmFieldMetaType fieldType, const QString& text, const QDateTime& date, int comboValue) {
+        switch (fieldType) {
+        case SdltmFieldMetaType::Int: assert(false); break;
+        case SdltmFieldMetaType::Double: assert(false); break;
+        case SdltmFieldMetaType::Text:
+        case SdltmFieldMetaType::MultiText:
+            return "'" + EscapeXml(text) + "'";
+        case SdltmFieldMetaType::Number:
+            return text;
+
+        case SdltmFieldMetaType::List: 
+            return QString::number(comboValue);
+        case SdltmFieldMetaType::CheckboxList: break;
+
+        case SdltmFieldMetaType::DateTime:
+            return "datetime('" + date.toString(Qt::ISODate) + "')";
+        default:;
+        }
+        assert(false);
+        return "";
+    }
+
+}
+bool TryFindAndReplace( const SdltmFilter& filter, const std::vector<CustomField>& customFields,
+						const FindAndReplaceFieldInfo& info, DBBrowserDB& db, int& replaceCount, int& error, QString& errorMsg) {
+    if (!info.EditField.IsPresent())
+        return false;
+
+    SdltmFilter findAndReplace = filter;
+    for (auto& item : findAndReplace.FilterItems)
+        item.IndentLevel += 1;
+
+    if (info.HasOldValue()) {
+        SdltmFilterItem dummy(info.EditField.FieldName, info.EditField.FieldType);
+        dummy.IndentLevel = 0;
+        dummy.IsAnd = true;
+        dummy.CaseSensitive = true;
+        if (info.EditField.FieldType != SdltmFieldMetaType::CheckboxList)
+			dummy.FieldValue = info.OldValue();
+        dummy.FieldValues = info.OldComboNames();
+        findAndReplace.FilterItems.push_back(dummy);
+    }
+
+    auto selectSql = SdltmCreateSqlSimpleFilter(findAndReplace, customFields).ToSqlFilter();
+    DebugWriteLine("Find and replace (select): " + selectSql);
+    replaceCount = RunQueryGetCount(selectSql, db);
+    if (replaceCount == 0)
+        return true;
+
+    switch (info.EditField.FieldType) {
+    case SdltmFieldMetaType::MultiText: break;
+    case SdltmFieldMetaType::CheckboxList: break;
+
+    case SdltmFieldMetaType::Int: assert(false); break;
+    case SdltmFieldMetaType::Double: assert(false); break;
+
+        // normal UPDATE handling
+    case SdltmFieldMetaType::Text: 
+    case SdltmFieldMetaType::Number: 
+    case SdltmFieldMetaType::List: 
+    case SdltmFieldMetaType::DateTime: 
+    default: 
+        break;
+    }
+
+    auto updateField = FieldTypeToAttributesUpdateValueField(info.EditField.FieldType);
+    QString replaceSql = updateField + " = " + StringValueToSql(info.EditField.FieldType, info.NewText, info.NewDate, info.NewComboId() ) ;
+
+    return TryRunUpdateSourceChangeFieldSql(selectSql, replaceSql, info, db, error, errorMsg);
 }
 
 void LoadSqliteRegexExtensions(DBBrowserDB& db) {
