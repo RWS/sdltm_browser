@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 
 set(CMAKE_FIND_NO_INSTALL_PREFIX True)
 project(trados_sdltm
-    VERSION 1.0.35
+    VERSION 1.0.37
     DESCRIPTION "TM Fusion for Trados"
 )
 
@@ -211,11 +211,13 @@ target_sources(${PROJECT_NAME}
     src/sdltm/ui/SdltmSqlView.h
     src/sdltm/ui/SdltmFiltersList.h
     src/sdltm/ui/BatchEdit.h
+    src/sdltm/ui/MultiTextEdit.h
     src/sdltm/SdltmCreateSqlSimpleFilter.h
     src/sdltm/CustomFieldService.h
     src/sdltm/DbFieldValueService.h
     src/sdltm/SqlFilterBuilder.h
     src/sdltm/SdltmUtil.h
+    src/sdltm/SdltmSqlUtil.h
     src/sdltm/SdltmHashCode.h
 )
 
@@ -287,11 +289,13 @@ target_sources(${PROJECT_NAME}
     src/sdltm/ui/SdltmSqlView.cpp
     src/sdltm/ui/SdltmFiltersList.cpp
     src/sdltm/ui/BatchEdit.cpp
+    src/sdltm/ui/MultiTextEdit.cpp
     src/sdltm/SdltmCreateSqlSimpleFilter.cpp
     src/sdltm/CustomFieldService.cpp
     src/sdltm/DbFieldValueService.cpp
     src/sdltm/SqlFilterBuilder.cpp
     src/sdltm/SdltmUtil.cpp
+    src/sdltm/SdltmSqlUtil.cpp
     src/sdltm/SdltmHashCode.cpp
 )
 
@@ -324,6 +328,7 @@ set(SQLB_FORMS
     src/sdltm/ui/SdltmSqlView.ui
     src/sdltm/ui/SdltmFiltersList.ui
     src/sdltm/ui/BatchEdit.ui
+    src/sdltm/ui/MultiTextEdit.ui
 )
 
 set(SQLB_RESOURCES

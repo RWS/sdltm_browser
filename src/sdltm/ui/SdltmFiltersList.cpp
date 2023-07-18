@@ -80,7 +80,7 @@ void SdltmFiltersList::EditFilter()
 	if (Edit && _editIdx >= 0)
 		Edit(_filters[_editIdx]);
 
-	DebugWriteLine("Editing filter " + QString::number(_editIdx));
+	SdltmLog("Editing filter " + QString::number(_editIdx));
 }
 
 void SdltmFiltersList::Close()

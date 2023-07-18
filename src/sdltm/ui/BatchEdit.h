@@ -26,7 +26,7 @@ struct FindAndReplaceFieldInfo {
 	QString OldText;
 	QString NewText;
 
-	QDateTime OldDate;
+	QDateTime OldDate = QDateTime(QDate(1990,1,1));
 	QDateTime NewDate;
 
 	int OldComboIndex = -1;
@@ -34,6 +34,9 @@ struct FindAndReplaceFieldInfo {
 
 	std::vector<int> OldCheckIndexes;
 	std::vector<int> NewCheckIndexes;
+
+	std::vector<QString> OldMultiText;
+	std::vector<QString> NewMultiText;
 
 	QString OldValue() const;
 	QString NewValue() const;
@@ -118,7 +121,11 @@ private:
 	std::vector<CustomField> _customFields;
 	int _ignoreUpdate = 0;
 	CustomField _editField;
+
 	std::vector<bool> _oldChecklistStates;
 	std::vector<bool> _newCheckListStates;
+
+	std::vector<QString> _oldMultiText;
+	std::vector<QString> _newMultiText;
 };
 

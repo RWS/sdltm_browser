@@ -59,18 +59,19 @@ enum class StringComparisonType
 enum class MultiStringComparisonType
 {
 	AnyEqual, AnyContains, AnyStartsWith, AnyEndsWith,
+	// for now, only used internally, when comparing if multi-string equals to a set of values
+	Equals,
 };
 
 enum class MultiComparisonType
 {
-	HasItem,	
+	HasItem,
 };
 
 enum class ChecklistComparisonType
 {
 	HasAnyOf, HasAllOf,
-	// not implemented yet
-	// Equals,
+	Equals,
 };
 
 

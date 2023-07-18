@@ -201,7 +201,8 @@ QString SdltmFilterItem::FriendlyString() const
 		switch (ChecklistComparison) {
 			case ChecklistComparisonType::HasAnyOf: friendly += " Has Any Of "; break;
 			case ChecklistComparisonType::HasAllOf: friendly += " Has All Of "; break;
-		default: ;
+			case ChecklistComparisonType::Equals: friendly += " Equals "; break;
+			default: ;
 		}
 		break;
 	default: assert(false); break;

@@ -526,7 +526,7 @@ void EditSdltmFilter::UpdateOperationCombo()
 		break;
 		// multi-comparison (has-item) -- several values
 	case SdltmFieldMetaType::CheckboxList: 
-		operations = { "Has Any Of", "Has All Of" };
+		operations = { "Has Any Of", "Has All Of", "Equals" };
 		break;
 	default: ;
 	}

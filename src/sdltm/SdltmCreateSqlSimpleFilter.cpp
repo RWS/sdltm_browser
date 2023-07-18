@@ -264,7 +264,22 @@ namespace
 			// user hasn't filled the number
 			return  "";
 
-		if (!IsList(fi.FieldMetaType))
+		if (fi.FieldMetaType == SdltmFieldMetaType::MultiText && !fi.FieldValues.empty()) {
+			// here - multi-text, and the values are specified as an array
+			QString subQuery;
+			for (const auto& value : fi.FieldValues)
+			{
+				if (subQuery != "")
+					subQuery += " OR ";
+				subQuery +=  "value = '" + EscapeXml(value) + "'";
+			}
+			subQuery = "attribute_id = " + QString::number(customField.ID) + " AND (" + subQuery + ")";
+
+			if (fi.IsNegated)
+				subQuery = "NOT (" + subQuery + ")";
+			return subQuery;
+		}
+		else if (!IsList(fi.FieldMetaType))
 		{
 			auto subQuery = SqlFieldName(tableName, fi, customField) + " " + SqlCompare(fi) + " ";
 			if (fi.IsNegated)
@@ -328,6 +343,7 @@ namespace
 		auto found = std::find_if(allCustomFields.begin(), allCustomFields.end(), [fieldName](const CustomField& f) { return f.FieldName == fieldName; });
 		return found != allCustomFields.end() ? *found : CustomField();
 	}
+
 
 	// distinct suffix -- we want distinct queries, for instance, for Text and Multi-text, or List and checklist
 	QString FieldValueQuery(const std::vector<SdltmFilterItem> & filterItems, const QString & joinTableName, 
@@ -401,7 +417,7 @@ namespace
 
 		auto fieldCount = customFields.size();
 		auto globalSql = distinctFieldName + " is not NULL";
-		auto isCheckboxListAll = isCheckboxList && filterItems[0].ChecklistComparison == ChecklistComparisonType::HasAllOf;
+		auto isCheckboxListAll = isCheckboxList && (filterItems[0].ChecklistComparison == ChecklistComparisonType::HasAllOf || filterItems[0].ChecklistComparison == ChecklistComparisonType::Equals);
 		if (isCheckboxListAll)
 			fieldCount = filterItems[0].FieldValues.size();
 		if ((fieldCount > 1 && isAnd) || isCheckboxListAll)
@@ -412,6 +428,73 @@ namespace
 		}
 		AppendSql(globalWhere, globalSql, globalIsAnd, prependEnter);
 
+		return sql;
+	}
+
+	QString FieldValueQueryMultiText(const std::vector<SdltmFilterItem>& filterItems, const std::vector<CustomField>& allCustomFields, QString& globalWhere) {
+		if (filterItems.empty())
+			return "";// no such fields
+
+		QString sql;
+		auto multiIndex = 0;
+		for (const auto& fi : filterItems)
+		{
+			auto customField = FindCustomField(fi.CustomFieldName, allCustomFields);
+			if (!customField.IsPresent())
+				continue; // field not found
+			if (fi.MultiStringComparison != MultiStringComparisonType::Equals)
+				continue;
+
+			if (fi.FieldValues.size() < 1)
+				continue; // can't have "Equals = <empty-array>"
+
+			QString sqlFieldName = "multi_" + QString::number(multiIndex++);
+			sql += "\r\n    , (SELECT count(*) FROM string_attributes WHERE t.id = string_attributes.translation_unit_id AND string_attributes.attribute_id = "
+				+ QString::number(customField.ID) + " AND (";
+			// do the OR
+			QString subSql;
+			for (const auto& value : fi.FieldValues) {
+				if (subSql != "")
+					subSql += " OR ";
+				subSql += "string_attributes.value='" + EscapeXml(value) + "' ";
+			}
+			sql += subSql + ")) AS " + sqlFieldName + " \r\n";
+
+			QString globalSql = sqlFieldName + " = " + QString::number(fi.FieldValues.size());
+			AppendSql(globalWhere, globalSql, true);
+		}
+		return sql;
+	}
+	QString FieldValueQueryCheckList(const std::vector<SdltmFilterItem>& filterItems, const std::vector<CustomField>& allCustomFields, QString& globalWhere) {
+		if (filterItems.empty())
+			return "";// no such fields
+
+		QString sql;
+		auto checklistIndex = 0;
+		for (const auto& fi : filterItems)
+		{
+			auto customField = FindCustomField(fi.CustomFieldName, allCustomFields);
+			if (!customField.IsPresent())
+				continue; // field not found
+			if (fi.ChecklistComparison != ChecklistComparisonType::Equals)
+				continue;
+
+			if (fi.FieldValues.size() < 1)
+				continue; // can't have "Equals = <empty-array>"
+
+			QString sqlFieldName = "checklist_" + QString::number(checklistIndex++);
+			sql += "\r\n    , (SELECT count(*) FROM picklist_attributes WHERE t.id = picklist_attributes.translation_unit_id AND (";
+			QString subSql;
+			for (const auto& value : customField.ValueToID) {
+				if (subSql != "")
+					subSql += " OR ";
+				subSql += "picklist_attributes.picklist_value_id =" + QString::number(value);
+			}
+			sql += subSql  + ")) AS " + sqlFieldName + " \r\n";
+
+			QString globalSql = sqlFieldName + " = " + QString::number(fi.FieldValues.size());
+			AppendSql(globalWhere, globalSql, true);
+		}
 		return sql;
 	}
 
@@ -445,26 +528,36 @@ QString SdltmCreateSqlSimpleFilter::ToSqlFilter() const
 	auto customFieldsIsAnd = lowestIndent != _filter.FilterItems.end() && lowestIndent->CustomFieldName != "" ? lowestIndent->IsAnd : true;
 
 	QString sql = "SELECT t.id, sdltm_friendly_text(t.source_segment) as Source, sdltm_friendly_text(t.target_segment) as Target ";
-	QString where;
+	QString globalWhere;
 	sql += FieldValueQuery(
 				FilterCustomFields(_filter.FilterItems, SdltmFieldMetaType::Number), 
-				"numeric_attributes", "attribute_id", "", _customFields, where, customFieldsIsAnd);
+				"numeric_attributes", "attribute_id", "", _customFields, globalWhere, customFieldsIsAnd);
 	sql += FieldValueQuery(
 				FilterCustomFields(_filter.FilterItems, SdltmFieldMetaType::Text),
-				"string_attributes", "attribute_id", "", _customFields, where, customFieldsIsAnd);
+				"string_attributes", "attribute_id", "", _customFields, globalWhere, customFieldsIsAnd);
 	sql += FieldValueQuery(
 				FilterCustomFields(_filter.FilterItems, SdltmFieldMetaType::MultiText),
-				"string_attributes", "attribute_id", "_mt", _customFields, where, customFieldsIsAnd);
+				"string_attributes", "attribute_id", "_mt", _customFields, globalWhere, customFieldsIsAnd);
 	sql += FieldValueQuery(
 				FilterCustomFields(_filter.FilterItems, SdltmFieldMetaType::DateTime),
-				"date_attributes", "attribute_id", "", _customFields, where, customFieldsIsAnd);
+				"date_attributes", "attribute_id", "", _customFields, globalWhere, customFieldsIsAnd);
 
 	sql += FieldValueQuery(
 		FilterCustomFields(_filter.FilterItems, SdltmFieldMetaType::List),
-		"picklist_attributes", "picklist_value_id", "", _customFields, where, customFieldsIsAnd);
+		"picklist_attributes", "picklist_value_id", "", _customFields, globalWhere, customFieldsIsAnd);
 	sql += FieldValueQuery(
 		FilterCustomFields(_filter.FilterItems, SdltmFieldMetaType::CheckboxList),
-		"picklist_attributes", "picklist_value_id", "_pa", _customFields, where, customFieldsIsAnd);
+		"picklist_attributes", "picklist_value_id", "_pa", _customFields, globalWhere, customFieldsIsAnd);
+
+	// special cases: multi-text + checkbox-list when comparing for equality
+	// in this case, the default sql will find a "contains all of". but i need an extra check: "has nothing else of"
+	// thus, i need to find the count of entries for each field and make sure it's equal to our array's size
+	QString globalAndWhere;
+	sql += FieldValueQueryMultiText(
+		FilterCustomFields(_filter.FilterItems, SdltmFieldMetaType::MultiText), _customFields, globalAndWhere);
+	sql += FieldValueQueryCheckList(
+		FilterCustomFields(_filter.FilterItems, SdltmFieldMetaType::CheckboxList), _customFields, globalAndWhere);
+
 
 	auto filterItems = _filter.FilterItems;
 	// quick source/target - if present
@@ -498,13 +591,15 @@ QString SdltmCreateSqlSimpleFilter::ToSqlFilter() const
 	}
 
 	SqlFilterBuilder globalBuilder;
-	if (where != "") {
+	if (globalWhere != "") {
 		auto indentLevel = lowestIndent != _filter.FilterItems.end() ? lowestIndent->IndentLevel : MAX_LEVEL;
 		if (customFieldsIsAnd)
-			globalBuilder.AddAnd(where, indentLevel);
+			globalBuilder.AddAnd(globalWhere, indentLevel);
 		else
-			globalBuilder.AddOr(where, indentLevel);
+			globalBuilder.AddOr(globalWhere, indentLevel);
 	}
+	if (globalAndWhere != "")
+		globalBuilder.AddAnd(globalAndWhere, 0);
 
 	QString limit;
 	for (const auto & fi : filterItems)
@@ -553,9 +648,9 @@ QString SdltmCreateSqlSimpleFilter::ToSqlFilter() const
 	}
 
 	sql += "FROM translation_units t ";
-	where = globalBuilder.Get();
-	if (where != "")
-		sql += "\r\n            WHERE " + where;
+	globalWhere = globalBuilder.Get();
+	if (globalWhere != "")
+		sql += "\r\n            WHERE " + globalWhere;
 	sql += "\r\n\r\n            ORDER BY t.id";
 	if (limit != "")
 		sql += " DESC " + limit;

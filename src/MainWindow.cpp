@@ -58,6 +58,7 @@
 
 #include <limits>
 
+#include "SdltmSqlUtil.h"
 #include "SdltmUtil.h"
 #include "ui_PlotDock.h"
 
@@ -126,12 +127,18 @@ MainWindow::MainWindow(QWidget* parent)
 
     ui->batchEditCtrl->FindAndReplaceText = [this](const FindAndReplaceTextInfo&info)
     {
+        QApplication::setOverrideCursor(Qt::WaitCursor);
         ui->editSdltmFilter->ForceSaveNow();
         int replaceCount = 0;
         int errorCode = 0;
         QString errrorMsg;
-        if (TryFindAndReplace(ui->filtersList->GetEditFilter(), _customFieldService.GetFields(), info, db, replaceCount, errorCode, errrorMsg)) {
-            QMessageBox::information(this, qApp->applicationName(), "Success! We've updated " + QString::number(replaceCount) + " records.");
+        QElapsedTimer timer;
+        timer.start();
+        auto ok = TryFindAndReplace(ui->filtersList->GetEditFilter(), _customFieldService.GetFields(), info, db, replaceCount, errorCode, errrorMsg);
+        auto elapsedMs = timer.elapsed();
+        QApplication::restoreOverrideCursor();
+        if (ok) {
+            QMessageBox::information(this, qApp->applicationName(), "Success! We've updated " + QString::number(replaceCount) + " records,\r\nin " + QString::number(elapsedMs / 1000) + " seconds.");
         } else
             QMessageBox::warning(this, qApp->applicationName(), tr("Could not run Find and Replace.\nReason: %1").arg(errrorMsg));
         // the idea: we now what to see the results (in the filter we already have)
@@ -139,12 +146,18 @@ MainWindow::MainWindow(QWidget* parent)
     };
     ui->batchEditCtrl->FindAndReplaceField = [this](const FindAndReplaceFieldInfo& info)
     {
+        QApplication::setOverrideCursor(Qt::WaitCursor);
         ui->editSdltmFilter->ForceSaveNow();
         int replaceCount = 0;
         int errorCode = 0;
         QString errrorMsg;
-        if (TryFindAndReplace(ui->filtersList->GetEditFilter(), _customFieldService.GetFields(), info, db, replaceCount, errorCode, errrorMsg)) {
-            QMessageBox::information(this, qApp->applicationName(), "Success! We've updated " + QString::number(replaceCount) + " records.");
+        QElapsedTimer timer;
+        timer.start();
+        auto ok = TryFindAndReplace(ui->filtersList->GetEditFilter(), _customFieldService.GetFields(), info, db, replaceCount, errorCode, errrorMsg);
+        auto elapsedMs = timer.elapsed();
+        QApplication::restoreOverrideCursor();
+        if (ok) {
+            QMessageBox::information(this, qApp->applicationName(), "Success! We've updated " + QString::number(replaceCount) + " records,\r\nin " + QString::number(elapsedMs / 1000) + " seconds.");
         }
         else
             QMessageBox::warning(this, qApp->applicationName(), tr("Could not run Find and Replace.\nReason: %1").arg(errrorMsg));

@@ -247,7 +247,7 @@
         <rect>
          <x>80</x>
          <y>10</y>
-         <width>241</width>
+         <width>181</width>
          <height>22</height>
         </rect>
        </property>
@@ -256,7 +256,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>40</y>
+         <y>34</y>
          <width>70</width>
          <height>24</height>
         </rect>
@@ -268,8 +268,8 @@
       <widget class="QLabel" name="label_7">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>70</y>
+         <x>280</x>
+         <y>34</y>
          <width>70</width>
          <height>24</height>
         </rect>
@@ -282,8 +282,8 @@
        <property name="geometry">
         <rect>
          <x>80</x>
-         <y>40</y>
-         <width>621</width>
+         <y>34</y>
+         <width>181</width>
          <height>24</height>
         </rect>
        </property>
@@ -354,9 +354,9 @@
       <widget class="QWidget" name="newValue" native="true">
        <property name="geometry">
         <rect>
-         <x>80</x>
-         <y>70</y>
-         <width>621</width>
+         <x>350</x>
+         <y>34</y>
+         <width>181</width>
          <height>24</height>
         </rect>
        </property>
@@ -423,6 +423,26 @@
          </widget>
         </item>
        </layout>
+      </widget>
+      <widget class="MultiTextEdit" name="oldMultiText" native="true">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>34</y>
+         <width>181</width>
+         <height>80</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="MultiTextEdit" name="newMultiText" native="true">
+       <property name="geometry">
+        <rect>
+         <x>350</x>
+         <y>34</y>
+         <width>181</width>
+         <height>80</height>
+        </rect>
+       </property>
       </widget>
      </widget>
      <widget class="QWidget" name="tab_3">
@@ -512,6 +532,12 @@
    <class>QCheckList</class>
    <extends>QWidget</extends>
    <header>qchecklist.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MultiTextEdit</class>
+   <extends>QWidget</extends>
+   <header>multitextedit.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

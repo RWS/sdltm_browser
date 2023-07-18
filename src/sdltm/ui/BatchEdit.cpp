@@ -16,10 +16,11 @@ bool FindAndReplaceFieldInfo::HasOldValue() const {
 	case SdltmFieldMetaType::Int: assert(false); break;
 	case SdltmFieldMetaType::Double: assert(false); break;
 	case SdltmFieldMetaType::Text:
-	case SdltmFieldMetaType::MultiText:
 		return OldText != "";
+	case SdltmFieldMetaType::MultiText:
+		return OldMultiText.size() > 0;
 	case SdltmFieldMetaType::Number:
-		return OldText != "0";
+		return OldText != "";
 
 	case SdltmFieldMetaType::List: 
 		return OldComboIndex != -1;
@@ -28,7 +29,7 @@ bool FindAndReplaceFieldInfo::HasOldValue() const {
 		return OldCheckIndexes.size() > 0;
 
 	case SdltmFieldMetaType::DateTime:
-		return OldDate > QDateTime(QDate(1990,0,0));
+		return OldDate > QDateTime(QDate(1990,1,1));
 	default:;
 	}
 	assert(false);
@@ -77,10 +78,17 @@ BatchEdit::BatchEdit(QWidget* parent)
 
 	connect(ui->editField, SIGNAL(currentIndexChanged(int)), this, SLOT(OnFieldChange()));
 
-
 	ui->findSearchInBoth->setChecked(true);
-	ui->oldValue->setFixedWidth(ui->editField->width());
-	ui->newValue->setFixedWidth(ui->editField->width());
+	ui->oldMultiText->OnMultiTextChange = [this]()
+	{
+		_oldMultiText = ui->oldMultiText->GetMultiText();
+	};
+	ui->newMultiText->OnMultiTextChange = [this]()
+	{
+		_newMultiText = ui->newMultiText->GetMultiText();
+	};
+
+	ui->oldDate->setDateTime(QDateTime(QDate(1990, 1, 1)));
 }
 
 BatchEdit::~BatchEdit() {
@@ -115,6 +123,18 @@ FindAndReplaceTextInfo BatchEdit::GetFindAndReplaceTextInfo() const {
 	return far;
 }
 
+namespace {
+	// if not a number, returns ""
+	QString TryStrToNumber(const QString & s) {
+		bool ok = true;
+		auto n = s.toInt(&ok);
+		if (ok)
+			return QString::number(n);
+		else
+			return "";
+	}
+}
+
 FindAndReplaceFieldInfo BatchEdit::GetFindAndReplaceEditInfo() const {
 	FindAndReplaceFieldInfo far;
 	far.EditField = _editField;
@@ -122,16 +142,20 @@ FindAndReplaceFieldInfo BatchEdit::GetFindAndReplaceEditInfo() const {
 	case SdltmFieldMetaType::Int: assert(false); break;
 	case SdltmFieldMetaType::Double: assert(false); break;
 	case SdltmFieldMetaType::Text: 
-	case SdltmFieldMetaType::MultiText: 
 		far.OldText = ui->oldText->text();
 		far.NewText = ui->newText->text();
 		break;
-	case SdltmFieldMetaType::Number:
-		far.OldText = QString::number(ui->oldText->text().toInt()) ;
-		far.NewText = QString::number(ui->newText->text().toInt()) ;
+	case SdltmFieldMetaType::MultiText:
+		far.OldMultiText = ui->oldMultiText->GetMultiText();
+		far.NewMultiText = ui->newMultiText->GetMultiText();
 		break;
-	case SdltmFieldMetaType::List: 
-		far.OldComboIndex = ui->oldList->currentIndex();
+	case SdltmFieldMetaType::Number: 
+		far.OldText = TryStrToNumber(ui->oldText->text());
+		far.NewText = TryStrToNumber(ui->newText->text());
+		break;
+	case SdltmFieldMetaType::List:
+		// ... first entry is "<Any>"
+		far.OldComboIndex = ui->oldList->currentIndex() - 1;
 		far.NewComboIndex = ui->newList->currentIndex();
 		break;
 	case SdltmFieldMetaType::CheckboxList: {
@@ -156,13 +180,15 @@ FindAndReplaceFieldInfo BatchEdit::GetFindAndReplaceEditInfo() const {
 }
 
 void BatchEdit::UpdateFieldTypeVisibility() {
-	bool isText = false, isDate = false, isList = false, isChecklist = false;
+	bool isText = false, isDate = false, isList = false, isChecklist = false, isMulti = false;
 	switch (_editField.FieldType) {
 	case SdltmFieldMetaType::Int: assert(false); break;
 	case SdltmFieldMetaType::Double: assert(false); break;
 	case SdltmFieldMetaType::Text: 
-	case SdltmFieldMetaType::MultiText:
 		isText = true;
+		break;
+	case SdltmFieldMetaType::MultiText:
+		isMulti = true;
 		break;
 	case SdltmFieldMetaType::Number: isText = true; break;
 	case SdltmFieldMetaType::List: isList = true; break;
@@ -179,10 +205,16 @@ void BatchEdit::UpdateFieldTypeVisibility() {
 	ui->newDate->setVisible(isDate);
 	ui->newList->setVisible(isList);
 	ui->newCheckList->setVisible(isChecklist);
+	ui->oldMultiText->setVisible(isMulti);
+	ui->newMultiText->setVisible(isMulti);
 
-	if (isList) {
+	if (isMulti) {
+		ui->oldMultiText->SetMultiText(_oldMultiText);
+		ui->newMultiText->SetMultiText(_newMultiText);
+	} else if (isList) {
 		ui->oldList->clear();
 		ui->newList->clear();
+		ui->oldList->addItem("<Any>");
 		for (const auto & value : _editField.Values) {
 			ui->oldList->addItem(value);
 			ui->newList->addItem(value);

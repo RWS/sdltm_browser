@@ -10,7 +10,7 @@
 struct FindAndReplaceFieldInfo;
 struct FindAndReplaceTextInfo;
 class DBBrowserDB;
-void DebugWriteLine(const QString& s);
+void SdltmLog(const QString& s);
 
 std::vector<SdltmFilter> LoadFilters(const QString& fileName);
 void SaveFilters(const std::vector<SdltmFilter>& filters, const QString& file);
@@ -21,11 +21,7 @@ QString DefaultFiltersFile();
 QString AppRoamingDir();
 QString AppExecutableDir();
 
-std::vector<int> RunQueryGetIDs(const QString& sql, DBBrowserDB &db);
-int RunQueryGetCount(const QString& sql, DBBrowserDB& db);
-
-bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>& customFields, const FindAndReplaceTextInfo& info, DBBrowserDB& db, int& replaceCount, int& error, QString& errorMsg);
-bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>& customFields, const FindAndReplaceFieldInfo& info, DBBrowserDB& db, int& replaceCount, int& error, QString& errorMsg);
+void InitLog();
 
 void LoadSqliteRegexExtensions(DBBrowserDB& db);
 
