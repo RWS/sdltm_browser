@@ -164,6 +164,48 @@ MainWindow::MainWindow(QWidget* parent)
         // the idea: we now what to see the results (in the filter we already have)
         ui->editSdltmFilter->ReapplyFilter();
     };
+
+    ui->batchEditCtrl->FindAndReplaceDeleteField = [this](const CustomField& info)
+    {
+        QApplication::setOverrideCursor(Qt::WaitCursor);
+        ui->editSdltmFilter->ForceSaveNow();
+        int replaceCount = 0;
+        int errorCode = 0;
+        QString errrorMsg;
+        QElapsedTimer timer;
+        timer.start();
+        auto ok = TryFindAndReplaceDeleteField(ui->filtersList->GetEditFilter(), _customFieldService.GetFields(), info, db, replaceCount, errorCode, errrorMsg);
+        auto elapsedMs = timer.elapsed();
+        QApplication::restoreOverrideCursor();
+        if (ok) {
+            QMessageBox::information(this, qApp->applicationName(), "Success! We've deleted " + QString::number(replaceCount) + " field values,\r\nin " + QString::number(elapsedMs / 1000) + " seconds.");
+        }
+        else
+            QMessageBox::warning(this, qApp->applicationName(), tr("Could not run Find and Replace.\nReason: %1").arg(errrorMsg));
+        // the idea: we now what to see the results (in the filter we already have)
+        ui->editSdltmFilter->ReapplyFilter();
+    };
+
+    ui->batchEditCtrl->FindAndReplaceDeleteTags = [this]()
+    {
+        QApplication::setOverrideCursor(Qt::WaitCursor);
+        ui->editSdltmFilter->ForceSaveNow();
+        int replaceCount = 0;
+        int errorCode = 0;
+        QString errrorMsg;
+        QElapsedTimer timer;
+        timer.start();
+        auto ok = TryFindAndReplaceDeleteTags(ui->filtersList->GetEditFilter(), _customFieldService.GetFields(), db, replaceCount, errorCode, errrorMsg);
+        auto elapsedMs = timer.elapsed();
+        QApplication::restoreOverrideCursor();
+        if (ok) {
+            QMessageBox::information(this, qApp->applicationName(), "Success! We've updated " + QString::number(replaceCount) + " records,\r\nin " + QString::number(elapsedMs / 1000) + " seconds.");
+        }
+        else
+            QMessageBox::warning(this, qApp->applicationName(), tr("Could not run Find and Replace.\nReason: %1").arg(errrorMsg));
+        // the idea: we now what to see the results (in the filter we already have)
+        ui->editSdltmFilter->ReapplyFilter();
+    };
 }
 
 MainWindow::~MainWindow()

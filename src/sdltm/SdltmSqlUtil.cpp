@@ -286,17 +286,18 @@ namespace {
         return "";
     }
 
-    bool DeleteAttributeQuery(const FindAndReplaceFieldInfo& info, const std::vector<int>& ids, sqlite3* pDb, int& error, QString& errorMsg) {
-        auto tableName = GetAttributeTableName(info.EditField.FieldType);
-        auto attributeId = FieldTypeToAttributesField(info.EditField.FieldType);
+    bool DeleteAttributeQuery(const CustomField& info, const std::vector<int>& ids, sqlite3* pDb, int& error, QString& errorMsg) {
+        auto tableName = GetAttributeTableName(info.FieldType);
+        auto attributeId = FieldTypeToAttributesField(info.FieldType);
         QString sql;
-        if (info.EditField.FieldType != SdltmFieldMetaType::List)
-            sql = "DELETE FROM " + tableName + " WHERE translation_unit_id in " + ListToSqlString(ids) + " and attribute_id = " + QString::number(info.EditField.ID);
+        if (info.FieldType != SdltmFieldMetaType::List)
+            sql = "DELETE FROM " + tableName + " WHERE translation_unit_id in " + ListToSqlString(ids) + " and attribute_id = " + QString::number(info.ID);
         else
             // list
-            sql = "DELETE FROM " + tableName + " WHERE translation_unit_id in " + ListToSqlString(ids) + " and picklist_value_id in " + ListToSqlString(info.EditField.ValueToID);
+            sql = "DELETE FROM " + tableName + " WHERE translation_unit_id in " + ListToSqlString(ids) + " and picklist_value_id in " + ListToSqlString(info.ValueToID);
         return RunExecuteQuery(sql, pDb, error, errorMsg);
     }
+
 
     QString InsertAttributeQuery(const FindAndReplaceFieldInfo& info, int translationUnitId, sqlite3* pDb, int& error, QString& errorMsg) {
         auto tableName = GetAttributeTableName(info.EditField.FieldType);
@@ -324,13 +325,38 @@ namespace {
             auto count = i + BLOCK_SIZE <= ids.size() ? BLOCK_SIZE : ids.size() - i;
             std::vector<int> subIds;
             std::copy(ids.begin() + i, ids.begin() + i + count, std::back_inserter(subIds));
-            if (!DeleteAttributeQuery(info, subIds, pDb, error, errorMsg))
+            if (!DeleteAttributeQuery(info.EditField, subIds, pDb, error, errorMsg))
                 return false;
         }
         // now, reinsert, one by one
         for (int i = 0; i < ids.size(); i ++) {
             auto sql = InsertAttributeQuery(info, ids[i], pDb, error, errorMsg);
             if (!RunExecuteQuery(sql, pDb, error, errorMsg))
+                return false;
+        }
+
+        if (!RunExecuteQuery("END TRANSACTION", pDb, error, errorMsg))
+            return false;
+        return true;
+    }
+
+    bool TryRunUpdateSourceDelFieldAttributeSql(const QString& selectSql, const CustomField& info, DBBrowserDB& db, int& error, QString& errorMsg) {
+        const int BLOCK_SIZE = 128;
+        auto ids = RunQueryGetIDs(selectSql, db);
+
+        auto forceWait = true;
+        auto pDbScopedPtr = db.get("del field value - attribute", forceWait);
+        sqlite3* pDb = pDbScopedPtr.get();
+
+        if (!RunExecuteQuery("BEGIN TRANSACTION", pDb, error, errorMsg))
+            return false;
+
+        // first, delete old entries
+        for (int i = 0; i < ids.size(); i += BLOCK_SIZE) {
+            auto count = i + BLOCK_SIZE <= ids.size() ? BLOCK_SIZE : ids.size() - i;
+            std::vector<int> subIds;
+            std::copy(ids.begin() + i, ids.begin() + i + count, std::back_inserter(subIds));
+            if (!DeleteAttributeQuery(info, subIds, pDb, error, errorMsg))
                 return false;
         }
 
@@ -352,12 +378,11 @@ namespace {
 
 
 
-
-
-    bool DeleteMultiTextQuery(const FindAndReplaceFieldInfo& info, const std::vector<int>& ids, sqlite3* pDb, int& error, QString& errorMsg) {
-        auto sql = "DELETE FROM string_attributes WHERE translation_unit_id in " + ListToSqlString(ids) + " and attribute_id = " + QString::number(info.EditField.ID);
+    bool DeleteMultiTextQuery(const CustomField& info, const std::vector<int>& ids, sqlite3* pDb, int& error, QString& errorMsg) {
+        auto sql = "DELETE FROM string_attributes WHERE translation_unit_id in " + ListToSqlString(ids) + " and attribute_id = " + QString::number(info.ID);
         return RunExecuteQuery(sql, pDb, error, errorMsg);
     }
+
 
     std::vector< QString> InsertMultiTextQuery(const FindAndReplaceFieldInfo& info, int translationUnitId, sqlite3* pDb, int& error, QString& errorMsg) {
         std::vector< QString> sqls;
@@ -383,7 +408,7 @@ namespace {
             auto count = i + BLOCK_SIZE <= ids.size() ? BLOCK_SIZE : ids.size() - i;
             std::vector<int> subIds;
             std::copy(ids.begin() + i, ids.begin() + i + count, std::back_inserter(subIds));
-            if (!DeleteMultiTextQuery(info, subIds, pDb, error, errorMsg))
+            if (!DeleteMultiTextQuery(info.EditField, subIds, pDb, error, errorMsg))
                 return false;
         }
         // now, reinsert, one by one
@@ -399,10 +424,37 @@ namespace {
         return true;
     }
 
-    bool DeleteCheckListQuery(const FindAndReplaceFieldInfo& info, const std::vector<int>& ids, sqlite3* pDb, int& error, QString& errorMsg) {
-        auto sql = "DELETE FROM picklist_attributes WHERE translation_unit_id in " + ListToSqlString(ids) + " and picklist_value_id in " + ListToSqlString(info.EditField.ValueToID);
+    bool TryRunUpdateSourceDelFieldMultiTextSql(const QString& selectSql, const CustomField& info, DBBrowserDB& db, int& error, QString& errorMsg) {
+        const int BLOCK_SIZE = 128;
+        auto ids = RunQueryGetIDs(selectSql, db);
+
+        auto forceWait = true;
+        auto pDbScopedPtr = db.get("change field value - multitext", forceWait);
+        sqlite3* pDb = pDbScopedPtr.get();
+
+        if (!RunExecuteQuery("BEGIN TRANSACTION", pDb, error, errorMsg))
+            return false;
+
+        // first, delete old entries
+        for (int i = 0; i < ids.size(); i += BLOCK_SIZE) {
+            auto count = i + BLOCK_SIZE <= ids.size() ? BLOCK_SIZE : ids.size() - i;
+            std::vector<int> subIds;
+            std::copy(ids.begin() + i, ids.begin() + i + count, std::back_inserter(subIds));
+            if (!DeleteMultiTextQuery(info, subIds, pDb, error, errorMsg))
+                return false;
+        }
+
+        if (!RunExecuteQuery("END TRANSACTION", pDb, error, errorMsg))
+            return false;
+        return true;
+    }
+
+
+    bool DeleteCheckListQuery(const CustomField& info, const std::vector<int>& ids, sqlite3* pDb, int& error, QString& errorMsg) {
+        auto sql = "DELETE FROM picklist_attributes WHERE translation_unit_id in " + ListToSqlString(ids) + " and picklist_value_id in " + ListToSqlString(info.ValueToID);
         return RunExecuteQuery(sql, pDb, error, errorMsg);
     }
+
 
     std::vector< QString> InsertCheckListQuery(const FindAndReplaceFieldInfo& info, int translationUnitId, sqlite3* pDb, int& error, QString& errorMsg) {
         std::vector< QString> sqls;
@@ -429,7 +481,7 @@ namespace {
             auto count = i + BLOCK_SIZE <= ids.size() ? BLOCK_SIZE : ids.size() - i;
             std::vector<int> subIds;
             std::copy(ids.begin() + i, ids.begin() + i + count, std::back_inserter(subIds));
-            if (!DeleteCheckListQuery(info, subIds, pDb, error, errorMsg))
+            if (!DeleteCheckListQuery(info.EditField, subIds, pDb, error, errorMsg))
                 return false;
         }
         // now, reinsert, one by one
@@ -438,6 +490,31 @@ namespace {
             for (const auto& sql : sqls)
                 if (!RunExecuteQuery(sql, pDb, error, errorMsg))
                     return false;
+        }
+
+        if (!RunExecuteQuery("END TRANSACTION", pDb, error, errorMsg))
+            return false;
+
+        return true;
+    }
+    bool TryRunUpdateSourceDelFieldCheckListSql(const QString& selectSql, const CustomField& info, DBBrowserDB& db, int& error, QString& errorMsg) {
+        const int BLOCK_SIZE = 128;
+        auto ids = RunQueryGetIDs(selectSql, db);
+
+        auto forceWait = true;
+        auto pDbScopedPtr = db.get("del field value - checklist", forceWait);
+        sqlite3* pDb = pDbScopedPtr.get();
+
+        if (!RunExecuteQuery("BEGIN TRANSACTION", pDb, error, errorMsg))
+            return false;
+
+        // first, delete old entries
+        for (int i = 0; i < ids.size(); i += BLOCK_SIZE) {
+            auto count = i + BLOCK_SIZE <= ids.size() ? BLOCK_SIZE : ids.size() - i;
+            std::vector<int> subIds;
+            std::copy(ids.begin() + i, ids.begin() + i + count, std::back_inserter(subIds));
+            if (!DeleteCheckListQuery(info, subIds, pDb, error, errorMsg))
+                return false;
         }
 
         if (!RunExecuteQuery("END TRANSACTION", pDb, error, errorMsg))
@@ -581,6 +658,52 @@ bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>
         break;
     }
     assert(false);
-    return "";
+    return false;
+}
+
+bool TryFindAndReplaceDeleteField(const SdltmFilter& filter, const std::vector<CustomField>& customFields,
+		const CustomField& info, DBBrowserDB& db, int& replaceCount, int& error, QString& errorMsg) {
+    if (!info.IsPresent())
+        return false;
+
+    auto selectSql = SdltmCreateSqlSimpleFilter(filter, customFields).ToSqlFilter();
+    SdltmLog("Find and replace delete (select): " + selectSql);
+    replaceCount = RunQueryGetCount(selectSql, db);
+    if (replaceCount == 0)
+        return true;
+
+    switch (info.FieldType) {
+    case SdltmFieldMetaType::MultiText:
+        return TryRunUpdateSourceDelFieldAttributeSql(selectSql, info, db, error, errorMsg);
+
+    case SdltmFieldMetaType::CheckboxList:
+        return TryRunUpdateSourceDelFieldCheckListSql(selectSql, info, db, error, errorMsg);
+
+    case SdltmFieldMetaType::Int: assert(false); break;
+    case SdltmFieldMetaType::Double: assert(false); break;
+
+        // normal UPDATE handling
+    case SdltmFieldMetaType::Text:
+    case SdltmFieldMetaType::Number:
+    case SdltmFieldMetaType::List:
+    case SdltmFieldMetaType::DateTime:
+        return TryRunUpdateSourceDelFieldAttributeSql(selectSql, info, db, error, errorMsg);
+    default:
+        break;
+    }
+    assert(false);
+    return false;
+}
+
+bool TryFindAndReplaceDeleteTags(const SdltmFilter& filter, const std::vector<CustomField>& customFields,
+		DBBrowserDB& db, int& replaceCount, int& error, QString& errorMsg) {
+
+    auto selectSql = SdltmCreateSqlSimpleFilter(filter, customFields).ToSqlFilter();
+    SdltmLog("Find and replace delete tags (select): " + selectSql);
+    replaceCount = RunQueryGetCount(selectSql, db);
+    if (replaceCount == 0)
+        return true;
+    QString replaceSql = "source_segment = sdltm_delete_tags(source_segment), target_segment = sdltm_delete_tags(target_segment)";
+    return TryRunUpdateSourceOrTargetTextSql(selectSql, replaceSql, db, error, errorMsg);
 }
 

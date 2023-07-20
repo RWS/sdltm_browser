@@ -96,6 +96,8 @@ public:
 	std::function<void()> Back;
 	std::function<void(const FindAndReplaceTextInfo&)> FindAndReplaceText;
 	std::function<void(const FindAndReplaceFieldInfo&)> FindAndReplaceField;
+	std::function<void(const CustomField&)> FindAndReplaceDeleteField;
+	std::function<void()> FindAndReplaceDeleteTags;
 
 	// note: perhaps we won't need this
 	std::function<void(const FindAndReplaceTextInfo&)> Preview;
@@ -106,7 +108,7 @@ private:
 	FindAndReplaceTextInfo GetFindAndReplaceTextInfo() const;
 	FindAndReplaceFieldInfo GetFindAndReplaceEditInfo() const;
 
-	void UpdateFieldTypeVisibility();
+	void UpdateEditFieldTypeVisibility();
 
 private slots:
 	void OnClickPreview();
@@ -115,6 +117,7 @@ private slots:
 	void OnUseRegexChanged();
 
 	void OnFieldChange();
+	void OnDelFieldChange();
 
 private:
 	Ui::BatchEdit* ui;
@@ -127,5 +130,7 @@ private:
 
 	std::vector<QString> _oldMultiText;
 	std::vector<QString> _newMultiText;
+
+	CustomField _delField;
 };
 

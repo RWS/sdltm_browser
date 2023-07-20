@@ -383,6 +383,24 @@ void SdltmGetText(sqlite3_context* ctx, int num_arguments, sqlite3_value* argume
     sqlite3_result_text(ctx, asUtf8.begin(), asUtf8.size(), SQLITE_TRANSIENT);
 }
 
+// 1 arg - the source (xml) text
+void SdltmDeleteTags(sqlite3_context* ctx, int num_arguments, sqlite3_value* arguments[]) {
+    auto inputText = QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_value_text(arguments[0])));
+    bool addTags = false;
+    auto outputText = GetNonXmlText(inputText, " ", addTags);
+    // note: we're preserving the language
+    auto idxStart = inputText.indexOf("<Elements>");
+    auto idxEnd = inputText.lastIndexOf("</Elements>");
+    if (idxStart >= 0)
+        outputText = inputText.left(idxStart) + "<Elements><Text><Value>" + outputText;
+    if (idxEnd >= 0)
+        outputText += "</Value></Text>" + inputText.right(inputText.size() - idxEnd);
+
+    auto asUtf8 = outputText.toUtf8();
+    sqlite3_result_text(ctx, asUtf8.begin(), asUtf8.size(), SQLITE_TRANSIENT);
+}
+
+
 // 4 args
 // - the source (xml) text,
 // - what to search
@@ -412,6 +430,7 @@ void SdltmRegexReplaceText(sqlite3_context* ctx, int num_arguments, sqlite3_valu
     auto asUtf8 = outputText.toUtf8();
     sqlite3_result_text(ctx, asUtf8.begin(), asUtf8.size(), SQLITE_TRANSIENT);
 }
+
 
 QString EscapeXml(const QString& str) {
     auto copy = str;

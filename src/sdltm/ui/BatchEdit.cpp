@@ -1,5 +1,7 @@
 #include "BatchEdit.h"
 
+#include <QMessageBox>
+
 #include "SdltmUtil.h"
 #include "ui_BatchEdit.h"
 
@@ -77,6 +79,7 @@ BatchEdit::BatchEdit(QWidget* parent)
 	connect(ui->findUseRegex, SIGNAL(stateChanged(int)), this, SLOT(OnUseRegexChanged()));
 
 	connect(ui->editField, SIGNAL(currentIndexChanged(int)), this, SLOT(OnFieldChange()));
+	connect(ui->delField, SIGNAL(currentIndexChanged(int)), this, SLOT(OnDelFieldChange()));
 
 	ui->findSearchInBoth->setChecked(true);
 	ui->oldMultiText->OnMultiTextChange = [this]()
@@ -99,11 +102,16 @@ void BatchEdit::SetCustomFields(const std::vector<CustomField>& fields) {
 	_customFields = fields;
 	++_ignoreUpdate;
 	ui->editField->clear();
-	for (const auto& fi : fields)
+	ui->delField->clear();
+	for (const auto& fi : fields) {
 		ui->editField->addItem(fi.FieldName);
+		ui->delField->addItem(fi.FieldName);
+	}
 	ui->editField->setCurrentIndex(fields.size() > 0 ? 0 : -1);
+	ui->delField->setCurrentIndex(fields.size() > 0 ? 0 : -1);
 	--_ignoreUpdate;
 	OnFieldChange();
+	OnDelFieldChange();
 }
 
 FindAndReplaceTextInfo BatchEdit::GetFindAndReplaceTextInfo() const {
@@ -179,7 +187,7 @@ FindAndReplaceFieldInfo BatchEdit::GetFindAndReplaceEditInfo() const {
 	return far;
 }
 
-void BatchEdit::UpdateFieldTypeVisibility() {
+void BatchEdit::UpdateEditFieldTypeVisibility() {
 	bool isText = false, isDate = false, isList = false, isChecklist = false, isMulti = false;
 	switch (_editField.FieldType) {
 	case SdltmFieldMetaType::Int: assert(false); break;
@@ -247,6 +255,25 @@ void BatchEdit::OnClickPreview() {
 }
 
 void BatchEdit::OnClickRun() {
+	QString suffix;
+	switch (ui->tab->currentIndex()) {
+	case 0:
+		suffix = "Replace Text";
+		break;
+	case 1:
+		suffix = "Change Field Value";
+		break;
+	case 2:
+		suffix = "Delete Field Value";
+		break;
+	case 3:
+		suffix = "Delete Tags";
+		break;
+	}
+
+	if (QMessageBox::question(this, qApp->applicationName(), "Are you sure you want to Batch " + suffix + "?", QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::No)
+		return;
+
 	switch(ui->tab->currentIndex()) {
 	case 0:
 		if (FindAndReplaceText)
@@ -256,7 +283,13 @@ void BatchEdit::OnClickRun() {
 		if (FindAndReplaceField)
 			FindAndReplaceField(GetFindAndReplaceEditInfo());
 		break;
-	case 2:
+	case 2: 
+		if (FindAndReplaceDeleteField)
+			FindAndReplaceDeleteField(_delField);
+		break;
+	case 3:
+		if (FindAndReplaceDeleteTags)
+			FindAndReplaceDeleteTags();
 		break;
 	}
 }
@@ -277,6 +310,15 @@ void BatchEdit::OnFieldChange() {
 	auto idx = ui->editField->currentIndex();
 	if (idx >= 0 && idx < _customFields.size()) {
 		_editField = _customFields[idx];
-		UpdateFieldTypeVisibility();
+		UpdateEditFieldTypeVisibility();
+	}
+}
+
+void BatchEdit::OnDelFieldChange() {
+	if (_ignoreUpdate > 0)
+		return;
+	auto idx = ui->delField->currentIndex();
+	if (idx >= 0 && idx < _customFields.size()) {
+		_delField = _customFields[idx];
 	}
 }

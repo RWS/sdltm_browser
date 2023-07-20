@@ -296,6 +296,17 @@ bool DBBrowserDB::open(const QString& db, bool readOnly)
             nullptr,
             nullptr
         );
+        sqlite3_create_function_v2(
+            _db,
+            "sdltm_delete_tags",
+            1,
+            SQLITE_UTF8 | SQLITE_DETERMINISTIC,
+            nullptr,
+            SdltmDeleteTags,
+            nullptr,
+            nullptr,
+            nullptr
+        );
 
 
         // Check if file is read only. In-memory databases are never read only

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 
 set(CMAKE_FIND_NO_INSTALL_PREFIX True)
 project(trados_sdltm
-    VERSION 1.0.37
+    VERSION 1.0.38
     DESCRIPTION "TM Fusion for Trados"
 )
 

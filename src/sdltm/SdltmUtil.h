@@ -30,6 +30,9 @@ void SdltmGetFriendlyText(sqlite3_context* ctx, int num_arguments, sqlite3_value
 void SdltmReplaceText(sqlite3_context* ctx, int num_arguments, sqlite3_value* arguments[]);
 void SdltmRegexReplaceText(sqlite3_context* ctx, int num_arguments, sqlite3_value* arguments[]);
 
+void SdltmDeleteTags(sqlite3_context* ctx, int num_arguments, sqlite3_value* arguments[]);
+
+
 QString EscapeXml(const QString& str);
 QString UnescapeXml(const QString& str);
 
