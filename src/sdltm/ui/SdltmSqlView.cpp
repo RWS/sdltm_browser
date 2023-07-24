@@ -94,6 +94,10 @@ void SdltmSqlView::OnTickResizeRows() {
 }
 
 
+void SdltmSqlView::OnActivated() {
+	ResizeVisibleRows();
+}
+
 void SdltmSqlView::OnVerticalScrollPosChanged() {
     if (_ignoreUpdate > 0)
         return;
@@ -102,22 +106,31 @@ void SdltmSqlView::OnVerticalScrollPosChanged() {
 }
 
 void SdltmSqlView::ResizeVisibleRows() {
+	if (_model == nullptr)
+		return;
+
     ++_ignoreUpdate;
-    auto visibleCount = ui->table->numVisibleRows();
-    auto topIdx = ui->table->rowAt(0) == -1 ? 0 : ui->table->rowAt(0);
-    ++visibleCount;
-    auto maxIdx = std::min(topIdx + visibleCount, _model->rowCount() - 1);
 
-    for (int i = topIdx; i <= maxIdx; ++i)
-        if (_rowsResizedToContents.find(i) == _rowsResizedToContents.end()) {
-            _rowsResizedToContents.insert(i);
-            ui->table->resizeRowToContents(i);
-        }
-    --_ignoreUpdate;
+	while (true) {
+		auto visibleCount = ui->table->numVisibleRows();
+		auto topIdx = ui->table->rowAt(0) == -1 ? 0 : ui->table->rowAt(0);
+		++visibleCount;
+		auto maxIdx = std::min(topIdx + visibleCount, _model->rowCount() - 1);
 
-    auto newVisibleCount = ui->table->numVisibleRows();
-    ui->table->verticalScrollBar()->setPageStep(newVisibleCount);
-    SdltmLog("resize visible rows " + QString::number(visibleCount) + " to " + QString::number(newVisibleCount));
+		for (int i = topIdx; i <= maxIdx; ++i)
+			if (_rowsResizedToContents.find(i) == _rowsResizedToContents.end()) {
+				_rowsResizedToContents.insert(i);
+				ui->table->resizeRowToContents(i);
+			}
+
+		// it can sometimes happen when the visible-row count is based on the old number of rows, thus it can be incorrect
+		auto newVisibleCount = ui->table->numVisibleRows();
+		if (newVisibleCount <= visibleCount)
+			break;
+	}
+	--_ignoreUpdate;
+
+	ui->table->ForceUpdateGeometries();
 }
 
 void SdltmSqlView::OnFetchedData()
@@ -133,11 +146,16 @@ void SdltmSqlView::OnFetchedData()
     for (int i = 0; i < _model->columnCount(); i++)
     {
         // ... Source or Target
-        if (i == 1 || i == 2) {
-            ui->table->setColumnWidth(i, 600);
-            continue;
-        }
-        ui->table->setColumnWidth(i, 60);
+		if (i == 0) {
+			// ID
+			ui->table->setColumnWidth(i, 50);
+		} else if (i == 1 || i == 2) {
+            ui->table->setColumnWidth(i, 500);
+        } else
+			// at this time, I don't want to show any other columns
+			// the rationale: I don't want to involve them in "resize row to contents", since I would either need to give them a big size, 
+			// or inadvertedly end up with them causing a row to resize needlessly
+			ui->table->hideColumn(i);
     }
     // IMPORTANT: this would be waaaay too time consuming for lots of records
 //    ui->table->resizeRowsToContents();

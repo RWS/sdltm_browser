@@ -248,8 +248,9 @@ ExtendedTableWidget::ExtendedTableWidget(QWidget* parent) :
     m_item_border_delegate(new ItemBorderDelegate(this))
 {
     setHorizontalScrollMode(ExtendedTableWidget::ScrollPerPixel);
-    // Force ScrollPerItem, so scrolling shows all table rows
-    setVerticalScrollMode(ExtendedTableWidget::ScrollPerItem);
+	// INSANELY IMPORTANT:
+	// this used to be ScrollPerItem -- however, ScrollPerItem doesn't properly handle when a row is resized to contents
+	setVerticalScrollMode(ExtendedTableWidget::ScrollPerPixel);
 
 
     connect(verticalScrollBar(), &QScrollBar::valueChanged, this, &ExtendedTableWidget::vscrollbarChanged);

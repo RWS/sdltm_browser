@@ -31,6 +31,7 @@ public:
 	void OnRunQueryFinished();
 	bool IsRunning() const { return _isRunning; }
 
+	void OnActivated();
 private:
 	void OnVerticalScrollPosChanged();
 	void ResizeVisibleRows();
@@ -50,7 +51,7 @@ private:
 	void selectTableLine(int idx);
 private:
 	DBBrowserDB *_db;
-	SqliteTableModel* _model;
+	SqliteTableModel* _model = nullptr;
 
 	QTimer* _resizeRowTimer;
 	bool _columnsResized;

@@ -118,6 +118,7 @@ private:
 
     QString currentProjectFilename;
     bool isProjectModified;
+	bool _initialized = false;
 
 
     void init();

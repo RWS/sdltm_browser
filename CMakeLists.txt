@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 
 set(CMAKE_FIND_NO_INSTALL_PREFIX True)
 project(trados_sdltm
-    VERSION 1.0.39
+    VERSION 1.0.45
     DESCRIPTION "TM Fusion for Trados"
 )
 
@@ -23,6 +23,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_BUILD_PARALLEL_LEVEL 8)
 
 if(APPLE)
     add_executable(${PROJECT_NAME} MACOSX_BUNDLE)

@@ -78,6 +78,10 @@ public:
 
     std::function<void()> OnVerticalScrollPosChanged;
 
+	void ForceUpdateGeometries() {
+		updateGeometries();
+	}
+
 public slots:
     void reloadSettings();
     void selectTableLine(int lineToSelect);

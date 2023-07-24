@@ -78,6 +78,7 @@ MainWindow::MainWindow(QWidget* parent)
       _customFieldService(db)
 {
     ui->setupUi(this);
+	_initialized = true;
 
     init();
 
@@ -443,6 +444,7 @@ void MainWindow::init()
     // This must be done before the connections for checking the actions in the View menu so
     // they are updated accordingly.
     connect(ui->mainTab, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
+	connect(ui->mainTab, &QTabWidget::currentChanged, this, &MainWindow::mainTabSelected);
 
     // Add entries for toggling the visibility of main tabs
     for (QWidget* widget : {ui->structure, ui->browser, ui->pragmas, ui->query, ui->commonActions}) {
@@ -1626,7 +1628,9 @@ void MainWindow::mainTabSelected(int /*tabindex*/)
 
             dataTableSelectionChanged(sqlWidget->getTableResult()->currentIndex());
         }
-    }
+	}
+	else if (ui->mainTab->currentWidget() == ui->commonActions)
+		ui->sdltmSqlView->OnActivated();
 }
 
 void MainWindow::importCSVfiles(const std::vector<QString>& inputFiles, const QString& table)
