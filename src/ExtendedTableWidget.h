@@ -76,6 +76,8 @@ public:
 
     void setEditTriggers(QAbstractItemView::EditTriggers editTriggers);
 
+    std::function<void()> OnVerticalScrollPosChanged;
+
 public slots:
     void reloadSettings();
     void selectTableLine(int lineToSelect);

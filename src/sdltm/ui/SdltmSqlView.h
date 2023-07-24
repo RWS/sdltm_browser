@@ -31,6 +31,10 @@ public:
 	void OnRunQueryFinished();
 	bool IsRunning() const { return _isRunning; }
 
+private:
+	void OnVerticalScrollPosChanged();
+	void ResizeVisibleRows();
+
 private slots:
 	void OnFetchedData();
 
@@ -39,6 +43,7 @@ private slots:
 	void OnNavigateBegin();
 	void OnNavigateEnd();
 	void OnNavigateGoto();
+	void OnTickResizeRows();
 
 private:
 	DBBrowserDB& db() { return *_db; }
@@ -46,6 +51,8 @@ private:
 private:
 	DBBrowserDB *_db;
 	SqliteTableModel* _model;
+
+	QTimer* _resizeRowTimer;
 	bool _columnsResized;
 	bool _isError;
 	bool _isRunning;
@@ -53,6 +60,9 @@ private:
 	QString _sql;
 	QString _lastValidSql;
 	Ui::SdltmSqlView* ui;
+
+	std::set<int> _rowsResizedToContents;
+	int _ignoreUpdate = 0;
 };
 
 

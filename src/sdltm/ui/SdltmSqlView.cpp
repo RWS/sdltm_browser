@@ -1,7 +1,13 @@
 #include "SdltmSqlView.h"
+
+#include <QHeaderView>
+#include <QScrollBar>
+
 #include "ui_SdltmSqlView.h"
 #include <qstandarditemmodel.h>
+#include <QTimer>
 
+#include "SdltmUtil.h"
 #include "sqlitetablemodel.h"
 
 SdltmSqlView::SdltmSqlView(QWidget* parent)
@@ -13,11 +19,20 @@ SdltmSqlView::SdltmSqlView(QWidget* parent)
 {
 	ui->setupUi(this);
 
+    _resizeRowTimer = new QTimer(this);
+    _resizeRowTimer->setInterval(10);
+    connect(_resizeRowTimer, SIGNAL(timeout()), this, SLOT(OnTickResizeRows()));
+
     connect(ui->buttonNext, SIGNAL(clicked(bool)), this, SLOT(OnNavigateNext()));
     connect(ui->buttonPrevious, SIGNAL(clicked(bool)), this, SLOT(OnNavigatePrevious()));
     connect(ui->buttonBegin, SIGNAL(clicked(bool)), this, SLOT(OnNavigateBegin()));
     connect(ui->buttonEnd, SIGNAL(clicked(bool)), this, SLOT(OnNavigateEnd()));
     connect(ui->buttonGoto, SIGNAL(clicked(bool)), this, SLOT(OnNavigateGoto()));
+
+    ui->table->OnVerticalScrollPosChanged = [this]()
+    {
+        OnVerticalScrollPosChanged();
+    };
 }
 
 SdltmSqlView::~SdltmSqlView() {
@@ -63,6 +78,7 @@ void SdltmSqlView::OnRunQueryStarted()
 
 void SdltmSqlView::OnRunQueryFinished()
 {
+    _rowsResizedToContents.clear();
     ui->table->setEnabled(!_isError);
     ui->navigateCtrl->setEnabled(!_isError);
     _isRunning = false;
@@ -70,6 +86,38 @@ void SdltmSqlView::OnRunQueryFinished()
         ui->labelRecordset->setText("1 of " + QString::number(_model->rowCount()));
     else
         ui->labelRecordset->setText("");
+}
+
+void SdltmSqlView::OnTickResizeRows() {
+    _resizeRowTimer->stop();
+    ResizeVisibleRows();
+}
+
+
+void SdltmSqlView::OnVerticalScrollPosChanged() {
+    if (_ignoreUpdate > 0)
+        return;
+
+    _resizeRowTimer->start();
+}
+
+void SdltmSqlView::ResizeVisibleRows() {
+    ++_ignoreUpdate;
+    auto visibleCount = ui->table->numVisibleRows();
+    auto topIdx = ui->table->rowAt(0) == -1 ? 0 : ui->table->rowAt(0);
+    ++visibleCount;
+    auto maxIdx = std::min(topIdx + visibleCount, _model->rowCount() - 1);
+
+    for (int i = topIdx; i <= maxIdx; ++i)
+        if (_rowsResizedToContents.find(i) == _rowsResizedToContents.end()) {
+            _rowsResizedToContents.insert(i);
+            ui->table->resizeRowToContents(i);
+        }
+    --_ignoreUpdate;
+
+    auto newVisibleCount = ui->table->numVisibleRows();
+    ui->table->verticalScrollBar()->setPageStep(newVisibleCount);
+    SdltmLog("resize visible rows " + QString::number(visibleCount) + " to " + QString::number(newVisibleCount));
 }
 
 void SdltmSqlView::OnFetchedData()
@@ -82,13 +130,18 @@ void SdltmSqlView::OnFetchedData()
         return;
     _columnsResized = true;
 
-    // Set column widths according to their contents but make sure they don't exceed a certain size
-    ui->table->resizeColumnsToContents();
     for (int i = 0; i < _model->columnCount(); i++)
     {
-        if (ui->table->columnWidth(i) > 300)
-            ui->table->setColumnWidth(i, 300);
+        // ... Source or Target
+        if (i == 1 || i == 2) {
+            ui->table->setColumnWidth(i, 600);
+            continue;
+        }
+        ui->table->setColumnWidth(i, 60);
     }
+    // IMPORTANT: this would be waaaay too time consuming for lots of records
+//    ui->table->resizeRowsToContents();
+    ResizeVisibleRows();
 }
 
 void SdltmSqlView::OnNavigatePrevious()
@@ -130,6 +183,7 @@ void SdltmSqlView::OnNavigateGoto()
     selectTableLine(row - 1);
     ui->editGoto->setText(QString::number(row));
 }
+
 
 void SdltmSqlView::selectTableLine(int idx)
 {

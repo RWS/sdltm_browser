@@ -251,6 +251,7 @@ ExtendedTableWidget::ExtendedTableWidget(QWidget* parent) :
     // Force ScrollPerItem, so scrolling shows all table rows
     setVerticalScrollMode(ExtendedTableWidget::ScrollPerItem);
 
+
     connect(verticalScrollBar(), &QScrollBar::valueChanged, this, &ExtendedTableWidget::vscrollbarChanged);
     connect(this, &ExtendedTableWidget::clicked, this, &ExtendedTableWidget::cellClicked);
 
@@ -1023,6 +1024,9 @@ void ExtendedTableWidget::vscrollbarChanged(int value)
         int row_end = std::min(value + numVisibleRows(), nrows);
         m->triggerCacheLoad(row_begin, row_end);
     }
+
+    if (OnVerticalScrollPosChanged)
+        OnVerticalScrollPosChanged();
 }
 
 int ExtendedTableWidget::numVisibleRows() const
