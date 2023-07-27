@@ -72,7 +72,6 @@ BatchEdit::BatchEdit(QWidget* parent)
 {
 	ui->setupUi(this);
 
-	connect(ui->preview, SIGNAL(clicked(bool)), this, SLOT(OnClickPreview()));
 	connect(ui->run, SIGNAL(clicked(bool)), this, SLOT(OnClickRun()));
 	connect(ui->back, SIGNAL(clicked(bool)), this, SLOT(OnClickBack()));
 
@@ -80,6 +79,13 @@ BatchEdit::BatchEdit(QWidget* parent)
 
 	connect(ui->editField, SIGNAL(currentIndexChanged(int)), this, SLOT(OnFieldChange()));
 	connect(ui->delField, SIGNAL(currentIndexChanged(int)), this, SLOT(OnDelFieldChange()));
+
+	connect(ui->tab, SIGNAL(currentChanged(int)), this, SLOT(OnTabChanged()));
+	connect(ui->findText, &QLineEdit::textChanged, this, &BatchEdit::OnFindTextChanged);
+
+	connect(ui->findMatchCase, &QCheckBox::stateChanged, this, &BatchEdit::OnFindAndReplaceCheckChanged);
+	connect(ui->findWordOnly, &QCheckBox::stateChanged, this, &BatchEdit::OnFindAndReplaceCheckChanged);
+	connect(ui->findUseRegex, &QCheckBox::stateChanged, this, &BatchEdit::OnFindAndReplaceCheckChanged);
 
 	ui->findSearchInBoth->setChecked(true);
 	ui->oldMultiText->OnMultiTextChange = [this]()
@@ -249,10 +255,18 @@ void BatchEdit::UpdateEditFieldTypeVisibility() {
 	}
 }
 
-void BatchEdit::OnClickPreview() {
-	if (Preview)
-		Preview(GetFindAndReplaceTextInfo());
+void BatchEdit::RaiseFindTextChanged() {
+	auto findInfo = GetFindAndReplaceTextInfo();
+	if (ui->tab->currentIndex() != 0) {
+		// we're on a different tab
+		findInfo.Find = "";
+		findInfo.UseRegex = false;
+	}
+
+	if (FindTextChanged)
+		FindTextChanged(findInfo);
 }
+
 
 void BatchEdit::OnClickRun() {
 	QString suffix;
@@ -321,4 +335,16 @@ void BatchEdit::OnDelFieldChange() {
 	if (idx >= 0 && idx < _customFields.size()) {
 		_delField = _customFields[idx];
 	}
+}
+
+void BatchEdit::OnTabChanged() {
+	RaiseFindTextChanged();
+}
+
+void BatchEdit::OnFindTextChanged() {
+	RaiseFindTextChanged();
+}
+
+void BatchEdit::OnFindAndReplaceCheckChanged() {
+	RaiseFindTextChanged();
 }

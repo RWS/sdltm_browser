@@ -7,6 +7,7 @@
 #include <qstandarditemmodel.h>
 #include <QTimer>
 
+#include "SdltmSqlViewStyledItemDelegate.h"
 #include "SdltmUtil.h"
 #include "sqlitetablemodel.h"
 
@@ -23,6 +24,8 @@ SdltmSqlView::SdltmSqlView(QWidget* parent)
     _resizeRowTimer->setInterval(10);
     connect(_resizeRowTimer, SIGNAL(timeout()), this, SLOT(OnTickResizeRows()));
 
+	_itemPainter = new SdltmSqlViewStyledItemDelegate(this);
+
     connect(ui->buttonNext, SIGNAL(clicked(bool)), this, SLOT(OnNavigateNext()));
     connect(ui->buttonPrevious, SIGNAL(clicked(bool)), this, SLOT(OnNavigatePrevious()));
     connect(ui->buttonBegin, SIGNAL(clicked(bool)), this, SLOT(OnNavigateBegin()));
@@ -33,6 +36,8 @@ SdltmSqlView::SdltmSqlView(QWidget* parent)
     {
         OnVerticalScrollPosChanged();
     };
+
+	ui->table->setItemDelegate(_itemPainter);
 }
 
 SdltmSqlView::~SdltmSqlView() {
@@ -45,7 +50,6 @@ void SdltmSqlView::SetDb(DBBrowserDB& db)
 
 	_model = new SqliteTableModel(db, this);
 	ui->table->setModel(_model);
-
 	connect(_model, &SqliteTableModel::finishedFetch, this, &SdltmSqlView::OnFetchedData);
 }
 
@@ -96,6 +100,13 @@ void SdltmSqlView::OnTickResizeRows() {
 
 void SdltmSqlView::OnActivated() {
 	ResizeVisibleRows();
+}
+
+void SdltmSqlView::SetHightlightText(const FindAndReplaceTextInfo& highlight) {
+	if (_itemPainter->HighlightText() != highlight ) {
+		_itemPainter->SetHightlightText(highlight);
+		ui->table->viewport()->repaint();
+	}
 }
 
 void SdltmSqlView::OnVerticalScrollPosChanged() {

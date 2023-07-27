@@ -9,6 +9,19 @@ namespace Ui {
 }
 
 struct FindAndReplaceTextInfo {
+	friend bool operator==(const FindAndReplaceTextInfo& lhs, const FindAndReplaceTextInfo& rhs) {
+		return lhs.Find == rhs.Find
+			&& lhs.Replace == rhs.Replace
+			&& lhs.Type == rhs.Type
+			&& lhs.MatchCase == rhs.MatchCase
+			&& lhs.WholeWordOnly == rhs.WholeWordOnly
+			&& lhs.UseRegex == rhs.UseRegex;
+	}
+
+	friend bool operator!=(const FindAndReplaceTextInfo& lhs, const FindAndReplaceTextInfo& rhs) {
+		return !(lhs == rhs);
+	}
+
 	QString Find;
 	QString Replace;
 	enum class SearchType {
@@ -86,6 +99,7 @@ private:
 	QString Value(SdltmFieldMetaType fieldType, const QString& text, const QDateTime& date, int comboValue) const;
 };
 
+
 class BatchEdit : public QWidget
 {
 	Q_OBJECT
@@ -99,8 +113,8 @@ public:
 	std::function<void(const CustomField&)> FindAndReplaceDeleteField;
 	std::function<void()> FindAndReplaceDeleteTags;
 
-	// note: perhaps we won't need this
-	std::function<void(const FindAndReplaceTextInfo&)> Preview;
+	// called whenever user modifies something related to Find text
+	std::function<void(const FindAndReplaceTextInfo&)> FindTextChanged;
 
 	void SetCustomFields(const std::vector<CustomField>& fields);
 
@@ -109,15 +123,19 @@ private:
 	FindAndReplaceFieldInfo GetFindAndReplaceEditInfo() const;
 
 	void UpdateEditFieldTypeVisibility();
+	void RaiseFindTextChanged();
 
 private slots:
-	void OnClickPreview();
 	void OnClickRun();
 	void OnClickBack();
 	void OnUseRegexChanged();
 
 	void OnFieldChange();
 	void OnDelFieldChange();
+
+	void OnTabChanged();
+	void OnFindTextChanged();
+	void OnFindAndReplaceCheckChanged();
 
 private:
 	Ui::BatchEdit* ui;

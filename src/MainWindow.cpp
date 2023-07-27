@@ -207,6 +207,10 @@ MainWindow::MainWindow(QWidget* parent)
         // the idea: we now what to see the results (in the filter we already have)
         ui->editSdltmFilter->ReapplyFilter();
     };
+	ui->batchEditCtrl->FindTextChanged = [this](const FindAndReplaceTextInfo& info)
+	{
+		ui->sdltmSqlView->SetHightlightText(info);
+	};
 }
 
 MainWindow::~MainWindow()

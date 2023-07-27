@@ -6,6 +6,8 @@
 #include "sqlitedb.h"
 
 
+struct FindAndReplaceTextInfo;
+class SdltmSqlViewStyledItemDelegate;
 class ExtendedTableWidget;
 class SqliteTableModel;
 
@@ -32,6 +34,8 @@ public:
 	bool IsRunning() const { return _isRunning; }
 
 	void OnActivated();
+
+	void SetHightlightText(const FindAndReplaceTextInfo& highlight);
 private:
 	void OnVerticalScrollPosChanged();
 	void ResizeVisibleRows();
@@ -52,6 +56,7 @@ private:
 private:
 	DBBrowserDB *_db;
 	SqliteTableModel* _model = nullptr;
+	SdltmSqlViewStyledItemDelegate* _itemPainter = nullptr;
 
 	QTimer* _resizeRowTimer;
 	bool _columnsResized;

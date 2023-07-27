@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 
 set(CMAKE_FIND_NO_INSTALL_PREFIX True)
 project(trados_sdltm
-    VERSION 1.0.45
+    VERSION 1.0.46
     DESCRIPTION "TM Fusion for Trados"
 )
 
@@ -220,6 +220,7 @@ target_sources(${PROJECT_NAME}
     src/sdltm/SdltmUtil.h
     src/sdltm/SdltmSqlUtil.h
     src/sdltm/SdltmHashCode.h
+    src/sdltm/SdltmSqlViewStyledItemDelegate.h
 )
 
 target_sources(${PROJECT_NAME}
@@ -298,6 +299,7 @@ target_sources(${PROJECT_NAME}
     src/sdltm/SdltmUtil.cpp
     src/sdltm/SdltmSqlUtil.cpp
     src/sdltm/SdltmHashCode.cpp
+    src/sdltm/SdltmSqlViewStyledItemDelegate.cpp
 )
 
 set(SQLB_FORMS
