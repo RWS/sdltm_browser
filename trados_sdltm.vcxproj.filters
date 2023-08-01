@@ -10,7 +10,7 @@
     <ClCompile Include="C:\code\sdltm_browser\src\EditIndexDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\code\sdltm_browser\src\EditDialog.cpp">
+    <ClCompile Include="C:\code\sdltm_browser\src\sdltm\ui\SdltmEditDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="C:\code\sdltm_browser\src\EditTableDialog.cpp">
@@ -300,7 +300,7 @@
     <ClInclude Include="C:\code\sdltm_browser\src\EditIndexDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\code\sdltm_browser\src\EditDialog.h">
+    <ClInclude Include="C:\code\sdltm_browser\src\sdltm\ui\SdltmEditDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\code\sdltm_browser\src\EditTableDialog.h">

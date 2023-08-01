@@ -15,3 +15,6 @@ bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>
 
 bool TryFindAndReplaceDeleteField(const SdltmFilter& filter, const std::vector<CustomField>& customFields, const CustomField& info, DBBrowserDB& db, int& replaceCount, int& error, QString& errorMsg);
 bool TryFindAndReplaceDeleteTags(const SdltmFilter& filter, const std::vector<CustomField>& customFields, DBBrowserDB& db, int& replaceCount, int& error, QString& errorMsg);
+
+bool TryUpdateSource(DBBrowserDB& db, int translationUnitId, const QString& xml, int& error, QString& errorMsg);
+bool TryUpdateTarget(DBBrowserDB& db, int translationUnitId, const QString& xml, int& error, QString& errorMsg);

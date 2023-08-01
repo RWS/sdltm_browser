@@ -217,13 +217,16 @@ namespace {
 
     bool RunExecuteQuery(const QString& sql, sqlite3* pDb, int& error, QString& errorMsg) {
         sqlite3_stmt* stmt;
-        int status = sqlite3_prepare_v2(pDb, sql.toStdString().c_str(), static_cast<int>(sql.size()), &stmt, nullptr);
+		auto utf8 = sql.toUtf8();
+		const char* data = utf8.constData();
+        int status = sqlite3_prepare_v2(pDb, data, static_cast<int>(utf8.size()), &stmt, nullptr);
         bool ok = false;
         if (status == SQLITE_OK) {
             ok = sqlite3_step(stmt) == SQLITE_DONE;
             sqlite3_finalize(stmt);
         }
 
+		error = 0;
         if (!ok) {
             error = sqlite3_errcode(pDb);
             errorMsg = sqlite3_errmsg(pDb);
@@ -249,7 +252,7 @@ namespace {
         case SdltmFieldMetaType::Double: assert(false); break;
         case SdltmFieldMetaType::Text:
         case SdltmFieldMetaType::MultiText:
-            return "'" + EscapeXml(text) + "'";
+            return "'" + EscapeXmlAndSql(text) + "'";
         case SdltmFieldMetaType::Number:
             return text;
 
@@ -387,7 +390,7 @@ namespace {
     std::vector< QString> InsertMultiTextQuery(const FindAndReplaceFieldInfo& info, int translationUnitId, sqlite3* pDb, int& error, QString& errorMsg) {
         std::vector< QString> sqls;
         for (const auto& text : info.NewMultiText) {
-            sqls.push_back("INSERT INTO string_attributes(translation_unit_id,attribute_id,value) VALUES(" + QString::number(translationUnitId) + "," + QString::number(info.EditField.ID) + ",'" + EscapeXml(text) + "');");
+            sqls.push_back("INSERT INTO string_attributes(translation_unit_id,attribute_id,value) VALUES(" + QString::number(translationUnitId) + "," + QString::number(info.EditField.ID) + ",'" + EscapeXmlAndSql(text) + "');");
         }
         return sqls;
     }
@@ -578,20 +581,20 @@ bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>
     if (needsRegex) {
         if (searchSource)
             replaceSource = "source_segment = sdltm_regex_replace(source_segment,'"
-            + ToRegexFindString(info.Find, info.MatchCase, info.WholeWordOnly, info.UseRegex) + "', '" + EscapeXml(info.Replace) + "') ";
+            + ToRegexFindString(info.Find, info.MatchCase, info.WholeWordOnly, info.UseRegex) + "', '" + EscapeXmlAndSql(info.Replace) + "') ";
 
         if (searchTarget)
             replaceTarget = "target_segment = sdltm_regex_replace(target_segment,'"
-            + ToRegexFindString(info.Find, info.MatchCase, info.WholeWordOnly, info.UseRegex) + "', '" + EscapeXml(info.Replace) + "') ";
+            + ToRegexFindString(info.Find, info.MatchCase, info.WholeWordOnly, info.UseRegex) + "', '" + EscapeXmlAndSql(info.Replace) + "') ";
     }
     else {
         if (searchSource)
             replaceSource = "source_segment = sdltm_replace(source_segment,'"
-            + EscapeXml(info.Find) + "', '" + EscapeXml(info.Replace) + "'," + QString::number(info.MatchCase ? 1 : 0) + ") ";
+            + EscapeXmlAndSql(info.Find) + "', '" + EscapeXmlAndSql(info.Replace) + "'," + QString::number(info.MatchCase ? 1 : 0) + ") ";
 
         if (searchTarget)
             replaceTarget = "target_segment = sdltm_replace(target_segment,'"
-            + EscapeXml(info.Find) + "', '" + EscapeXml(info.Replace) + "'," + QString::number(info.MatchCase ? 1 : 0) + ") ";
+            + EscapeXmlAndSql(info.Find) + "', '" + EscapeXmlAndSql(info.Replace) + "'," + QString::number(info.MatchCase ? 1 : 0) + ") ";
     }
 
     if (replaceSource != "" && replaceTarget != "")
@@ -705,5 +708,27 @@ bool TryFindAndReplaceDeleteTags(const SdltmFilter& filter, const std::vector<Cu
         return true;
     QString replaceSql = "source_segment = sdltm_delete_tags(source_segment), target_segment = sdltm_delete_tags(target_segment)";
     return TryRunUpdateSourceOrTargetTextSql(selectSql, replaceSql, db, error, errorMsg);
+}
+
+bool TryUpdateSource(DBBrowserDB& db, int translationUnitId, const QString& xml, int& error, QString& errorMsg) {
+	auto forceWait = true;
+	auto pDbScopedPtr = db.get("update source", forceWait);
+	sqlite3* pDb = pDbScopedPtr.get();
+
+	auto copy = xml;
+	auto sql = "UPDATE translation_units set source_segment='" + copy.replace("'", "''") + "' where id=" + QString::number(translationUnitId);
+	SdltmLog("update query= " + sql);
+	return RunExecuteQuery(sql, pDb, error, errorMsg);
+}
+
+bool TryUpdateTarget(DBBrowserDB& db, int translationUnitId, const QString& xml, int& error, QString& errorMsg) {
+	auto forceWait = true;
+	auto pDbScopedPtr = db.get("update target", forceWait);
+	sqlite3* pDb = pDbScopedPtr.get();
+
+	auto copy = xml;
+	auto sql = "UPDATE translation_units set target_segment='" + copy.replace("'", "''") + "' where id=" + QString::number(translationUnitId);
+	SdltmLog("update query= " + sql);
+	return RunExecuteQuery(sql, pDb, error, errorMsg);
 }
 

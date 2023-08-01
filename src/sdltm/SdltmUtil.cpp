@@ -434,27 +434,33 @@ void SdltmRegexReplaceText(sqlite3_context* ctx, int num_arguments, sqlite3_valu
 
 QString EscapeXml(const QString& str) {
     auto copy = str;
-    copy.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("'", "''");
+    copy.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;");
     return copy;
+}
+
+QString EscapeXmlAndSql(const QString& str) {
+	auto copy = str;
+	// extra besides EscapeXml - escape quote (') as double-quote
+	copy.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;").replace("'", "''");
+	return copy;
 }
 
 QString UnescapeXml(const QString& str) {
     auto copy = str;
-    copy.replace("&gt;", ">").replace("&lt;", "<").replace("&amp;", "&").replace("&nbsp;", " ");
+    copy.replace("&gt;", ">").replace("&lt;", "<").replace("&amp;", "&").replace("&nbsp;", " ").replace("&quot;", "\"");
     return copy;
 }
 
 QString EscapeSqlString(const QString& s)
 {
     QString copy = s;
-    // note: not escaping quotes ('), they were already escaped by EscapeXml
     copy.replace("%", "%%");
     return copy;
 }
 
 
 QString ToRegexFindString(const QString& find, bool matchCase, bool wholeWord, bool useRegex) {
-    auto text = EscapeXml(find);
+    auto text = EscapeXmlAndSql(find);
     if (useRegex)
         // this overrides case-sensive, whole-world
         return text;

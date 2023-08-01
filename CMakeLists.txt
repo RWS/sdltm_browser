@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 
 set(CMAKE_FIND_NO_INSTALL_PREFIX True)
 project(trados_sdltm
-    VERSION 1.0.46
+    VERSION 1.0.47
     DESCRIPTION "TM Fusion for Trados"
 )
 
@@ -157,7 +157,7 @@ target_sources(${PROJECT_NAME}
     src/sqlitedb.h
     src/AboutDialog.h
     src/EditIndexDialog.h
-    src/EditDialog.h
+    src/sdltm/ui/SdltmEditDialog.h
     src/EditTableDialog.h
     src/AddRecordDialog.h
     src/ExportDataDialog.h
@@ -227,7 +227,7 @@ target_sources(${PROJECT_NAME}
     PRIVATE
     src/AboutDialog.cpp
     src/EditIndexDialog.cpp
-    src/EditDialog.cpp
+    src/sdltm/ui/SdltmEditDialog.cpp
     src/EditTableDialog.cpp
     src/AddRecordDialog.cpp
     src/ExportDataDialog.cpp

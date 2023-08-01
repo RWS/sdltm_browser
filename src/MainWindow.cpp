@@ -9,7 +9,7 @@
 #include "ExportDataDialog.h"
 #include "Settings.h"
 #include "PreferencesDialog.h"
-#include "EditDialog.h"
+#include "SdltmEditDialog.h"
 #include "sqlitetablemodel.h"
 #include "SqlExecutionArea.h"
 #include "VacuumDialog.h"
@@ -210,6 +210,21 @@ MainWindow::MainWindow(QWidget* parent)
 	ui->batchEditCtrl->FindTextChanged = [this](const FindAndReplaceTextInfo& info)
 	{
 		ui->sdltmSqlView->SetHightlightText(info);
+	};
+	editDock->SaveSourceOrTargetFunc = [this](int translationUnitId, const QString& text, bool isSource)
+	{
+		int errorCode = 0;
+		QString errrorMsg;
+		bool ok = false;
+		if (isSource)
+			ok = TryUpdateSource(db, translationUnitId, text, errorCode, errrorMsg);
+		else
+			ok = TryUpdateTarget(db, translationUnitId, text, errorCode, errrorMsg);
+
+		if ( !ok) {
+			SdltmLog("error updating source/target segment: " + errrorMsg);
+			QMessageBox::warning(this, qApp->applicationName(), tr("Could not update.\nReason: %1").arg(errrorMsg));
+		}
 	};
 }
 
@@ -1193,7 +1208,8 @@ void MainWindow::toggleEditDock(bool visible)
         // (note that this signal is also emitted when the widget is docked or undocked, so we have to avoid
         // reloading data when the user is editing and (un)docks the editor).
         if (currentTableBrowser && editDock->currentIndex() != currentTableBrowser->currentIndex())
-            editDock->setCurrentIndex(currentTableBrowser->currentIndex());
+            //editDock->setCurrentIndex(currentTableBrowser->currentIndex());
+			editDock->SetCurrentIndex(*browserWidget());
     }
 }
 
@@ -1211,7 +1227,8 @@ void MainWindow::doubleClickTable(const QModelIndex& index)
     // dock depending on the value of the "isEditingAllowed" bool above
     editDock->setReadOnly(!isEditingAllowed);
 
-    editDock->setCurrentIndex(index);
+    //editDock->setCurrentIndex(index);
+	editDock->SetCurrentIndex(*browserWidget());
 
     // Show the edit dock
     ui->dockEdit->setVisible(true);
@@ -1234,13 +1251,17 @@ void MainWindow::dataTableSelectionChanged(const QModelIndex& index)
 
     bool editingAllowed = !db.readOnly() && currentTableBrowser && m_currentTabTableModel == currentTableBrowser->model() && currentTableBrowser->model()->isEditable(index);
 
+	if (editDock->IsEditingSourceOrTarget())
+		editingAllowed = true;
+
     // Don't allow editing of other objects than tables and editable views
     editDock->setReadOnly(!editingAllowed);
 
     // If the Edit Cell dock is visible, load the new value into it
     if (editDock->isVisible()) {
-        editDock->setCurrentIndex(index);
-    }
+        //editDock->setCurrentIndex(index);
+		editDock->SetCurrentIndex(*browserWidget());
+	}
 }
 
 void MainWindow::ExecuteSdltmQuery(const QString& sql)
@@ -1360,6 +1381,14 @@ QString MainWindow::titlePrefix() const
     title = "[DEBUG] " + title;
 #endif
     return title;
+}
+
+ExtendedTableWidget* MainWindow::browserWidget() {
+	auto isCommonActions = ui->mainTab->currentWidget() == ui->commonActions;
+	if (isCommonActions)
+		return ui->sdltmSqlView->getTableResult();
+
+	return  currentTableBrowser->dataWidget();
 }
 
 
@@ -1619,6 +1648,7 @@ void MainWindow::mainTabSelected(int /*tabindex*/)
 {
     editDock->setReadOnly(true);
 
+	auto isCommonActions = ui->mainTab->currentWidget() == ui->commonActions;
     if(ui->mainTab->currentWidget() == ui->browser)
     {
         refreshTableBrowsers();
@@ -1633,8 +1663,11 @@ void MainWindow::mainTabSelected(int /*tabindex*/)
             dataTableSelectionChanged(sqlWidget->getTableResult()->currentIndex());
         }
 	}
-	else if (ui->mainTab->currentWidget() == ui->commonActions)
+	else if (isCommonActions) {
 		ui->sdltmSqlView->OnActivated();
+	}
+
+	editDock->SetIsEditingSdltmQuery(isCommonActions);
 }
 
 void MainWindow::importCSVfiles(const std::vector<QString>& inputFiles, const QString& table)

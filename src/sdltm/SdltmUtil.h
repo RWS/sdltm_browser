@@ -34,6 +34,7 @@ void SdltmDeleteTags(sqlite3_context* ctx, int num_arguments, sqlite3_value* arg
 
 
 QString EscapeXml(const QString& str);
+QString EscapeXmlAndSql(const QString& str);
 QString UnescapeXml(const QString& str);
 
 QString EscapeSqlString(const QString& s);

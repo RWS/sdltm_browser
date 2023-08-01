@@ -442,6 +442,10 @@ QModelIndex TableBrowser::currentIndex() const
     return ui->dataTable->currentIndex();
 }
 
+ExtendedTableWidget* TableBrowser::dataWidget() {
+	return ui->dataTable;
+}
+
 void TableBrowser::setEnabled(bool enable)
 {
     ui->browseToolbar->setEnabled(enable);

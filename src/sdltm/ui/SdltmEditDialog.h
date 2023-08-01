@@ -1,14 +1,10 @@
 #ifndef EDITDIALOG_H
 #define EDITDIALOG_H
 
-/*
- * IMPORTANT: I had to make quite a few changes to the editor for Source and Target segments
- * Therefore, I left this class alone, took it off the project, and create our SdltmEditDialog.* files implementing the same class - which I then modified
- */
-
 #include <QDialog>
 #include <QPersistentModelIndex>
 
+class ExtendedTableWidget;
 class QHexEdit;
 class DockTextEdit;
 class ImageViewer;
@@ -25,11 +21,18 @@ public:
     explicit EditDialog(QWidget* parent = nullptr);
     ~EditDialog() override;
 
-    void setCurrentIndex(const QModelIndex& idx);
-    bool isModified() const;
+	void SetCurrentIndex(const ExtendedTableWidget& widget);
+	void setCurrentIndex(const QModelIndex& idx);
+    bool IsModified() const;
     void setModified(bool modified);
     QPersistentModelIndex currentIndex() const { return m_currentIndex; }
     void promptSaveData();
+
+	void SetIsEditingSdltmQuery(bool isEditingSdltmQuery);
+	bool IsEditingSourceOrTarget() const;
+
+	// Id, Text, IsSource
+	std::function<void(int, const QString&, bool)> SaveSourceOrTargetFunc;
 
 public slots:
     void setFocus();
@@ -74,10 +77,15 @@ private:
     bool mustIndentAndCompact;
     QByteArray removedBom;
 
+	bool _isEditingSdltmQuery;
+	int _translationUnitId;
+	QString _oldSdltmValue;
+
     enum DataSources {
-        QtBuffer,
+        TextBuffer,
         HexBuffer,
-        SciBuffer
+        SciBuffer,
+		HtmlBuffer,
     };
 
     // SVG is both an Image and an XML document so it is treated separately
@@ -112,6 +120,9 @@ private:
     void setDataInBuffer(const QByteArray& bArrdata, DataSources source);
     void setStackCurrentIndex(int editMode);
     void openDataWithExternal();
+
+	void SetHtmlData(const QByteArray& data);
+	void SaveSourceOrTarget();
 };
 
 #endif

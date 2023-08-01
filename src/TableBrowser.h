@@ -77,6 +77,8 @@ public:
     static void setDefaultEncoding(const QString& encoding) { m_defaultEncoding = encoding; }
     static QString defaultEncoding() { return m_defaultEncoding; }
 
+	ExtendedTableWidget* dataWidget();
+
 public slots:
     void setEnabled(bool enable);
     void refresh();

@@ -149,6 +149,8 @@ private:
 
     QString titlePrefix() const;
 
+	ExtendedTableWidget* browserWidget();
+
 protected:
     void closeEvent(QCloseEvent *) override;
     void dragEnterEvent(QDragEnterEvent *event) override;

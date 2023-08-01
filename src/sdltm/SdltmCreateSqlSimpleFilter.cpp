@@ -116,7 +116,7 @@ namespace
 		auto usesRegex = NeedsRegex(fi);
 		if (CanHaveCaseInsensitive(fi.FieldMetaType) && !fi.CaseSensitive && !usesRegex)
 			value = value.toLower();
-		value = EscapeXml(value);
+		value = EscapeXmlAndSql(value);
 
 		// care if number or string
 		switch (fi.FieldMetaType)
@@ -271,7 +271,7 @@ namespace
 			{
 				if (subQuery != "")
 					subQuery += " OR ";
-				subQuery +=  "value = '" + EscapeXml(value) + "'";
+				subQuery +=  "value = '" + EscapeXmlAndSql(value) + "'";
 			}
 			subQuery = "attribute_id = " + QString::number(customField.ID) + " AND (" + subQuery + ")";
 
@@ -456,7 +456,7 @@ namespace
 			for (const auto& value : fi.FieldValues) {
 				if (subSql != "")
 					subSql += " OR ";
-				subSql += "string_attributes.value='" + EscapeXml(value) + "' ";
+				subSql += "string_attributes.value='" + EscapeXmlAndSql(value) + "' ";
 			}
 			sql += subSql + ")) AS " + sqlFieldName + " \r\n";
 
@@ -527,7 +527,9 @@ QString SdltmCreateSqlSimpleFilter::ToSqlFilter() const
 	});
 	auto customFieldsIsAnd = lowestIndent != _filter.FilterItems.end() && lowestIndent->CustomFieldName != "" ? lowestIndent->IsAnd : true;
 
-	QString sql = "SELECT t.id, sdltm_friendly_text(t.source_segment) as Source, sdltm_friendly_text(t.target_segment) as Target ";
+	// note: the raw source_segment + target_segment are needed, because if the user wants to edit any of them, we need the original source or target,
+	//       so that we can convert that into an "editable" html, so after the user makes their edits, we can convert them back to the original xml
+	QString sql = "SELECT t.id, sdltm_friendly_text(t.source_segment) as Source, sdltm_friendly_text(t.target_segment) as Target, t.source_segment, t.target_segment ";
 	QString globalWhere;
 	sql += FieldValueQuery(
 				FilterCustomFields(_filter.FilterItems, SdltmFieldMetaType::Number), 
