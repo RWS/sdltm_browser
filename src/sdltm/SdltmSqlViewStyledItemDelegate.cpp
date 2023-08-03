@@ -4,6 +4,8 @@
 #include <QPainter>
 #include <QTextDocument>
 
+#include "SdltmUpdateCache.h"
+
 namespace {
 	// if we don't have at least these many chars to highlight on, don't do anything
 	const int MIN_TEXT_SIZE = 2;
@@ -105,16 +107,26 @@ void SdltmSqlViewStyledItemDelegate::paint(QPainter* painter, const QStyleOption
 
 	painter->save();
 
-	std::vector<TextInfo> split;
-	bool matchesColumn = 
+	if (index.column() == 0) {
+		// IMPORTANT: in order to access data from the cache, I need the translation unit ID.
+		// however, when drawing source or target texts, I can't access this. So, I assume data is printed left-to-right, and top-to-bottom
+		_translationUnitId = index.data().toInt();
+	}
+
+	bool matchesSourceOrTargetColumn = 
 		(index.column() == 1 && (_highlightInfo.Type == FindAndReplaceTextInfo::SearchType::Both || _highlightInfo.Type == FindAndReplaceTextInfo::SearchType::Source))
 		|| (index.column() == 2 && (_highlightInfo.Type == FindAndReplaceTextInfo::SearchType::Both || _highlightInfo.Type == FindAndReplaceTextInfo::SearchType::Target));
-	if (!matchesColumn) {
+	if (!matchesSourceOrTargetColumn) {
 		// default paint
 		QStyledItemDelegate::paint(painter, option, index);
 		return;
 	}
 
+	auto isSource = index.column() == 1;
+	if (_updateCache != nullptr && _updateCache->Has(_translationUnitId, isSource ? SdltmUpdateCache::ValueType::Source : SdltmUpdateCache::ValueType::Target))
+		itemInfo.text = _updateCache->GetFriendlyText(_translationUnitId, isSource ? SdltmUpdateCache::ValueType::Source : SdltmUpdateCache::ValueType::Target);
+
+	std::vector<TextInfo> split;
 	auto isRegex = _highlightInfo.UseRegex || _highlightInfo.WholeWordOnly;
 	if (_highlightInfo.Find.size() >= MIN_TEXT_SIZE)
 		split = isRegex ? SplitTextRegex(itemInfo.text, ToRegex(_highlightInfo), _highlightInfo.MatchCase) : SplitText(itemInfo.text, _highlightInfo.Find, _highlightInfo.MatchCase);
@@ -127,7 +139,7 @@ void SdltmSqlViewStyledItemDelegate::paint(QPainter* painter, const QStyleOption
 	_cachehtmlDoc.setHtml(text);
 
 	itemInfo.text = "";
-	itemInfo.widget->style()->drawControl(QStyle::CE_ItemViewItem, &option, painter);
+	itemInfo.widget->style()->drawControl(QStyle::CE_ItemViewItem, &itemInfo, painter);
 
 	painter->translate(itemInfo.rect.left(), itemInfo.rect.top());
 	QRect clip(0, 0, itemInfo.rect.width(), itemInfo.rect.height());
@@ -146,4 +158,8 @@ QSize SdltmSqlViewStyledItemDelegate::sizeHint(const QStyleOptionViewItem& optio
 
 void SdltmSqlViewStyledItemDelegate::SetHightlightText(const FindAndReplaceTextInfo& highlight) {
 	_highlightInfo = highlight;
+}
+
+void SdltmSqlViewStyledItemDelegate::SetUpdateCache(const SdltmUpdateCache& updateCache) {
+	_updateCache = &updateCache;
 }

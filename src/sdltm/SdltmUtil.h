@@ -40,3 +40,4 @@ QString UnescapeXml(const QString& str);
 QString EscapeSqlString(const QString& s);
 
 QString ToRegexFindString(const QString& find, bool matchCase, bool wholeWord, bool useRegex);
+QString SdmtmXmlToFriendlyText(const QString& inputText);

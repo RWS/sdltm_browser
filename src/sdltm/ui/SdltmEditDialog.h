@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QPersistentModelIndex>
 
+class SdltmUpdateCache;
 class ExtendedTableWidget;
 class QHexEdit;
 class DockTextEdit;
@@ -21,7 +22,7 @@ public:
     explicit EditDialog(QWidget* parent = nullptr);
     ~EditDialog() override;
 
-	void SetCurrentIndex(const ExtendedTableWidget& widget);
+	void SetCurrentIndex(const ExtendedTableWidget& widget, const SdltmUpdateCache & updateCache);
 	void setCurrentIndex(const QModelIndex& idx);
     bool IsModified() const;
     void setModified(bool modified);
@@ -81,11 +82,13 @@ private:
 	int _translationUnitId;
 	QString _oldSdltmValue;
 
+	// just in case this was previously updated already
+	QString _cachedSdltmValue;
+
     enum DataSources {
         TextBuffer,
         HexBuffer,
         SciBuffer,
-		HtmlBuffer,
     };
 
     // SVG is both an Image and an XML document so it is treated separately

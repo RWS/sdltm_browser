@@ -96,6 +96,7 @@ MainWindow::MainWindow(QWidget* parent)
     ui->sdltmSqlView->SetDb(db);
     ui->editSdltmFilter->OnApply = [this](const QString& sql)
     {
+		_updateCache.Clear();
 	    ui->sdltmSqlView->SetSql(sql);
         ExecuteSdltmQuery(sql);
     };
@@ -105,6 +106,7 @@ MainWindow::MainWindow(QWidget* parent)
     };
 
     ui->editSdltmFilter->IsQueryRunning = [this]() { return ui->sdltmSqlView->IsRunning(); };
+	ui->sdltmSqlView->SetUpdateCache(_updateCache);
 
     auto filtersFile = QFile::exists(FiltersFile()) ? FiltersFile() : DefaultFiltersFile();
     _filters =  LoadFilters(filtersFile);
@@ -221,7 +223,12 @@ MainWindow::MainWindow(QWidget* parent)
 		else
 			ok = TryUpdateTarget(db, translationUnitId, text, errorCode, errrorMsg);
 
-		if ( !ok) {
+		if (ok) {
+			auto friendly = SdmtmXmlToFriendlyText(text);
+			_updateCache.Add(translationUnitId, text, friendly, isSource ? SdltmUpdateCache::ValueType::Source : SdltmUpdateCache::ValueType::Target);
+			ui->sdltmSqlView->Refresh();
+		}
+		else {
 			SdltmLog("error updating source/target segment: " + errrorMsg);
 			QMessageBox::warning(this, qApp->applicationName(), tr("Could not update.\nReason: %1").arg(errrorMsg));
 		}
@@ -1208,8 +1215,7 @@ void MainWindow::toggleEditDock(bool visible)
         // (note that this signal is also emitted when the widget is docked or undocked, so we have to avoid
         // reloading data when the user is editing and (un)docks the editor).
         if (currentTableBrowser && editDock->currentIndex() != currentTableBrowser->currentIndex())
-            //editDock->setCurrentIndex(currentTableBrowser->currentIndex());
-			editDock->SetCurrentIndex(*browserWidget());
+			editDock->SetCurrentIndex(*browserWidget(), _updateCache);
     }
 }
 
@@ -1227,8 +1233,7 @@ void MainWindow::doubleClickTable(const QModelIndex& index)
     // dock depending on the value of the "isEditingAllowed" bool above
     editDock->setReadOnly(!isEditingAllowed);
 
-    //editDock->setCurrentIndex(index);
-	editDock->SetCurrentIndex(*browserWidget());
+	editDock->SetCurrentIndex(*browserWidget(), _updateCache);
 
     // Show the edit dock
     ui->dockEdit->setVisible(true);
@@ -1259,8 +1264,7 @@ void MainWindow::dataTableSelectionChanged(const QModelIndex& index)
 
     // If the Edit Cell dock is visible, load the new value into it
     if (editDock->isVisible()) {
-        //editDock->setCurrentIndex(index);
-		editDock->SetCurrentIndex(*browserWidget());
+		editDock->SetCurrentIndex(*browserWidget(), _updateCache);
 	}
 }
 

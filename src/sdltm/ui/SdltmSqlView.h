@@ -3,6 +3,7 @@
 #include <QString>
 #include <QWidget>
 
+#include "SdltmUpdateCache.h"
 #include "sqlitedb.h"
 
 
@@ -36,6 +37,8 @@ public:
 	void OnActivated();
 
 	void SetHightlightText(const FindAndReplaceTextInfo& highlight);
+	void Refresh();
+	void SetUpdateCache(const SdltmUpdateCache& updateCache);
 private:
 	void OnVerticalScrollPosChanged();
 	void ResizeVisibleRows();
@@ -57,6 +60,7 @@ private:
 	DBBrowserDB *_db;
 	SqliteTableModel* _model = nullptr;
 	SdltmSqlViewStyledItemDelegate* _itemPainter = nullptr;
+	const SdltmUpdateCache *_updateCache;
 
 	QTimer* _resizeRowTimer;
 	bool _columnsResized;

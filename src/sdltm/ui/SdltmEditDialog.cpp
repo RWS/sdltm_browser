@@ -24,6 +24,7 @@
 #include <json.hpp>
 
 #include "ExtendedTableWidget.h"
+#include "SdltmUpdateCache.h"
 #include "SdltmUtil.h"
 
 using json = nlohmann::json;
@@ -151,20 +152,25 @@ bool EditDialog::IsEditingSourceOrTarget() const {
 	return false;
 }
 
-void EditDialog::SetCurrentIndex(const ExtendedTableWidget& widget) {
+void EditDialog::SetCurrentIndex(const ExtendedTableWidget& widget, const SdltmUpdateCache& updateCache) {
 	auto index = widget.currentIndex();
 	if (_isEditingSdltmQuery) {
+		_cachedSdltmValue = "";
 		auto column = index.column();
 		switch (column) {
 		case 1: 
 			column = 3;
 			_translationUnitId = widget.model()->index(index.row(), 0).data().toInt();
 			index = widget.model()->index(index.row(), column);
+			if (updateCache.Has(_translationUnitId, SdltmUpdateCache::ValueType::Source))
+				_cachedSdltmValue = updateCache.GetXml(_translationUnitId, SdltmUpdateCache::ValueType::Source);
 			break;
 		case 2: 
 			column = 4;
 			_translationUnitId = widget.model()->index(index.row(), 0).data().toInt();
 			index = widget.model()->index(index.row(), column);
+			if (updateCache.Has(_translationUnitId, SdltmUpdateCache::ValueType::Target))
+				_cachedSdltmValue = updateCache.GetXml(_translationUnitId, SdltmUpdateCache::ValueType::Target);
 			break;
 		}
 	}
@@ -230,7 +236,7 @@ void EditDialog::loadData(const QByteArray& bArrdata)
 	// 3 = Source, 4 = Target
 	if (_isEditingSdltmQuery && (m_currentIndex.column() == 3 || m_currentIndex.column() == 4)) {
 		setStackCurrentIndex(RtlTextEditor);
-		setDataInBuffer(bArrdata, HtmlBuffer);
+		SetHtmlData(bArrdata);
 		return;
 	}
 
@@ -1217,11 +1223,15 @@ void EditDialog::SetHtmlData(const QByteArray& data) {
 	ui->buttonApply->setEnabled(true);
 
 	QString textData;
-	// Load the text into the text editor, remove BOM first if there is one
-	QByteArray dataWithoutBom = data;
-	removedBom = removeBom(dataWithoutBom);
+	if (_cachedSdltmValue != "")
+		textData = _cachedSdltmValue;
+	else {
+		// Load the text into the text editor, remove BOM first if there is one
+		QByteArray dataWithoutBom = data;
+		removedBom = removeBom(dataWithoutBom);
 
-	textData = QString::fromUtf8(dataWithoutBom.constData(), dataWithoutBom.size());
+		textData = QString::fromUtf8(dataWithoutBom.constData(), dataWithoutBom.size());
+	}
 	_oldSdltmValue = textData;
 	ui->qtEdit->setHtml(ToHtml(textData));
 
@@ -1283,9 +1293,6 @@ void EditDialog::setDataInBuffer(const QByteArray& bArrdata, DataSources source)
         break;
     }
 
-	case HtmlBuffer:
-		SetHtmlData(bArrdata);
-		break;
 
 	case SciBuffer:
         switch (sciEdit->language()) {

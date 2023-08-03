@@ -491,4 +491,10 @@ QString ToRegexFindString(const QString& find, bool matchCase, bool wholeWord, b
     return text;
 }
 
+QString SdmtmXmlToFriendlyText(const QString& inputText) {
+	auto addTags = true;
+	auto outputText = UnescapeXml(GetNonXmlText(inputText, " ", addTags));
+	return outputText;
+}
+
 

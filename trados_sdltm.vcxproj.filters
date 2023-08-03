@@ -49,9 +49,6 @@
     <ClCompile Include="C:\code\sdltm_browser\src\sqlitedb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\code\sdltm_browser\src\sqlitetablemodel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="C:\code\sdltm_browser\src\RowLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -229,6 +226,12 @@
     <ClCompile Include="C:\code\sdltm_browser\src\sdltm\SdltmSqlViewStyledItemDelegate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\sdltm\SdltmUpdateCache.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\sdltm\SqliteTableModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="C:\code\sdltm_browser\qrc_icons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -334,9 +337,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\code\sdltm_browser\src\VacuumDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\code\sdltm_browser\src\sqlitetablemodel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\code\sdltm_browser\src\RowLoader.h">
@@ -490,6 +490,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\code\sdltm_browser\src\sdltm\SdltmSqlViewStyledItemDelegate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\sdltm\SdltmUpdateCache.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\sdltm\SqliteTableModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\code\sdltm_browser\ui_AboutDialog.h">

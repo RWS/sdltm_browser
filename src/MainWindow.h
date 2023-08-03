@@ -9,6 +9,7 @@
 #include <QMainWindow>
 
 #include "CustomFieldService.h"
+#include "SdltmUpdateCache.h"
 
 struct BrowseDataTableSettings;
 class DbStructureModel;
@@ -119,6 +120,7 @@ private:
     QString currentProjectFilename;
     bool isProjectModified;
 	bool _initialized = false;
+	SdltmUpdateCache _updateCache;
 
 
     void init();

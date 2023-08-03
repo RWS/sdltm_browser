@@ -109,6 +109,24 @@ void SdltmSqlView::SetHightlightText(const FindAndReplaceTextInfo& highlight) {
 	}
 }
 
+void SdltmSqlView::Refresh() {
+	// the idea: maybe user updated this row and it became bigger
+	auto selectedRow = ui->table->currentIndex().row();
+	if (selectedRow >= 0)
+		ui->table->resizeRowToContents(selectedRow);
+	ResizeVisibleRows();
+
+	ui->table->viewport()->repaint();
+}
+
+void SdltmSqlView::SetUpdateCache(const SdltmUpdateCache& updateCache) {
+	_updateCache = &updateCache;
+	_itemPainter->SetUpdateCache(updateCache);
+	SqliteTableModel * model = dynamic_cast<SqliteTableModel*>(ui->table->model());
+	if (model != nullptr)
+		model->SetUpdateCache(updateCache);
+}
+
 void SdltmSqlView::OnVerticalScrollPosChanged() {
     if (_ignoreUpdate > 0)
         return;
@@ -169,7 +187,7 @@ void SdltmSqlView::OnFetchedData()
 			ui->table->hideColumn(i);
     }
     // IMPORTANT: this would be waaaay too time consuming for lots of records
-//    ui->table->resizeRowsToContents();
+	// ui->table->resizeRowsToContents();
     ResizeVisibleRows();
 }
 

@@ -5,6 +5,8 @@
 #include "BatchEdit.h"
 
 
+class SdltmUpdateCache;
+
 // allows painting highlighted text - for Batch Edit (Find and Replace)
 class SdltmSqlViewStyledItemDelegate : public QStyledItemDelegate
 {
@@ -19,9 +21,13 @@ public:
 	const FindAndReplaceTextInfo& HighlightText() const { return _highlightInfo; }
 	void SetHightlightText(const FindAndReplaceTextInfo& highlight);
 
+	void SetUpdateCache(const SdltmUpdateCache& updateCache);
+
 private:
 	mutable QTextDocument _cachehtmlDoc;
 
 	FindAndReplaceTextInfo _highlightInfo;
+	mutable int _translationUnitId = -1;
+	const SdltmUpdateCache* _updateCache;
 };
 

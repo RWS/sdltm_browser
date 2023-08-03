@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 
 set(CMAKE_FIND_NO_INSTALL_PREFIX True)
 project(trados_sdltm
-    VERSION 1.0.47
+    VERSION 1.0.53
     DESCRIPTION "TM Fusion for Trados"
 )
 
@@ -169,7 +169,6 @@ target_sources(${PROJECT_NAME}
     src/PreferencesDialog.h
     src/SqlExecutionArea.h
     src/VacuumDialog.h
-    src/sqlitetablemodel.h
     src/RowLoader.h
     src/RowCache.h
     src/sqltextedit.h
@@ -221,6 +220,8 @@ target_sources(${PROJECT_NAME}
     src/sdltm/SdltmSqlUtil.h
     src/sdltm/SdltmHashCode.h
     src/sdltm/SdltmSqlViewStyledItemDelegate.h
+    src/sdltm/SdltmUpdateCache.h
+    src/sdltm/SqliteTableModel.h
 )
 
 target_sources(${PROJECT_NAME}
@@ -240,7 +241,6 @@ target_sources(${PROJECT_NAME}
     src/SqlExecutionArea.cpp
     src/VacuumDialog.cpp
     src/sqlitedb.cpp
-    src/sqlitetablemodel.cpp
     src/RowLoader.cpp
     src/sql/sqlitetypes.cpp
     src/sql/Query.cpp
@@ -300,6 +300,8 @@ target_sources(${PROJECT_NAME}
     src/sdltm/SdltmSqlUtil.cpp
     src/sdltm/SdltmHashCode.cpp
     src/sdltm/SdltmSqlViewStyledItemDelegate.cpp
+    src/sdltm/SdltmUpdateCache.cpp
+    src/sdltm/SqliteTableModel.cpp
 )
 
 set(SQLB_FORMS
