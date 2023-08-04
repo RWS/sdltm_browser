@@ -171,16 +171,8 @@ void SdltmSqlView::ResizeVisibleRows() {
 			break;
 	}
 	--_ignoreUpdate;
-
-	UpdateVerticalScrollbarMaxValue();
 }
 
-void SdltmSqlView::UpdateVerticalScrollbarMaxValue() {
-	auto height = (_model->rowCount() - _rowsResizedToContents.size()) * _defaultRowHeight - ui->table->height();
-	for (const auto& row : _rowsResizedToContents)
-		height += row.second;
-	ui->table->SetVerticalMaxValue(height);
-}
 
 void SdltmSqlView::OnFetchedData()
 {

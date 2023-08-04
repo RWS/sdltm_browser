@@ -42,7 +42,6 @@ public:
 private:
 	void OnVerticalScrollPosChanged();
 	void ResizeVisibleRows();
-	void UpdateVerticalScrollbarMaxValue();
 
 private slots:
 	void OnFetchedData();

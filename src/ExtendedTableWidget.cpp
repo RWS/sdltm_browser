@@ -245,8 +245,13 @@ public:
 
 ExtendedTableWidget::ExtendedTableWidget(QWidget* parent) :
     QTableView(parent),
-    m_frozen_table_view(qobject_cast<ExtendedTableWidget*>(parent) ? nullptr : new ExtendedTableWidget(this)),
-    m_frozen_column_count(0),
+
+	// john.torjo - I"m not really sure what the m_frozen_table_view is supposed to do, but for Sdltm Sql View, it's completely messing stuff up
+	// turning it off seems not to hurt anything
+	// just in case we may want to turn it back on - make sure to turn it off for Sdltm Sql View
+	m_frozen_table_view(nullptr),// qobject_cast<ExtendedTableWidget*>(parent) ? nullptr : new ExtendedTableWidget(this)),
+
+	m_frozen_column_count(0),
     m_item_border_delegate(new ItemBorderDelegate(this))
 {
     setHorizontalScrollMode(ExtendedTableWidget::ScrollPerPixel);
@@ -452,12 +457,8 @@ ExtendedTableWidget::ExtendedTableWidget(QWidget* parent) :
         connect(verticalHeader(), &QHeaderView::sectionResized, this, &ExtendedTableWidget::updateSectionHeight);
         connect(m_frozen_table_view->verticalHeader(), &QHeaderView::sectionResized, this, &ExtendedTableWidget::updateSectionHeight);
 
-		// john.torjo - I'm not entirely sure what the frozen-table concept is supposed to really bring, but one thing is for sure:
-		// it's messing up when the user would drag the vertical scrollbar on the Sdltm Sql View -- in other words, at the end of the scroll,
-		// we'd end up where we started from
-		//
-        //connect(m_frozen_table_view->verticalScrollBar(), &QAbstractSlider::valueChanged, verticalScrollBar(), &QAbstractSlider::setValue);
-        //connect(verticalScrollBar(), &QAbstractSlider::valueChanged, m_frozen_table_view->verticalScrollBar(), &QAbstractSlider::setValue);
+        connect(m_frozen_table_view->verticalScrollBar(), &QAbstractSlider::valueChanged, verticalScrollBar(), &QAbstractSlider::setValue);
+        connect(verticalScrollBar(), &QAbstractSlider::valueChanged, m_frozen_table_view->verticalScrollBar(), &QAbstractSlider::setValue);
 
         // Forward signals from frozen table view widget to the main table view widget
         connect(m_frozen_table_view, &ExtendedTableWidget::doubleClicked, this, &ExtendedTableWidget::doubleClicked);
@@ -501,23 +502,6 @@ void ExtendedTableWidget::setModel(QAbstractItemModel* item_model)
         m_frozen_table_view->hide();
 }
 
-// the idea: we're scrolling per pixel, not per item
-void ExtendedTableWidget::SetVerticalMaxValue(int maxValue) {
-	assert(verticalScrollMode() == ScrollPerPixel);
-	_verticalMaxValue = maxValue;
-	// Check if a model has already been set yet
-	if (model())
-	{
-		// If so and if it is a SqliteTableModel and if the parent implementation of this method decided that a scrollbar is needed, update its maximum value
-		SqliteTableModel* m = qobject_cast<SqliteTableModel*>(model());
-		if (m)
-		{
-			verticalScrollBar()->setMaximum(maxValue);
-			if (m_frozen_table_view)
-				m_frozen_table_view->verticalScrollBar()->setMaximum(maxValue);
-		}
-	}
-}
 
 void ExtendedTableWidget::reloadSettings()
 {
@@ -1034,9 +1018,7 @@ void ExtendedTableWidget::updateGeometries()
 					m_frozen_table_view->verticalScrollBar()->setMaximum(verticalScrollBar()->maximum());
 			}
 		} else {
-			verticalScrollBar()->setMaximum(_verticalMaxValue);
-			if (m_frozen_table_view)
-				m_frozen_table_view->verticalScrollBar()->setMaximum(_verticalMaxValue);
+			// scroll per pixel (sdltm sql view): nothing to do
 		}
     }
 }
