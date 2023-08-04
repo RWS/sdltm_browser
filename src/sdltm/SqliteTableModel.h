@@ -249,7 +249,7 @@ private:
      */
     size_t m_chunkSize;
 
-	const SdltmUpdateCache* _updateCache;
+	const SdltmUpdateCache* _updateCache = nullptr;
 };
 
 #endif

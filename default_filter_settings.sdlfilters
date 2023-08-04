@@ -3,6 +3,18 @@
         {
             "AdvancedSql": "",
             "FilterItems": [
+            ],
+            "Name": "All Records",
+            "QuickSearch": "",
+            "QuickSearchCaseSensitive": false,
+            "QuickSearchSearchSourceAndTarget": true,
+            "QuickSearchTarget": "",
+            "QuickSearchUseRegex": false,
+            "QuickSearchWholeWordOnly": false
+        },
+        {
+            "AdvancedSql": "",
+            "FilterItems": [
                 {
                     "CaseSensitive": false,
                     "CustomFieldName": "",
