@@ -42,6 +42,7 @@ public:
 private:
 	void OnVerticalScrollPosChanged();
 	void ResizeVisibleRows();
+	void UpdateVerticalScrollbarMaxValue();
 
 private slots:
 	void OnFetchedData();
@@ -71,8 +72,10 @@ private:
 	QString _lastValidSql;
 	Ui::SdltmSqlView* ui;
 
-	std::set<int> _rowsResizedToContents;
+	// for each row -> its height
+	std::map<int,int> _rowsResizedToContents;
 	int _ignoreUpdate = 0;
+	int _defaultRowHeight = 0;
 };
 
 

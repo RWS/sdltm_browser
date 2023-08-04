@@ -81,6 +81,7 @@ public:
 	void ForceUpdateGeometries() {
 		updateGeometries();
 	}
+	void SetVerticalMaxValue(int maxValue);
 
 public slots:
     void reloadSettings();
@@ -124,6 +125,8 @@ private slots:
     void cellClicked(const QModelIndex& index);
     void updateSectionWidth(int logicalIndex, int oldSize, int newSize);
     void updateSectionHeight(int logicalIndex, int oldSize, int newSize);
+	void SliderPressed();
+	void SliderReleased();
 
 protected:
     void keyPressEvent(QKeyEvent* event) override;
@@ -141,6 +144,8 @@ protected:
     FilterTableHeader* m_tableHeader;
     QMenu* m_contextMenu;
     ExtendedTableWidgetEditorDelegate* m_editorDelegate;
+	int _verticalMaxValue = -1;
+	bool _sliderPressed = false;
 };
 
 #endif

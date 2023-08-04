@@ -31,6 +31,11 @@ SdltmSqlView::SdltmSqlView(QWidget* parent)
     connect(ui->buttonBegin, SIGNAL(clicked(bool)), this, SLOT(OnNavigateBegin()));
     connect(ui->buttonEnd, SIGNAL(clicked(bool)), this, SLOT(OnNavigateEnd()));
     connect(ui->buttonGoto, SIGNAL(clicked(bool)), this, SLOT(OnNavigateGoto()));
+	connect(ui->editGoto, SIGNAL(returnPressed()), this, SLOT(OnNavigateGoto()));
+
+	// INSANELY IMPORTANT:
+	// this used to be ScrollPerItem -- however, ScrollPerItem doesn't properly handle when a row is resized to contents
+	ui->table->setVerticalScrollMode(ExtendedTableWidget::ScrollPerPixel);
 
     ui->table->OnVerticalScrollPosChanged = [this]()
     {
@@ -112,8 +117,12 @@ void SdltmSqlView::SetHightlightText(const FindAndReplaceTextInfo& highlight) {
 void SdltmSqlView::Refresh() {
 	// the idea: maybe user updated this row and it became bigger
 	auto selectedRow = ui->table->currentIndex().row();
-	if (selectedRow >= 0)
+	if (selectedRow >= 0) {
 		ui->table->resizeRowToContents(selectedRow);
+
+		auto height = ui->table->rowHeight(selectedRow);
+		_rowsResizedToContents[selectedRow] = height;
+	}
 	ResizeVisibleRows();
 
 	ui->table->viewport()->repaint();
@@ -140,6 +149,9 @@ void SdltmSqlView::ResizeVisibleRows() {
 
     ++_ignoreUpdate;
 
+	if (_rowsResizedToContents.empty() && ui->table->model()->rowCount() > 0)
+		_defaultRowHeight = ui->table->rowHeight(0);
+
 	while (true) {
 		auto visibleCount = ui->table->numVisibleRows();
 		auto topIdx = ui->table->rowAt(0) == -1 ? 0 : ui->table->rowAt(0);
@@ -148,8 +160,9 @@ void SdltmSqlView::ResizeVisibleRows() {
 
 		for (int i = topIdx; i <= maxIdx; ++i)
 			if (_rowsResizedToContents.find(i) == _rowsResizedToContents.end()) {
-				_rowsResizedToContents.insert(i);
 				ui->table->resizeRowToContents(i);
+				auto height = ui->table->rowHeight(i);
+				_rowsResizedToContents[i] = height;
 			}
 
 		// it can sometimes happen when the visible-row count is based on the old number of rows, thus it can be incorrect
@@ -159,7 +172,14 @@ void SdltmSqlView::ResizeVisibleRows() {
 	}
 	--_ignoreUpdate;
 
-	ui->table->ForceUpdateGeometries();
+	UpdateVerticalScrollbarMaxValue();
+}
+
+void SdltmSqlView::UpdateVerticalScrollbarMaxValue() {
+	auto height = (_model->rowCount() - _rowsResizedToContents.size()) * _defaultRowHeight - ui->table->height();
+	for (const auto& row : _rowsResizedToContents)
+		height += row.second;
+	ui->table->SetVerticalMaxValue(height);
 }
 
 void SdltmSqlView::OnFetchedData()
