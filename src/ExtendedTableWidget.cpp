@@ -498,7 +498,7 @@ void ExtendedTableWidget::setModel(QAbstractItemModel* item_model)
     // Set up frozen table view widget
     if(item_model)
         setFrozenColumns(m_frozen_column_count);
-    else
+    else if (m_frozen_table_view)
         m_frozen_table_view->hide();
 }
 

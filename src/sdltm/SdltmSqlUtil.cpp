@@ -394,6 +394,15 @@ namespace {
         }
         return sqls;
     }
+	bool TryRunDeleteSql(const QString& selectSql, DBBrowserDB& db, int& error, QString& errorMsg) {
+		auto sql = "DELETE FROM translation_units WHERE id in ( SELECT id FROM ( \r\n" + selectSql + " \r\n))";
+
+    	auto forceWait = true;
+		auto pDbScopedPtr = db.get("change field value - multitext", forceWait);
+		sqlite3* pDb = pDbScopedPtr.get();
+
+		return RunExecuteQuery(sql, pDb, error, errorMsg);
+	}
 
     bool TryRunUpdateSourceChangeFieldMultiTextSql(const QString& selectSql, const FindAndReplaceFieldInfo& info, DBBrowserDB& db, int& error, QString& errorMsg) {
         const int BLOCK_SIZE = 128;
@@ -607,9 +616,12 @@ bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>
     return TryRunUpdateSourceOrTargetTextSql(selectSql, replaceSql, db, error, errorMsg);
 }
 
-namespace {
-
+bool TryDelete(const SdltmFilter& filter, const std::vector<CustomField>& customFields, DBBrowserDB& db, int& error, QString& errorMsg) {
+	auto selectSql = SdltmCreateSqlSimpleFilter(filter, customFields).ToSqlFilter();
+	SdltmLog("Find and replace (select): " + selectSql);
+	return  TryRunDeleteSql(selectSql, db, error, errorMsg);
 }
+
 bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>& customFields,
 		const FindAndReplaceFieldInfo& info, DBBrowserDB& db, int& replaceCount, int& error, QString& errorMsg) {
     if (!info.EditField.IsPresent())

@@ -898,7 +898,7 @@ You can drag SQL statements from an object row and drop them into other applicat
                       <item>
                        <widget class="QPushButton" name="batchDelete">
                         <property name="enabled">
-                         <bool>false</bool>
+                         <bool>true</bool>
                         </property>
                         <property name="minimumSize">
                          <size>

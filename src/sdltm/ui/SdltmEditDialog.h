@@ -78,7 +78,7 @@ private:
     bool mustIndentAndCompact;
     QByteArray removedBom;
 
-	bool _isEditingSdltmQuery;
+	bool _isEditingSdltmQuery = false;
 	int _translationUnitId;
 	QString _oldSdltmValue;
 

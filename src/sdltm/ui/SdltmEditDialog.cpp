@@ -138,10 +138,15 @@ void EditDialog::promptSaveData()
 }
 
 void EditDialog::SetIsEditingSdltmQuery(bool isEditingSdltmQuery) {
+	if (_isEditingSdltmQuery == isEditingSdltmQuery)
+		return;
+
 	_isEditingSdltmQuery = isEditingSdltmQuery;
 	ui->comboMode->setEnabled(!isEditingSdltmQuery);
 	if (isEditingSdltmQuery)
 		ui->comboMode->setCurrentIndex(TextEditor);
+	else
+		setStackCurrentIndex(TextEditor);
 
 	sciEdit->setVisible(!isEditingSdltmQuery);
 }

@@ -247,6 +247,30 @@ void MainWindow::OnBatchEdit() {
 }
 
 void MainWindow::OnBatchDelete() {
+	if (QMessageBox::question(this, qApp->applicationName(), "Are you sure you want to Batch Delete?", QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::No)
+		return;
+
+	QApplication::setOverrideCursor(Qt::WaitCursor);
+	ui->editSdltmFilter->ForceSaveNow();
+
+	auto filter = ui->filtersList->GetEditFilter();
+	int errorCode = 0;
+	QString errrorMsg;
+
+	QElapsedTimer timer;
+	timer.start();
+	auto ok = TryDelete(filter, _customFieldService.GetFields(), db, errorCode, errrorMsg);
+	auto elapsedMs = timer.elapsed();
+
+	QApplication::restoreOverrideCursor();
+	if (ok) {
+		QMessageBox::information(this, qApp->applicationName(), "Success! We've deleted these translation units,\r\nin " + QString::number(elapsedMs / 1000) + " seconds.");
+	}
+	else
+		QMessageBox::warning(this, qApp->applicationName(), tr("Could not delete.\nReason: %1").arg(errrorMsg));
+
+	// the idea: we now what to see the results (in the filter we already have)
+	ui->editSdltmFilter->ReapplyFilter();
 }
 
 void MainWindow::init()

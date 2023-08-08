@@ -115,7 +115,7 @@ private:
     static QString m_generatorStamp;
 
     ExtendedTableWidget* m_frozen_table_view;
-    size_t m_frozen_column_count;
+    size_t m_frozen_column_count = 0;
     ItemBorderDelegate* m_item_border_delegate;
     void updateFrozenTableGeometry();
 
