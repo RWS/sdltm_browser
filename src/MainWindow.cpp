@@ -85,6 +85,8 @@ MainWindow::MainWindow(QWidget* parent)
     activateFields(false);
     updateRecentFileActions();
 
+	db.SetSdltmBackupCreator(_sdltmBackupCreator);
+
     // open last file, by default
     // IMPORTANT: do it here, before loading filters, since filters may contain Custom fields from this db
     auto files = Settings::getValue("General", "recentFileList").toStringList();
@@ -133,17 +135,17 @@ MainWindow::MainWindow(QWidget* parent)
         QApplication::setOverrideCursor(Qt::WaitCursor);
         ui->editSdltmFilter->ForceSaveNow();
         int replaceCount = 0;
-        int errorCode = 0;
-        QString errrorMsg;
         QElapsedTimer timer;
         timer.start();
-        auto ok = TryFindAndReplace(ui->filtersList->GetEditFilter(), _customFieldService.GetFields(), info, db, replaceCount, errorCode, errrorMsg);
+        auto ok = _sdltmDbUpdate.TryFindAndReplace(ui->filtersList->GetEditFilter(), _customFieldService.GetFields(), info, db, replaceCount);
+		if (ok)
+			_sdltmBackupCreator.OnAfterSuccessfulUpdate(_sdltmDbInfo);
         auto elapsedMs = timer.elapsed();
         QApplication::restoreOverrideCursor();
         if (ok) {
             QMessageBox::information(this, qApp->applicationName(), "Success! We've updated " + QString::number(replaceCount) + " records,\r\nin " + QString::number(elapsedMs / 1000) + " seconds.");
         } else
-            QMessageBox::warning(this, qApp->applicationName(), tr("Could not run Find and Replace.\nReason: %1").arg(errrorMsg));
+            QMessageBox::warning(this, qApp->applicationName(), tr("Could not run Find and Replace.\nReason: %1").arg(_sdltmDbUpdate.ErrorMsg()));
         // the idea: we now what to see the results (in the filter we already have)
         ui->editSdltmFilter->ReapplyFilter();
     };
@@ -152,18 +154,18 @@ MainWindow::MainWindow(QWidget* parent)
         QApplication::setOverrideCursor(Qt::WaitCursor);
         ui->editSdltmFilter->ForceSaveNow();
         int replaceCount = 0;
-        int errorCode = 0;
-        QString errrorMsg;
         QElapsedTimer timer;
         timer.start();
-        auto ok = TryFindAndReplace(ui->filtersList->GetEditFilter(), _customFieldService.GetFields(), info, db, replaceCount, errorCode, errrorMsg);
-        auto elapsedMs = timer.elapsed();
+        auto ok = _sdltmDbUpdate.TryFindAndReplace(ui->filtersList->GetEditFilter(), _customFieldService.GetFields(), info, db, replaceCount);
+		if (ok)
+			_sdltmBackupCreator.OnAfterSuccessfulUpdate(_sdltmDbInfo);
+		auto elapsedMs = timer.elapsed();
         QApplication::restoreOverrideCursor();
         if (ok) {
             QMessageBox::information(this, qApp->applicationName(), "Success! We've updated " + QString::number(replaceCount) + " records,\r\nin " + QString::number(elapsedMs / 1000) + " seconds.");
         }
         else
-            QMessageBox::warning(this, qApp->applicationName(), tr("Could not run Find and Replace.\nReason: %1").arg(errrorMsg));
+            QMessageBox::warning(this, qApp->applicationName(), tr("Could not run Find and Replace.\nReason: %1").arg(_sdltmDbUpdate.ErrorMsg()));
         // the idea: we now what to see the results (in the filter we already have)
         ui->editSdltmFilter->ReapplyFilter();
     };
@@ -173,18 +175,18 @@ MainWindow::MainWindow(QWidget* parent)
         QApplication::setOverrideCursor(Qt::WaitCursor);
         ui->editSdltmFilter->ForceSaveNow();
         int replaceCount = 0;
-        int errorCode = 0;
-        QString errrorMsg;
         QElapsedTimer timer;
         timer.start();
-        auto ok = TryFindAndReplaceDeleteField(ui->filtersList->GetEditFilter(), _customFieldService.GetFields(), info, db, replaceCount, errorCode, errrorMsg);
-        auto elapsedMs = timer.elapsed();
+        auto ok = _sdltmDbUpdate.TryFindAndReplaceDeleteField(ui->filtersList->GetEditFilter(), _customFieldService.GetFields(), info, db, replaceCount);
+		if (ok)
+			_sdltmBackupCreator.OnAfterSuccessfulUpdate(_sdltmDbInfo);
+		auto elapsedMs = timer.elapsed();
         QApplication::restoreOverrideCursor();
         if (ok) {
             QMessageBox::information(this, qApp->applicationName(), "Success! We've deleted " + QString::number(replaceCount) + " field values,\r\nin " + QString::number(elapsedMs / 1000) + " seconds.");
         }
         else
-            QMessageBox::warning(this, qApp->applicationName(), tr("Could not run Find and Replace.\nReason: %1").arg(errrorMsg));
+            QMessageBox::warning(this, qApp->applicationName(), tr("Could not run Find and Replace.\nReason: %1").arg(_sdltmDbUpdate.ErrorMsg()));
         // the idea: we now what to see the results (in the filter we already have)
         ui->editSdltmFilter->ReapplyFilter();
     };
@@ -194,18 +196,18 @@ MainWindow::MainWindow(QWidget* parent)
         QApplication::setOverrideCursor(Qt::WaitCursor);
         ui->editSdltmFilter->ForceSaveNow();
         int replaceCount = 0;
-        int errorCode = 0;
-        QString errrorMsg;
         QElapsedTimer timer;
         timer.start();
-        auto ok = TryFindAndReplaceDeleteTags(ui->filtersList->GetEditFilter(), _customFieldService.GetFields(), db, replaceCount, errorCode, errrorMsg);
-        auto elapsedMs = timer.elapsed();
+        auto ok = _sdltmDbUpdate.TryFindAndReplaceDeleteTags(ui->filtersList->GetEditFilter(), _customFieldService.GetFields(), db, replaceCount);
+		if (ok)
+			_sdltmBackupCreator.OnAfterSuccessfulUpdate(_sdltmDbInfo);
+		auto elapsedMs = timer.elapsed();
         QApplication::restoreOverrideCursor();
         if (ok) {
             QMessageBox::information(this, qApp->applicationName(), "Success! We've updated " + QString::number(replaceCount) + " records,\r\nin " + QString::number(elapsedMs / 1000) + " seconds.");
         }
         else
-            QMessageBox::warning(this, qApp->applicationName(), tr("Could not run Find and Replace.\nReason: %1").arg(errrorMsg));
+            QMessageBox::warning(this, qApp->applicationName(), tr("Could not run Find and Replace.\nReason: %1").arg(_sdltmDbUpdate.ErrorMsg()));
         // the idea: we now what to see the results (in the filter we already have)
         ui->editSdltmFilter->ReapplyFilter();
     };
@@ -215,13 +217,13 @@ MainWindow::MainWindow(QWidget* parent)
 	};
 	editDock->SaveSourceOrTargetFunc = [this](int translationUnitId, const QString& text, bool isSource)
 	{
-		int errorCode = 0;
-		QString errrorMsg;
 		bool ok = false;
 		if (isSource)
-			ok = TryUpdateSource(db, translationUnitId, text, errorCode, errrorMsg);
+			ok = _sdltmDbUpdate.TryUpdateSource(db, translationUnitId, text);
 		else
-			ok = TryUpdateTarget(db, translationUnitId, text, errorCode, errrorMsg);
+			ok = _sdltmDbUpdate.TryUpdateTarget(db, translationUnitId, text);
+		if (ok)
+			_sdltmBackupCreator.OnAfterSuccessfulUpdate(_sdltmDbInfo);
 
 		if (ok) {
 			auto friendly = SdmtmXmlToFriendlyText(text);
@@ -229,10 +231,15 @@ MainWindow::MainWindow(QWidget* parent)
 			ui->sdltmSqlView->Refresh();
 		}
 		else {
-			SdltmLog("error updating source/target segment: " + errrorMsg);
-			QMessageBox::warning(this, qApp->applicationName(), tr("Could not update.\nReason: %1").arg(errrorMsg));
+			SdltmLog("error updating source/target segment: " + _sdltmDbUpdate.ErrorMsg());
+			QMessageBox::warning(this, qApp->applicationName(), tr("Could not update.\nReason: %1").arg(_sdltmDbUpdate.ErrorMsg()));
 		}
 	};
+
+	_sdltmBackupTimer = new QTimer(this);
+	_sdltmBackupTimer->setInterval(1000);
+	connect(_sdltmBackupTimer, SIGNAL(timeout()), this, SLOT(OnTickTryDbBackup()));
+	_sdltmBackupTimer->start();
 }
 
 MainWindow::~MainWindow()
@@ -254,12 +261,12 @@ void MainWindow::OnBatchDelete() {
 	ui->editSdltmFilter->ForceSaveNow();
 
 	auto filter = ui->filtersList->GetEditFilter();
-	int errorCode = 0;
-	QString errrorMsg;
 
 	QElapsedTimer timer;
 	timer.start();
-	auto ok = TryDelete(filter, _customFieldService.GetFields(), db, errorCode, errrorMsg);
+	auto ok = _sdltmDbUpdate.TryDelete(filter, _customFieldService.GetFields(), db);
+	if (ok)
+		_sdltmBackupCreator.OnAfterSuccessfulUpdate(_sdltmDbInfo);
 	auto elapsedMs = timer.elapsed();
 
 	QApplication::restoreOverrideCursor();
@@ -267,7 +274,7 @@ void MainWindow::OnBatchDelete() {
 		QMessageBox::information(this, qApp->applicationName(), "Success! We've deleted these translation units,\r\nin " + QString::number(elapsedMs / 1000) + " seconds.");
 	}
 	else
-		QMessageBox::warning(this, qApp->applicationName(), tr("Could not delete.\nReason: %1").arg(errrorMsg));
+		QMessageBox::warning(this, qApp->applicationName(), tr("Could not delete.\nReason: %1").arg(_sdltmDbUpdate.ErrorMsg()));
 
 	// the idea: we now what to see the results (in the filter we already have)
 	ui->editSdltmFilter->ReapplyFilter();
@@ -650,6 +657,8 @@ void MainWindow::init()
             runSqlNewTab("PRAGMA optimize;", ui->actionOptimize->text(), "https://www.sqlite.org/pragma.html#pragma_optimize");
     });
 
+	connect(ui->actionRevertAllChanges, &QAction::triggered, this, &MainWindow::RevertAllChanges);
+
     // Action for switching the table via the Database Structure tab
     connect(ui->actionPopupSchemaDockBrowseTable, &QAction::triggered, this, [this]() {
             switchToBrowseDataTab(dockDbSelected->object());
@@ -717,6 +726,7 @@ bool MainWindow::fileOpen(const QString& fileName, bool openFromProject, bool re
     // catch situation where user has canceled file selection from dialog
     if(!wFile.isEmpty() && QFile::exists(wFile) )
     {
+		_sdltmDbInfo = SdltmDbInfo::FromDbFile(wFile);
         // Try opening it as a project file first. If confirmed, this will include closing current
         // database and project files.
         if(loadProject(wFile, readOnly))
@@ -773,6 +783,7 @@ bool MainWindow::fileOpen(const QString& fileName, bool openFromProject, bool re
         }
     }
 
+	_sdltmBackupCreator.CreateInitialBackup(_sdltmDbInfo);
     return retval;
 }
 
@@ -957,6 +968,15 @@ bool MainWindow::fileClose()
     remoteDock->fileOpened(QString());
 
     return true;
+}
+
+void MainWindow::RevertAllChanges() {
+	fileClose();
+	_sdltmBackupCreator.RestoreInitialDatabase(_sdltmDbInfo);
+	fileOpen(_sdltmDbInfo.DatabaseFile);
+	if (ui->mainTab->currentWidget() == ui->commonActions) {
+		ui->editSdltmFilter->ReapplyFilter();
+	}
 }
 
 void MainWindow::closeEvent( QCloseEvent* event )
@@ -1710,6 +1730,12 @@ void MainWindow::importCSVfiles(const std::vector<QString>& inputFiles, const QS
         if (dialog.exec())
             refreshTableBrowsers();
     }
+}
+
+void MainWindow::OnTickTryDbBackup() {
+	if (_sdltmDbUpdate.LastSuccessfulUpdate().isNull())
+		return;
+	_sdltmBackupCreator.OnLastSuccessfulUpdate(_sdltmDbUpdate.LastSuccessfulUpdate(), _sdltmDbInfo);
 }
 
 void MainWindow::importTableFromCSV()

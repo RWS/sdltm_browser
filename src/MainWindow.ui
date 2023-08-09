@@ -186,8 +186,8 @@ You can drag SQL statements from an object row and drop them into other applicat
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>250</width>
-             <height>464</height>
+             <width>740</width>
+             <height>816</height>
             </rect>
            </property>
            <layout class="QFormLayout" name="formLayout">
@@ -1093,6 +1093,8 @@ You can drag SQL statements from an object row and drop them into other applicat
    <addaction name="separator"/>
    <addaction name="fileSaveAction"/>
    <addaction name="fileRevertAction"/>
+   <addaction name="separator"/>
+   <addaction name="actionRevertAllChanges"/>
   </widget>
   <widget class="QDockWidget" name="dockEdit">
    <property name="windowTitle">
@@ -2510,6 +2512,18 @@ You can drag SQL statements from the Schema column and drop them into the SQL ed
    </property>
    <property name="toolTip">
     <string>Reload the database structure</string>
+   </property>
+  </action>
+  <action name="actionRevertAllChanges">
+   <property name="icon">
+    <iconset resource="icons/icons.qrc">
+     <normaloff>:/icons/db_revert</normaloff>:/icons/db_revert</iconset>
+   </property>
+   <property name="text">
+    <string>Revert ALL Changes</string>
+   </property>
+   <property name="toolTip">
+    <string>Reverts any updates/deletions you've made since you opened the database</string>
    </property>
   </action>
  </widget>

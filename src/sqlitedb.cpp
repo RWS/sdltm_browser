@@ -26,6 +26,7 @@
 #include <cstring>
 #include <functional>
 
+#include "SdltmDbBackupCreator.h"
 #include "SdltmUtil.h"
 
 QStringList DBBrowserDB::Datatypes = {"INTEGER", "TEXT", "BLOB", "REAL", "NUMERIC"};
@@ -871,6 +872,8 @@ DBBrowserDB::db_pointer_type DBBrowserDB::get(const QString& user, bool force_wa
         return nullptr;
 
     waitForDbRelease(force_wait ? Wait : Ask);
+	if (force_wait && _dbBackupCreator)
+		_dbBackupCreator->WaitForBackupToComplete();
 
     db_user = user;
     db_used = true;

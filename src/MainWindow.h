@@ -9,6 +9,9 @@
 #include <QMainWindow>
 
 #include "CustomFieldService.h"
+#include "SdltmDbBackupCreator.h"
+#include "SdltmDbInfo.h"
+#include "SdltmDbUpdate.h"
 #include "SdltmUpdateCache.h"
 
 struct BrowseDataTableSettings;
@@ -71,6 +74,13 @@ private:
     Ui::MainWindow* ui;
 
     DBBrowserDB db;
+
+	SdltmDbInfo _sdltmDbInfo;
+	SdltmDbBackupCreator _sdltmBackupCreator;
+	SdltmDbUpdate _sdltmDbUpdate;
+	QTimer* _sdltmBackupTimer;
+
+
     CustomFieldService _customFieldService;
     std::vector< SdltmFilter> _filters;
 
@@ -176,6 +186,7 @@ public slots:
     void importCSVfiles(const std::vector<QString>& inputFiles, const QString& table = QString());
 
 private slots:
+	void OnTickTryDbBackup();
     void createTreeContextMenu(const QPoint & qPoint);
     void createSchemaDockContextMenu(const QPoint & qPoint);
     void changeTreeSelection();
@@ -183,6 +194,7 @@ private slots:
     void fileNewInMemoryDatabase(bool open_create_dialog = true);
     void refreshTableBrowsers();
     bool fileClose();
+	void RevertAllChanges();
     bool fileSaveAs();
     void createTable();
     void createIndex();

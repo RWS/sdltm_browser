@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 
+// IMPORTANT: SQL UPDATE/DELETE functions are isolated in this file
+
 #include "BatchEdit.h"
 #include "CustomFieldService.h"
 

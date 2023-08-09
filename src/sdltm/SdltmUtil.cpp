@@ -14,7 +14,8 @@ namespace {
 
 void SdltmLog(const QString& s)
 {
-    auto str = (s + "\r\n").toStdString();
+    //auto str = (s + "\r\n").toStdString();
+	auto str = (s + "\r").toStdString();
 	OutputDebugString(str.c_str());
     if (_log) {
         _log->write(str.c_str());

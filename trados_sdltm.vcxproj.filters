@@ -232,6 +232,18 @@
     <ClCompile Include="C:\code\sdltm_browser\src\sdltm\SqliteTableModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\sdltm\SdltmDbInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\sdltm\SdltmDbBackupCreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\sdltm\FuncThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\sdltm\SdltmDbUpdate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="C:\code\sdltm_browser\qrc_icons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -496,6 +508,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\code\sdltm_browser\src\sdltm\SqliteTableModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\sdltm\SdltmDbInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\sdltm\SdltmDbBackupCreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\sdltm\FuncThread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\sdltm\SdltmDbUpdate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\code\sdltm_browser\ui_AboutDialog.h">

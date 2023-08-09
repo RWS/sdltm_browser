@@ -15,6 +15,7 @@
 #include <QByteArray>
 #include <QStringList>
 
+class SdltmDbBackupCreator;
 struct sqlite3;
 class CipherSettings;
 
@@ -84,6 +85,10 @@ public:
 
     bool open(const QString& db, bool readOnly = false);
     bool attach(const QString& filename, QString attach_as = QString());
+
+	void SetSdltmBackupCreator(const SdltmDbBackupCreator& creator) {
+		_dbBackupCreator = &creator;
+	}
 
     /**
       detaches a previously attached database identified with its alias-name
@@ -319,6 +324,8 @@ private:
     bool tryEncryptionSettings(const QString& filename, bool* encrypted, CipherSettings* cipherSettings) const;
 
     bool disableStructureUpdateChecks;
+
+	const SdltmDbBackupCreator* _dbBackupCreator = nullptr;
 
     class NoStructureUpdateChecks
     {
