@@ -95,11 +95,19 @@ MainWindow::MainWindow(QWidget* parent)
         fileOpen(files[0], true, false);
     }
 
+	QComboBox* sqlHistoryCombo = new QComboBox;
+	sqlHistoryCombo->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+	ui->toolbarSql->addWidget(sqlHistoryCombo);
+	_sqlHistory.SetCombo(sqlHistoryCombo);
+
+	connect(sqlHistoryCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSqlHistoryIndexChanged()));
+
     ui->sdltmSqlView->SetDb(db);
     ui->editSdltmFilter->OnApply = [this](const QString& sql)
     {
 		_updateCache.Clear();
 	    ui->sdltmSqlView->SetSql(sql);
+		_sqlHistory.Add(sql, "Run Filter " + ui->filtersList->GetEditFilter().Name);
         ExecuteSdltmQuery(sql);
     };
     ui->editSdltmFilter->OnSave = [this](const SdltmFilter& filter)
@@ -138,8 +146,10 @@ MainWindow::MainWindow(QWidget* parent)
         QElapsedTimer timer;
         timer.start();
         auto ok = _sdltmDbUpdate.TryFindAndReplace(ui->filtersList->GetEditFilter(), _customFieldService.GetFields(), info, db, replaceCount);
-		if (ok)
+		if (ok) {
 			_sdltmBackupCreator.OnAfterSuccessfulUpdate(_sdltmDbInfo);
+			_sqlHistory.Add(_sdltmDbUpdate.ResultSql(), "Run Filter " + ui->filtersList->GetEditFilter().Name + " + Batch Find and Replace Text");
+		}
         auto elapsedMs = timer.elapsed();
         QApplication::restoreOverrideCursor();
         if (ok) {
@@ -157,8 +167,10 @@ MainWindow::MainWindow(QWidget* parent)
         QElapsedTimer timer;
         timer.start();
         auto ok = _sdltmDbUpdate.TryFindAndReplace(ui->filtersList->GetEditFilter(), _customFieldService.GetFields(), info, db, replaceCount);
-		if (ok)
+		if (ok) {
 			_sdltmBackupCreator.OnAfterSuccessfulUpdate(_sdltmDbInfo);
+			_sqlHistory.Add(_sdltmDbUpdate.ResultSql(), "Run Filter " + ui->filtersList->GetEditFilter().Name + " + Batch Find and Replace Field");
+		}
 		auto elapsedMs = timer.elapsed();
         QApplication::restoreOverrideCursor();
         if (ok) {
@@ -178,8 +190,10 @@ MainWindow::MainWindow(QWidget* parent)
         QElapsedTimer timer;
         timer.start();
         auto ok = _sdltmDbUpdate.TryFindAndReplaceDeleteField(ui->filtersList->GetEditFilter(), _customFieldService.GetFields(), info, db, replaceCount);
-		if (ok)
+		if (ok) {
 			_sdltmBackupCreator.OnAfterSuccessfulUpdate(_sdltmDbInfo);
+			_sqlHistory.Add(_sdltmDbUpdate.ResultSql(), "Run Filter " + ui->filtersList->GetEditFilter().Name + " + Batch Delete Field");
+		}
 		auto elapsedMs = timer.elapsed();
         QApplication::restoreOverrideCursor();
         if (ok) {
@@ -199,8 +213,10 @@ MainWindow::MainWindow(QWidget* parent)
         QElapsedTimer timer;
         timer.start();
         auto ok = _sdltmDbUpdate.TryFindAndReplaceDeleteTags(ui->filtersList->GetEditFilter(), _customFieldService.GetFields(), db, replaceCount);
-		if (ok)
+		if (ok) {
 			_sdltmBackupCreator.OnAfterSuccessfulUpdate(_sdltmDbInfo);
+			_sqlHistory.Add(_sdltmDbUpdate.ResultSql(), "Run Filter " + ui->filtersList->GetEditFilter().Name + " + Batch Delete Tags");
+		}
 		auto elapsedMs = timer.elapsed();
         QApplication::restoreOverrideCursor();
         if (ok) {
@@ -222,8 +238,10 @@ MainWindow::MainWindow(QWidget* parent)
 			ok = _sdltmDbUpdate.TryUpdateSource(db, translationUnitId, text);
 		else
 			ok = _sdltmDbUpdate.TryUpdateTarget(db, translationUnitId, text);
-		if (ok)
+		if (ok) {
 			_sdltmBackupCreator.OnAfterSuccessfulUpdate(_sdltmDbInfo);
+			_sqlHistory.Add(_sdltmDbUpdate.ResultSql(), isSource ? "Edit Source Segment" : "Edit Target Segment");
+		}
 
 		if (ok) {
 			auto friendly = SdmtmXmlToFriendlyText(text);
@@ -240,7 +258,22 @@ MainWindow::MainWindow(QWidget* parent)
 	_sdltmBackupTimer->setInterval(1000);
 	connect(_sdltmBackupTimer, SIGNAL(timeout()), this, SLOT(OnTickTryDbBackup()));
 	_sdltmBackupTimer->start();
+
+	ui->dbToolbar->hide();
+
+	ui->editCreateTableAction->setEnabled(false);
+	ui->editModifyObjectAction->setEnabled(false);
+	ui->editDeleteObjectAction->setEnabled(false);
+	ui->editCreateIndexAction->setEnabled(false);
 }
+
+
+
+
+
+
+
+
 
 MainWindow::~MainWindow()
 {
@@ -265,8 +298,10 @@ void MainWindow::OnBatchDelete() {
 	QElapsedTimer timer;
 	timer.start();
 	auto ok = _sdltmDbUpdate.TryDelete(filter, _customFieldService.GetFields(), db);
-	if (ok)
+	if (ok) {
 		_sdltmBackupCreator.OnAfterSuccessfulUpdate(_sdltmDbInfo);
+		_sqlHistory.Add(_sdltmDbUpdate.ResultSql(), "Run Filter " + filter.Name + " + Batch Delete");
+	}
 	auto elapsedMs = timer.elapsed();
 
 	QApplication::restoreOverrideCursor();
@@ -432,11 +467,12 @@ void MainWindow::init()
 
     // Create popup menus
     popupTableMenu = new QMenu(this);
-    popupTableMenu->addAction(ui->actionEditBrowseTable);
-    popupTableMenu->addAction(ui->editModifyObjectAction);
-    popupTableMenu->addAction(ui->editDeleteObjectAction);
-    popupTableMenu->addAction(ui->fileDetachAction);
-    popupTableMenu->addSeparator();
+	// disabled forever
+    //popupTableMenu->addAction(ui->actionEditBrowseTable);
+    //popupTableMenu->addAction(ui->editModifyObjectAction);
+    //popupTableMenu->addAction(ui->editDeleteObjectAction);
+    //popupTableMenu->addAction(ui->fileDetachAction);
+    //popupTableMenu->addSeparator();
     popupTableMenu->addAction(ui->actionEditCopyCreateStatement);
     popupTableMenu->addAction(ui->actionExportCsvPopup);
 
@@ -1738,6 +1774,16 @@ void MainWindow::OnTickTryDbBackup() {
 	_sdltmBackupCreator.OnLastSuccessfulUpdate(_sdltmDbUpdate.LastSuccessfulUpdate(), _sdltmDbInfo);
 }
 
+void MainWindow::OnSqlHistoryIndexChanged() {
+	if (_sqlHistory.IgnoreUpdate())
+		return;
+
+	if (ui->tabSqlAreas->currentIndex() < 0)
+		return;
+	SqlExecutionArea* sqlTab = static_cast<SqlExecutionArea*>(ui->tabSqlAreas->currentWidget());
+	sqlTab->setSql(_sqlHistory.GetCurrentSql());
+}
+
 void MainWindow::importTableFromCSV()
 {
     std::vector<QString> validFiles;
@@ -2045,8 +2091,10 @@ void MainWindow::changeTreeSelection()
     ui->actionEditCopyCreateStatement->setEnabled(true);
 
     // Activate actions
-    ui->editDeleteObjectAction->setEnabled(!db.readOnly());
-    ui->editModifyObjectAction->setEnabled(!db.readOnly());
+
+	// disabled forever
+    //ui->editDeleteObjectAction->setEnabled(!db.readOnly());
+    //ui->editModifyObjectAction->setEnabled(!db.readOnly());
 
     if(type == "table" || type == "view")
     {
@@ -2248,8 +2296,11 @@ void MainWindow::activateFields(bool enable)
     ui->fileExportSQLAction->setEnabled(enable);
     ui->fileImportCSVAction->setEnabled(enable && write);
     ui->actionFileImportCsvClipboard->setEnabled(enable && write);
-    ui->editCreateTableAction->setEnabled(enable && write);
-    ui->editCreateIndexAction->setEnabled(enable && write);
+
+	// disabled forever
+    //ui->editCreateTableAction->setEnabled(enable && write);
+    //ui->editCreateIndexAction->setEnabled(enable && write);
+
     ui->actionRefreshStructure->setEnabled(enable);
     ui->actionDbPrint->setEnabled(enable);
     ui->scrollAreaWidgetContents->setEnabled(enable);

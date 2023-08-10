@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.15)
 
+set (CMAKE_SYSTEM_VERSION "10.0.22000.0" CACHE INTERNAL "")
 set(CMAKE_FIND_NO_INSTALL_PREFIX True)
-set (CMAKE_SYSTEM_VERSION 10.0.22000.0 CACHE TYPE INTERNAL FORCE)
 
 project(trados_sdltm
-    VERSION 1.0.60
+    VERSION 1.0.61
     DESCRIPTION "TM Fusion for Trados"
 )
 
@@ -228,6 +228,7 @@ target_sources(${PROJECT_NAME}
     src/sdltm/SdltmDbBackupCreator.h
     src/sdltm/FuncThread.h
     src/sdltm/SdltmDbUpdate.h
+    src/sdltm/SdltmSqlHistory.h
 )
 
 target_sources(${PROJECT_NAME}
@@ -312,6 +313,7 @@ target_sources(${PROJECT_NAME}
     src/sdltm/SdltmDbBackupCreator.cpp
     src/sdltm/FuncThread.cpp
     src/sdltm/SdltmDbUpdate.cpp
+    src/sdltm/SdltmSqlHistory.cpp
 )
 
 set(SQLB_FORMS

@@ -92,8 +92,9 @@ int RunQueryGetCount(const QString& sql, DBBrowserDB& db) {
 
  */
 namespace {
-    bool TryRunUpdateSourceOrTargetTextSql(const QString& selectSql, const QString& updateSql, DBBrowserDB& db, int& error, QString& errorMsg) {
+    bool TryRunUpdateSourceOrTargetTextSql(const QString& selectSql, const QString& updateSql, DBBrowserDB& db, QString& resultSql, int& error, QString& errorMsg) {
         auto sql = "UPDATE translation_units SET " + updateSql + " WHERE id in (SELECT id FROM ( " + selectSql + " ))";
+		resultSql = sql;
 
         auto forceWait = true;
         auto pDb = db.get("run sql update", forceWait);
@@ -312,9 +313,11 @@ namespace {
         return sql;
     }
 
-    bool TryRunUpdateSourceChangeFieldAttributeSql(const QString& selectSql, const FindAndReplaceFieldInfo& info, DBBrowserDB& db, int& error, QString& errorMsg) {
+    bool TryRunUpdateSourceChangeFieldAttributeSql(const QString& selectSql, const FindAndReplaceFieldInfo& info, DBBrowserDB& db, QString& resultSql, int& error, QString& errorMsg) {
         const int BLOCK_SIZE = 128;
         auto ids = RunQueryGetIDs(selectSql, db);
+		// ... best try - since we have several SQLs
+		resultSql = selectSql;
 
         auto forceWait = true;
         auto pDbScopedPtr = db.get("change field value - attribute", forceWait);
@@ -343,9 +346,11 @@ namespace {
         return true;
     }
 
-    bool TryRunUpdateSourceDelFieldAttributeSql(const QString& selectSql, const CustomField& info, DBBrowserDB& db, int& error, QString& errorMsg) {
+    bool TryRunUpdateSourceDelFieldAttributeSql(const QString& selectSql, const CustomField& info, DBBrowserDB& db, QString& resultSql, int& error, QString& errorMsg) {
         const int BLOCK_SIZE = 128;
         auto ids = RunQueryGetIDs(selectSql, db);
+		// ... best try - since we have several SQLs
+		resultSql = selectSql;
 
         auto forceWait = true;
         auto pDbScopedPtr = db.get("del field value - attribute", forceWait);
@@ -394,8 +399,9 @@ namespace {
         }
         return sqls;
     }
-	bool TryRunDeleteSql(const QString& selectSql, DBBrowserDB& db, int& error, QString& errorMsg) {
+	bool TryRunDeleteSql(const QString& selectSql, DBBrowserDB& db, QString& resultSql, int& error, QString& errorMsg) {
 		auto sql = "DELETE FROM translation_units WHERE id in ( SELECT id FROM ( \r\n" + selectSql + " \r\n))";
+		resultSql = sql;
 
     	auto forceWait = true;
 		auto pDbScopedPtr = db.get("change field value - multitext", forceWait);
@@ -404,9 +410,11 @@ namespace {
 		return RunExecuteQuery(sql, pDb, error, errorMsg);
 	}
 
-    bool TryRunUpdateSourceChangeFieldMultiTextSql(const QString& selectSql, const FindAndReplaceFieldInfo& info, DBBrowserDB& db, int& error, QString& errorMsg) {
+    bool TryRunUpdateSourceChangeFieldMultiTextSql(const QString& selectSql, const FindAndReplaceFieldInfo& info, DBBrowserDB& db, QString& resultSql, int& error, QString& errorMsg) {
         const int BLOCK_SIZE = 128;
         auto ids = RunQueryGetIDs(selectSql, db);
+		// ... best try - since we have several SQLs
+		resultSql = selectSql;
 
         auto forceWait = true;
         auto pDbScopedPtr = db.get("change field value - multitext", forceWait);
@@ -477,9 +485,11 @@ namespace {
         return sqls;
     }
 
-    bool TryRunUpdateSourceChangeFieldCheckListSql(const QString& selectSql, const FindAndReplaceFieldInfo& info, DBBrowserDB& db, int& error, QString& errorMsg) {
+    bool TryRunUpdateSourceChangeFieldCheckListSql(const QString& selectSql, const FindAndReplaceFieldInfo& info, DBBrowserDB& db, QString& resultSql, int& error, QString& errorMsg) {
         const int BLOCK_SIZE = 128;
         auto ids = RunQueryGetIDs(selectSql, db);
+		// ... best try - since we have several SQLs
+		resultSql = selectSql;
 
         auto forceWait = true;
         auto pDbScopedPtr = db.get("change field value - checklist", forceWait);
@@ -509,9 +519,11 @@ namespace {
 
         return true;
     }
-    bool TryRunUpdateSourceDelFieldCheckListSql(const QString& selectSql, const CustomField& info, DBBrowserDB& db, int& error, QString& errorMsg) {
+    bool TryRunUpdateSourceDelFieldCheckListSql(const QString& selectSql, const CustomField& info, DBBrowserDB& db, QString& resultSql, int& error, QString& errorMsg) {
         const int BLOCK_SIZE = 128;
         auto ids = RunQueryGetIDs(selectSql, db);
+		// ... best try - since we have several SQLs
+		resultSql = selectSql;
 
         auto forceWait = true;
         auto pDbScopedPtr = db.get("del field value - checklist", forceWait);
@@ -540,7 +552,7 @@ namespace {
 
 
 
-bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>& customFields, const FindAndReplaceTextInfo& info, DBBrowserDB& db, int& replaceCount, int& error, QString& errorMsg) {
+bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>& customFields, const FindAndReplaceTextInfo& info, DBBrowserDB& db, int& replaceCount, QString& resultSql, int& error, QString& errorMsg) {
     if (info.Find == "")
         return false;
 
@@ -613,17 +625,17 @@ bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>
     else
         replaceSql = replaceTarget;
 
-    return TryRunUpdateSourceOrTargetTextSql(selectSql, replaceSql, db, error, errorMsg);
+    return TryRunUpdateSourceOrTargetTextSql(selectSql, replaceSql, db, resultSql, error, errorMsg);
 }
 
-bool TryDelete(const SdltmFilter& filter, const std::vector<CustomField>& customFields, DBBrowserDB& db, int& error, QString& errorMsg) {
+bool TryDelete(const SdltmFilter& filter, const std::vector<CustomField>& customFields, DBBrowserDB& db, QString& resultSql, int& error, QString& errorMsg) {
 	auto selectSql = SdltmCreateSqlSimpleFilter(filter, customFields).ToSqlFilter();
 	SdltmLog("Find and replace (select): " + selectSql);
-	return  TryRunDeleteSql(selectSql, db, error, errorMsg);
+	return  TryRunDeleteSql(selectSql, db, resultSql, error, errorMsg);
 }
 
 bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>& customFields,
-		const FindAndReplaceFieldInfo& info, DBBrowserDB& db, int& replaceCount, int& error, QString& errorMsg) {
+		const FindAndReplaceFieldInfo& info, DBBrowserDB& db, int& replaceCount, QString& resultSql, int& error, QString& errorMsg) {
     if (!info.EditField.IsPresent())
         return false;
 
@@ -655,10 +667,10 @@ bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>
 
     switch (info.EditField.FieldType) {
     case SdltmFieldMetaType::MultiText:
-        return TryRunUpdateSourceChangeFieldMultiTextSql(selectSql, info, db, error, errorMsg);
+        return TryRunUpdateSourceChangeFieldMultiTextSql(selectSql, info, db, resultSql, error, errorMsg);
 
     case SdltmFieldMetaType::CheckboxList:
-        return TryRunUpdateSourceChangeFieldCheckListSql(selectSql, info, db, error, errorMsg);
+        return TryRunUpdateSourceChangeFieldCheckListSql(selectSql, info, db, resultSql, error, errorMsg);
 
     case SdltmFieldMetaType::Int: assert(false); break;
     case SdltmFieldMetaType::Double: assert(false); break;
@@ -668,7 +680,7 @@ bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>
     case SdltmFieldMetaType::Number:
     case SdltmFieldMetaType::List:
     case SdltmFieldMetaType::DateTime:
-        return TryRunUpdateSourceChangeFieldAttributeSql(selectSql, info, db, error, errorMsg);
+        return TryRunUpdateSourceChangeFieldAttributeSql(selectSql, info, db, resultSql, error, errorMsg);
     default:
         break;
     }
@@ -677,7 +689,7 @@ bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>
 }
 
 bool TryFindAndReplaceDeleteField(const SdltmFilter& filter, const std::vector<CustomField>& customFields,
-		const CustomField& info, DBBrowserDB& db, int& replaceCount, int& error, QString& errorMsg) {
+		const CustomField& info, DBBrowserDB& db, int& replaceCount, QString& resultSql, int& error, QString& errorMsg) {
     if (!info.IsPresent())
         return false;
 
@@ -689,10 +701,10 @@ bool TryFindAndReplaceDeleteField(const SdltmFilter& filter, const std::vector<C
 
     switch (info.FieldType) {
     case SdltmFieldMetaType::MultiText:
-        return TryRunUpdateSourceDelFieldAttributeSql(selectSql, info, db, error, errorMsg);
+        return TryRunUpdateSourceDelFieldAttributeSql(selectSql, info, db, resultSql, error, errorMsg);
 
     case SdltmFieldMetaType::CheckboxList:
-        return TryRunUpdateSourceDelFieldCheckListSql(selectSql, info, db, error, errorMsg);
+        return TryRunUpdateSourceDelFieldCheckListSql(selectSql, info, db, resultSql, error, errorMsg);
 
     case SdltmFieldMetaType::Int: assert(false); break;
     case SdltmFieldMetaType::Double: assert(false); break;
@@ -702,7 +714,7 @@ bool TryFindAndReplaceDeleteField(const SdltmFilter& filter, const std::vector<C
     case SdltmFieldMetaType::Number:
     case SdltmFieldMetaType::List:
     case SdltmFieldMetaType::DateTime:
-        return TryRunUpdateSourceDelFieldAttributeSql(selectSql, info, db, error, errorMsg);
+        return TryRunUpdateSourceDelFieldAttributeSql(selectSql, info, db, resultSql, error, errorMsg);
     default:
         break;
     }
@@ -711,7 +723,7 @@ bool TryFindAndReplaceDeleteField(const SdltmFilter& filter, const std::vector<C
 }
 
 bool TryFindAndReplaceDeleteTags(const SdltmFilter& filter, const std::vector<CustomField>& customFields,
-		DBBrowserDB& db, int& replaceCount, int& error, QString& errorMsg) {
+		DBBrowserDB& db, int& replaceCount, QString& resultSql, int& error, QString& errorMsg) {
 
     auto selectSql = SdltmCreateSqlSimpleFilter(filter, customFields).ToSqlFilter();
     SdltmLog("Find and replace delete tags (select): " + selectSql);
@@ -719,27 +731,29 @@ bool TryFindAndReplaceDeleteTags(const SdltmFilter& filter, const std::vector<Cu
     if (replaceCount == 0)
         return true;
     QString replaceSql = "source_segment = sdltm_delete_tags(source_segment), target_segment = sdltm_delete_tags(target_segment)";
-    return TryRunUpdateSourceOrTargetTextSql(selectSql, replaceSql, db, error, errorMsg);
+    return TryRunUpdateSourceOrTargetTextSql(selectSql, replaceSql, db, resultSql, error, errorMsg);
 }
 
-bool TryUpdateSource(DBBrowserDB& db, int translationUnitId, const QString& xml, int& error, QString& errorMsg) {
+bool TryUpdateSource(DBBrowserDB& db, int translationUnitId, const QString& xml, QString& resultSql, int& error, QString& errorMsg) {
 	auto forceWait = true;
 	auto pDbScopedPtr = db.get("update source", forceWait);
 	sqlite3* pDb = pDbScopedPtr.get();
 
 	auto copy = xml;
 	auto sql = "UPDATE translation_units set source_segment='" + copy.replace("'", "''") + "' where id=" + QString::number(translationUnitId);
+	resultSql = sql;
 	SdltmLog("update query= " + sql);
 	return RunExecuteQuery(sql, pDb, error, errorMsg);
 }
 
-bool TryUpdateTarget(DBBrowserDB& db, int translationUnitId, const QString& xml, int& error, QString& errorMsg) {
+bool TryUpdateTarget(DBBrowserDB& db, int translationUnitId, const QString& xml, QString& resultSql, int& error, QString& errorMsg) {
 	auto forceWait = true;
 	auto pDbScopedPtr = db.get("update target", forceWait);
 	sqlite3* pDb = pDbScopedPtr.get();
 
 	auto copy = xml;
 	auto sql = "UPDATE translation_units set target_segment='" + copy.replace("'", "''") + "' where id=" + QString::number(translationUnitId);
+	resultSql = sql;
 	SdltmLog("update query= " + sql);
 	return RunExecuteQuery(sql, pDb, error, errorMsg);
 }

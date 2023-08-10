@@ -12,6 +12,7 @@
 #include "SdltmDbBackupCreator.h"
 #include "SdltmDbInfo.h"
 #include "SdltmDbUpdate.h"
+#include "SdltmSqlHistory.h"
 #include "SdltmUpdateCache.h"
 
 struct BrowseDataTableSettings;
@@ -79,6 +80,8 @@ private:
 	SdltmDbBackupCreator _sdltmBackupCreator;
 	SdltmDbUpdate _sdltmDbUpdate;
 	QTimer* _sdltmBackupTimer;
+
+	SdltmSqlHistory _sqlHistory;
 
 
     CustomFieldService _customFieldService;
@@ -187,6 +190,7 @@ public slots:
 
 private slots:
 	void OnTickTryDbBackup();
+	void OnSqlHistoryIndexChanged();
     void createTreeContextMenu(const QPoint & qPoint);
     void createSchemaDockContextMenu(const QPoint & qPoint);
     void changeTreeSelection();

@@ -28,7 +28,10 @@ public:
 	int Error() const { return _error; }
 	const QString& ErrorMsg() const { return _errorMsg; }
 	QDateTime LastSuccessfulUpdate() const { return _lastSuccessfulUpdate; }
+	const QString& ResultSql() const { return _resultSql; }
 private:
+	QString _resultSql;
+
 	int _error;
 	QString _errorMsg;
 

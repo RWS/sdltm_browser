@@ -40,7 +40,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>0</number>
       </property>
       <property name="movable">
        <bool>true</bool>
@@ -729,6 +729,7 @@ You can drag SQL statements from an object row and drop them into other applicat
           <addaction name="actionSqlFindReplace"/>
           <addaction name="separator"/>
           <addaction name="actionSqlToggleComment"/>
+          <addaction name="separator"/>
          </widget>
         </item>
         <item>
@@ -748,10 +749,10 @@ You can drag SQL statements from an object row and drop them into other applicat
       </widget>
       <widget class="QWidget" name="commonActions">
        <property name="accessibleName">
-        <string>Common Actions</string>
+        <string>Trados</string>
        </property>
        <attribute name="title">
-        <string>Common Actions</string>
+        <string>Trados</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_8">
         <item>
