@@ -134,7 +134,7 @@ private:
     bool isProjectModified;
 	bool _initialized = false;
 	SdltmUpdateCache _updateCache;
-
+	int _editSdltmTranslationUnitId;
 
     void init();
     void clearCompleterModelsFields();
@@ -160,11 +160,13 @@ private:
     sqlb::ObjectIdentifier currentlyBrowsedTableName() const;
 
     QList<TableBrowserDock*> allTableBrowserDocks() const;
-    void ExecuteSdltmQuery(const QString& sql);
 
     QString titlePrefix() const;
 
-	ExtendedTableWidget* browserWidget();
+	ExtendedTableWidget* BrowserWidget();
+
+	void ExecuteSdltmQuery(const QString& sql);
+	void LoadSdtmCustomFields();
 
 protected:
     void closeEvent(QCloseEvent *) override;

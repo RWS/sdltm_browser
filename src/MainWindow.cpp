@@ -254,6 +254,14 @@ MainWindow::MainWindow(QWidget* parent)
 		}
 	};
 
+	ui->editCustomFields->Save = [this](CustomFieldValue& oldValue, const CustomFieldValue& newValue){
+		int errorCode;
+		QString errorMsg;
+		auto ok = TryUpdateCustomField(db, _editSdltmTranslationUnitId, oldValue, newValue, errorCode, errorMsg);
+		if (!ok)
+			QMessageBox::warning(this, qApp->applicationName(), tr("Could not run update Custom Field.\nReason: %1").arg(errorMsg));
+	};
+
 	_sdltmBackupTimer = new QTimer(this);
 	_sdltmBackupTimer->setInterval(1000);
 	connect(_sdltmBackupTimer, SIGNAL(timeout()), this, SLOT(OnTickTryDbBackup()));
@@ -265,6 +273,8 @@ MainWindow::MainWindow(QWidget* parent)
 	ui->editModifyObjectAction->setEnabled(false);
 	ui->editDeleteObjectAction->setEnabled(false);
 	ui->editCreateIndexAction->setEnabled(false);
+
+	ui->dockEditCustomFields->raise();
 }
 
 
@@ -321,6 +331,7 @@ void MainWindow::init()
     tabifyDockWidget(ui->dockLog, ui->dockPlot);
     tabifyDockWidget(ui->dockLog, ui->dockSchema);
     tabifyDockWidget(ui->dockLog, ui->dockRemote);
+	tabifyDockWidget(ui->dockLog, ui->dockEditCustomFields);
 
 #ifdef Q_OS_MACX
     // Add OpenGL Context for macOS
@@ -577,6 +588,7 @@ void MainWindow::init()
             ui->dockSchema->hide();
             ui->dockEdit->hide();
             ui->dockRemote->hide();
+			ui->dockEditCustomFields->hide();
         });
     QAction* atBottomLayoutAction = layoutMenu->addAction(tr("Dock Windows at Bottom"));
     connect(atBottomLayoutAction, &QAction::triggered, this, [=]() {
@@ -1294,8 +1306,10 @@ void MainWindow::toggleEditDock(bool visible)
         // fill edit dock with actual data, when the current index has changed while the dock was invisible.
         // (note that this signal is also emitted when the widget is docked or undocked, so we have to avoid
         // reloading data when the user is editing and (un)docks the editor).
-        if (currentTableBrowser && editDock->currentIndex() != currentTableBrowser->currentIndex())
-			editDock->SetCurrentIndex(*browserWidget(), _updateCache);
+        if (currentTableBrowser && editDock->currentIndex() != currentTableBrowser->currentIndex()) {
+			editDock->SetCurrentIndex(*BrowserWidget(), _updateCache);
+			LoadSdtmCustomFields();
+        }
     }
 }
 
@@ -1313,7 +1327,8 @@ void MainWindow::doubleClickTable(const QModelIndex& index)
     // dock depending on the value of the "isEditingAllowed" bool above
     editDock->setReadOnly(!isEditingAllowed);
 
-	editDock->SetCurrentIndex(*browserWidget(), _updateCache);
+	editDock->SetCurrentIndex(*BrowserWidget(), _updateCache);
+	LoadSdtmCustomFields();
 
     // Show the edit dock
     ui->dockEdit->setVisible(true);
@@ -1344,7 +1359,8 @@ void MainWindow::dataTableSelectionChanged(const QModelIndex& index)
 
     // If the Edit Cell dock is visible, load the new value into it
     if (editDock->isVisible()) {
-		editDock->SetCurrentIndex(*browserWidget(), _updateCache);
+		editDock->SetCurrentIndex(*BrowserWidget(), _updateCache);
+		LoadSdtmCustomFields();
 	}
 }
 
@@ -1458,6 +1474,19 @@ void MainWindow::ExecuteSdltmQuery(const QString& sql)
     execute_sql_worker->start();
 }
 
+void MainWindow::LoadSdtmCustomFields() {
+	if (!ui->editCustomFields->IsEditingSdltmQuery())
+		return;
+
+	auto index = BrowserWidget()->currentIndex();
+	auto translationUnitId = BrowserWidget()->model()->index(index.row(), 0).data().toInt();
+	_editSdltmTranslationUnitId = translationUnitId;
+	int errorCode = 0;
+	QString errorMsg;
+	auto customFieldValues = GetCustomFieldValues(db, _customFieldService.GetFields(), translationUnitId, errorCode, errorMsg);
+	ui->editCustomFields->SetFieldValues(customFieldValues, _customFieldService.GetFields());
+}
+
 QString MainWindow::titlePrefix() const
 {
     auto title = QApplication::applicationName() + " - " + QApplication::applicationVersion();
@@ -1467,7 +1496,7 @@ QString MainWindow::titlePrefix() const
     return title;
 }
 
-ExtendedTableWidget* MainWindow::browserWidget() {
+ExtendedTableWidget* MainWindow::BrowserWidget() {
 	auto isCommonActions = ui->mainTab->currentWidget() == ui->commonActions;
 	if (isCommonActions)
 		return ui->sdltmSqlView->getTableResult();
@@ -1752,6 +1781,7 @@ void MainWindow::mainTabSelected(int /*tabindex*/)
 	}
 
 	editDock->SetIsEditingSdltmQuery(isCommonActions);
+	ui->editCustomFields->SetIsEditingSdltmQuery(isCommonActions);
 }
 
 void MainWindow::importCSVfiles(const std::vector<QString>& inputFiles, const QString& table)
@@ -4119,9 +4149,12 @@ void MainWindow::moveDocksTo(Qt::DockWidgetArea area)
 {
     addDockWidget(area, ui->dockEdit);
     addDockWidget(area, ui->dockLog);
+
     tabifyDockWidget(ui->dockLog, ui->dockPlot);
     tabifyDockWidget(ui->dockLog, ui->dockSchema);
     tabifyDockWidget(ui->dockLog, ui->dockRemote);
+	tabifyDockWidget(ui->dockLog, ui->dockEditCustomFields);
+
 }
 
 void MainWindow::clearRecentFiles()

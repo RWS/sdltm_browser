@@ -1369,6 +1369,36 @@ You can drag SQL statements from the Schema column and drop them into the SQL ed
    <addaction name="fileAttachAction"/>
    <addaction name="fileCloseAction"/>
   </widget>
+  <widget class="QDockWidget" name="dockEditCustomFields">
+   <property name="windowTitle">
+    <string>&amp;Custom Fields</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_6">
+    <layout class="QVBoxLayout" name="verticalLayout_13">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="EditCustomFields" name="editCustomFields" native="true"/>
+     </item>
+    </layout>
+   </widget>
+  </widget>
   <action name="fileNewAction">
    <property name="icon">
     <iconset resource="icons/icons.qrc">
@@ -2563,6 +2593,12 @@ You can drag SQL statements from the Schema column and drop them into the SQL ed
    <class>BatchEdit</class>
    <extends>QWidget</extends>
    <header>batchedit.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>EditCustomFields</class>
+   <extends>QWidget</extends>
+   <header>editcustomfields.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -4,7 +4,7 @@ set (CMAKE_SYSTEM_VERSION "10.0.22000.0" CACHE INTERNAL "")
 set(CMAKE_FIND_NO_INSTALL_PREFIX True)
 
 project(trados_sdltm
-    VERSION 1.0.61
+    VERSION 1.0.62
     DESCRIPTION "TM Fusion for Trados"
 )
 
@@ -214,6 +214,7 @@ target_sources(${PROJECT_NAME}
     src/sdltm/ui/SdltmFiltersList.h
     src/sdltm/ui/BatchEdit.h
     src/sdltm/ui/MultiTextEdit.h
+    src/sdltm/ui/EditCustomFields.h
     src/sdltm/SdltmCreateSqlSimpleFilter.h
     src/sdltm/CustomFieldService.h
     src/sdltm/DbFieldValueService.h
@@ -299,6 +300,7 @@ target_sources(${PROJECT_NAME}
     src/sdltm/ui/SdltmFiltersList.cpp
     src/sdltm/ui/BatchEdit.cpp
     src/sdltm/ui/MultiTextEdit.cpp
+    src/sdltm/ui/EditCustomFields.cpp
     src/sdltm/SdltmCreateSqlSimpleFilter.cpp
     src/sdltm/CustomFieldService.cpp
     src/sdltm/DbFieldValueService.cpp
@@ -346,6 +348,7 @@ set(SQLB_FORMS
     src/sdltm/ui/SdltmFiltersList.ui
     src/sdltm/ui/BatchEdit.ui
     src/sdltm/ui/MultiTextEdit.ui
+    src/sdltm/ui/EditCustomFields.ui
 )
 
 set(SQLB_RESOURCES

@@ -2,6 +2,103 @@
 
 #include <QTextCodec>
 
+CustomFieldValue::CustomFieldValue(const CustomField& cf) {
+	_field = cf;
+	if (_field.FieldType == SdltmFieldMetaType::CheckboxList)
+		CheckboxIndexes.resize(_field.Values.size());
+}
+
+bool CustomFieldValue::IsEmpty() const {
+	switch (_field.FieldType) {
+	case SdltmFieldMetaType::Int:
+	case SdltmFieldMetaType::Double:
+	case SdltmFieldMetaType::Number:
+	case SdltmFieldMetaType::Text:
+		return Text.trimmed() == "";
+
+	case SdltmFieldMetaType::MultiText:
+		return MultiText.empty();
+	case SdltmFieldMetaType::List:
+		return ComboIndex == -1;
+	case SdltmFieldMetaType::CheckboxList:
+		return CheckboxIndexes.empty();
+	case SdltmFieldMetaType::DateTime:
+		return Time == QDateTime(QDate(1990, 1, 1));
+	default: assert(false); break;
+	}
+	return true;
+}
+
+QString CustomFieldValue::FriendlyValue() const {
+	switch(_field.FieldType) {
+	case SdltmFieldMetaType::Int:
+	case SdltmFieldMetaType::Double:
+	case SdltmFieldMetaType::Number:
+	case SdltmFieldMetaType::Text:
+		return Text;
+	case SdltmFieldMetaType::MultiText: {
+		QString multi;
+		for (const auto & line : MultiText) {
+			if (multi != "")
+				multi += ", ";
+			multi += line;
+		}
+		return multi;
+	}
+
+	case SdltmFieldMetaType::List: {
+		auto id = ComboId();
+		if (ComboIndex < 0)
+			return  "";
+		return _field.Values[ComboIndex];
+	}
+
+	case SdltmFieldMetaType::CheckboxList: {
+		QString checkList;
+		for (int i = 0; i < CheckboxIndexes.size(); ++i) {
+			if (!CheckboxIndexes[i])
+				continue;
+
+			if (checkList != "")
+				checkList += ", ";
+			checkList += _field.Values[i];
+		}
+		return checkList;
+	}
+	case SdltmFieldMetaType::DateTime:
+		return Time.date().year() > 1990 ? Time.toString() : "";
+
+	default: assert(false); break;
+	}
+
+	return "";
+}
+
+int CustomFieldValue::ComboId() const {
+	return IndexToId(ComboIndex);
+}
+
+std::vector<int> CustomFieldValue::CheckboxIds() const {
+	std::vector<int> ids;
+	for (int i = 0; i < CheckboxIndexes.size(); ++i) {
+		if (!CheckboxIndexes[i])
+			continue;
+
+		auto id = IndexToId(i);
+		if (id >= 0)
+			ids.push_back(id);
+	}
+	return ids;
+}
+
+int CustomFieldValue::IndexToId(int idx) const {
+	if (idx >= 0 && idx < _field.Values.size())
+		return _field.ValueToID[idx];
+	return -1;
+}
+
+
+
 CustomFieldService::CustomFieldService(DBBrowserDB& db)
 	: _db(&db)
 	, _fvService(db)

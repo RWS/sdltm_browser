@@ -22,3 +22,7 @@ bool TryFindAndReplaceDeleteTags(const SdltmFilter& filter, const std::vector<Cu
 
 bool TryUpdateSource(DBBrowserDB& db, int translationUnitId, const QString& xml, QString& resultSql, int& error, QString& errorMsg);
 bool TryUpdateTarget(DBBrowserDB& db, int translationUnitId, const QString& xml, QString& resultSql, int& error, QString& errorMsg);
+
+bool TryUpdateCustomField(DBBrowserDB& db, int translationUnitId, const CustomFieldValue& oldValue, const CustomFieldValue& newValue, int& error, QString& errorMsg);
+
+std::vector<CustomFieldValue> GetCustomFieldValues(DBBrowserDB& db, const std::vector<CustomField>& customFields, int translationUnitId, int& error, QString& errorMsg);

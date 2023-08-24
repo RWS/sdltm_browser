@@ -1,5 +1,7 @@
 #include "SdltmSqlUtil.h"
 
+#include <QVariant>
+
 #include "SdltmCreateSqlSimpleFilter.h"
 #include "SdltmUtil.h"
 
@@ -756,5 +758,226 @@ bool TryUpdateTarget(DBBrowserDB& db, int translationUnitId, const QString& xml,
 	resultSql = sql;
 	SdltmLog("update query= " + sql);
 	return RunExecuteQuery(sql, pDb, error, errorMsg);
+}
+
+bool TryUpdateCustomField(DBBrowserDB& db, int translationUnitId, const CustomFieldValue& oldValue, const CustomFieldValue& newValue, int& error, QString& errorMsg) {
+	if (oldValue == newValue)
+		return true; // nothing changed
+
+	auto forceWait = true;
+	auto pDbScopedPtr = db.get("update custom text", forceWait);
+	sqlite3* pDb = pDbScopedPtr.get();
+
+	if (!RunExecuteQuery("BEGIN TRANSACTION", pDb, error, errorMsg))
+		return false;
+
+	auto tuIdStr = QString::number(translationUnitId);
+	auto attributeIdStr = QString::number(oldValue.Field().ID);
+
+	// first, remove old values
+	if (!RunExecuteQuery("delete from string_attributes where translation_unit_id=" + tuIdStr + " and attribute_id=" + attributeIdStr, pDb, error, errorMsg))
+		return false;
+	if (!RunExecuteQuery("delete from numeric_attributes where translation_unit_id=" + tuIdStr + " and attribute_id=" + attributeIdStr, pDb, error, errorMsg))
+		return false;
+	if (!RunExecuteQuery("delete from date_attributes where translation_unit_id=" + tuIdStr + " and attribute_id=" + attributeIdStr, pDb, error, errorMsg))
+		return false;
+	if (oldValue.Field().FieldType == SdltmFieldMetaType::List || oldValue.Field().FieldType == SdltmFieldMetaType::CheckboxList) {
+		if (!RunExecuteQuery("delete from picklist_attributes where translation_unit_id=" + tuIdStr + " and picklist_value_id in " + ListToSqlString(oldValue.Field().ValueToID), pDb, error, errorMsg))
+			return false;
+	} 
+	std::vector<QString>  sqls ;
+	if (!newValue.IsEmpty())
+		switch (newValue.Field().FieldType) {
+		case SdltmFieldMetaType::Int:
+		case SdltmFieldMetaType::Double:
+		case SdltmFieldMetaType::Number:
+		case SdltmFieldMetaType::Text:
+		case SdltmFieldMetaType::DateTime: {
+			auto tableName = GetAttributeTableName(newValue.Field().FieldType);
+			auto fieldValue = StringValueToSql(newValue.Field().FieldType, newValue.Text, newValue.Time, newValue.ComboId());
+			sqls.push_back("INSERT INTO " + tableName + "(translation_unit_id,attribute_id,value) VALUES(" + QString::number(translationUnitId) + "," + attributeIdStr + "," + fieldValue + ");");
+		}
+			break;
+
+		case SdltmFieldMetaType::MultiText: {
+			for (const auto& text : newValue.MultiText) {
+				sqls.push_back("INSERT INTO string_attributes(translation_unit_id,attribute_id,value) VALUES(" + QString::number(translationUnitId) + "," + attributeIdStr + ",'" + EscapeXmlAndSql(text) + "');");
+			}
+		}
+			break;
+
+		case SdltmFieldMetaType::List: {
+			auto tableName = GetAttributeTableName(newValue.Field().FieldType);
+			auto fieldValue = StringValueToSql(newValue.Field().FieldType, newValue.Text, newValue.Time, newValue.ComboId());
+			sqls.push_back("INSERT INTO " + tableName + "(translation_unit_id,picklist_value_id) VALUES(" + QString::number(translationUnitId) + "," + fieldValue + ");");
+		}
+			break;
+		case SdltmFieldMetaType::CheckboxList: {
+			// insert them one by one
+			auto attributeIds = newValue.CheckboxIds();
+			for (const auto& attributeId : attributeIds) {
+				sqls.push_back("INSERT INTO picklist_attributes(translation_unit_id,picklist_value_id) VALUES(" + QString::number(translationUnitId) + "," + QString::number(attributeId) + ");");
+			}
+		}
+			break;
+		default: assert(false); break;
+		}
+
+	if (!sqls.empty())
+		for(const auto & sql : sqls)
+			if (!RunExecuteQuery(sql, pDb, error, errorMsg))
+				return false;
+
+	if (!RunExecuteQuery("END TRANSACTION", pDb, error, errorMsg))
+		return false;
+
+	return true;
+}
+
+namespace {
+	struct SqlCustomFieldValue {
+		int AttributeId;
+		int PicklistValueId;
+		QVariant Value;
+	};
+	// how to know which type it is
+	std::vector<SqlCustomFieldValue> RunQueryGetValues(const QString& sql, sqlite3* pDb, SdltmFieldMetaType fieldType) {
+
+		std::vector<SqlCustomFieldValue> result;
+
+		sqlite3_stmt* stmt;
+		int status = sqlite3_prepare_v2(pDb, sql.toStdString().c_str(), static_cast<int>(sql.size()), &stmt, nullptr);
+		if (status == SQLITE_OK) {
+			while (sqlite3_step(stmt) == SQLITE_ROW) {
+				SqlCustomFieldValue fv;
+				auto id = sqlite3_column_int(stmt, 0);
+
+				switch(fieldType) {
+				case SdltmFieldMetaType::Int:
+				case SdltmFieldMetaType::Double:
+					assert(false);
+					break;
+				case SdltmFieldMetaType::Number: {
+					auto n = sqlite3_column_int64(stmt, 1);
+					fv.AttributeId = id;
+					fv.Value = (int)n;
+				}
+					break;
+				case SdltmFieldMetaType::Text:
+				case SdltmFieldMetaType::MultiText: {
+					QByteArray blob(reinterpret_cast<const char*>(sqlite3_column_blob(stmt, 1)), sqlite3_column_bytes(stmt, 1));
+					QString content = QString::fromUtf8(blob);
+					fv.AttributeId = id;
+					fv.Value = content;
+				}
+					break;
+				case SdltmFieldMetaType::List:
+				case SdltmFieldMetaType::CheckboxList:
+					fv.PicklistValueId = id;
+					break;
+				case SdltmFieldMetaType::DateTime: {
+					QByteArray blob(reinterpret_cast<const char*>(sqlite3_column_blob(stmt, 1)), sqlite3_column_bytes(stmt, 1));
+					QString content = QString::fromUtf8(blob);
+					auto time = QDateTime::fromString(content, "yyyy-MM-dd hh:mm:ss");
+					fv.AttributeId = id;
+					fv.Value = time;
+				}
+					break;
+				default: assert(false); break;
+				}
+				result.push_back(fv);
+			}
+			sqlite3_finalize(stmt);
+		}
+
+		return result;
+	}
+
+}
+
+std::vector<CustomFieldValue> GetCustomFieldValues(DBBrowserDB& db, const std::vector<CustomField> & customFields, int translationUnitId, int& error, QString& errorMsg) {
+	auto forceWait = true;
+	auto pDb = db.get("get custom field values", forceWait);
+
+	// load each of them
+	QString sql;
+	auto idStr = QString::number(translationUnitId);
+	sql = "select attribute_id, value from numeric_attributes where translation_unit_id = " + idStr + " order by attribute_id";
+	auto numbers = RunQueryGetValues(sql, pDb.get(), SdltmFieldMetaType::Number);
+	sql = "select attribute_id, value from string_attributes where translation_unit_id = " + idStr + " order by attribute_id";
+	auto strings = RunQueryGetValues(sql, pDb.get(), SdltmFieldMetaType::Text);
+
+	sql = "select attribute_id, datetime(value) from date_attributes where translation_unit_id = " + idStr + " order by attribute_id";
+	auto times = RunQueryGetValues(sql, pDb.get(), SdltmFieldMetaType::DateTime);
+	sql = "select picklist_value_id from picklist_attributes where translation_unit_id = " + idStr + " order by picklist_value_id";
+	auto picks = RunQueryGetValues(sql, pDb.get(), SdltmFieldMetaType::List);
+
+	// now, figure out which is which
+	// special cases Text & Multitext, List & Checklist
+	std::vector<CustomFieldValue> fieldValues;
+	for(const auto & number : numbers) {
+		auto customField = std::find_if(customFields.begin(), customFields.end(), [number](const CustomField& cf) { return cf.ID == number.AttributeId; });
+		if (customField != customFields.end()) {
+			CustomFieldValue cf(*customField);
+			cf.Text = QString::number(number.Value.toInt());
+			fieldValues.push_back(cf);
+		}
+	}
+
+	for (const auto& time : times) {
+		auto customField = std::find_if(customFields.begin(), customFields.end(), [time](const CustomField& cf) { return cf.ID == time.AttributeId; });
+		if (customField != customFields.end()) {
+			CustomFieldValue cf(*customField);
+			cf.Time = time.Value.toDateTime();
+			fieldValues.push_back(cf);
+		}
+	}
+
+	for (const auto& str : strings) {
+		auto customField = std::find_if(customFields.begin(), customFields.end(), [str](const CustomField& cf) { return cf.ID == str.AttributeId; });
+		if (customField != customFields.end()) {
+			CustomFieldValue cf(*customField);
+			if (customField->FieldType == SdltmFieldMetaType::MultiText) {
+				auto existing = std::find_if(fieldValues.begin(), fieldValues.end(), [customField](const CustomFieldValue& fv) { return fv.Field().ID == customField->ID; });
+				if (existing != fieldValues.end())
+					existing->MultiText.push_back(str.Value.toString());
+				else {
+					cf.MultiText.push_back(str.Value.toString());
+					fieldValues.push_back(cf);
+				}
+			}
+			else {
+				cf.Text = str.Value.toString();
+				fieldValues.push_back(cf);
+			}
+		}
+	}
+
+	for (const auto & pick : picks) {
+		auto customField = std::find_if(customFields.begin(), customFields.end(), [pick](const CustomField& cf)
+		{
+			return (cf.FieldType == SdltmFieldMetaType::List || cf.FieldType == SdltmFieldMetaType::CheckboxList)
+			&& std::find(cf.ValueToID.begin(),cf.ValueToID.end(), pick.PicklistValueId) != cf.ValueToID.end();
+		});
+
+		if (customField->FieldType == SdltmFieldMetaType::CheckboxList) {
+			auto index = std::find(customField->ValueToID.begin(), customField->ValueToID.end(), pick.PicklistValueId) - customField->ValueToID.begin();
+			auto existing = std::find_if(fieldValues.begin(), fieldValues.end(), [customField](const CustomFieldValue& fv) { return fv.Field().ID == customField->ID; });
+			if (existing != fieldValues.end())
+				existing->CheckboxIndexes[index] = true;
+			else {
+				CustomFieldValue cf(*customField);
+				cf.CheckboxIndexes[index] = true;
+				fieldValues.push_back(cf);
+			}
+		} else {
+			CustomFieldValue cf(*customField);
+			auto index = std::find(customField->ValueToID.begin(), customField->ValueToID.end(), pick.PicklistValueId) - customField->ValueToID.begin();
+			cf.ComboIndex = index;
+			fieldValues.push_back(cf);
+		}
+	}
+
+	return fieldValues;
 }
 

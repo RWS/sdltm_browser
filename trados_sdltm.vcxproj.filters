@@ -202,6 +202,9 @@
     <ClCompile Include="C:\code\sdltm_browser\src\sdltm\ui\MultiTextEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\sdltm\ui\EditCustomFields.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="C:\code\sdltm_browser\src\sdltm\SdltmCreateSqlSimpleFilter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -483,6 +486,9 @@
     <ClInclude Include="C:\code\sdltm_browser\src\sdltm\ui\MultiTextEdit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\sdltm\ui\EditCustomFields.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="C:\code\sdltm_browser\src\sdltm\SdltmCreateSqlSimpleFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -615,6 +621,9 @@
     <ClInclude Include="C:\code\sdltm_browser\ui_MultiTextEdit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\ui_EditCustomFields.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="C:\code\sdltm_browser\src\AboutDialog.ui" />
@@ -646,6 +655,7 @@
     <CustomBuild Include="C:\code\sdltm_browser\src\sdltm\ui\SdltmFiltersList.ui" />
     <CustomBuild Include="C:\code\sdltm_browser\src\sdltm\ui\BatchEdit.ui" />
     <CustomBuild Include="C:\code\sdltm_browser\src\sdltm\ui\MultiTextEdit.ui" />
+    <CustomBuild Include="C:\code\sdltm_browser\src\sdltm\ui\EditCustomFields.ui" />
     <CustomBuild Include="C:\code\sdltm_browser\src\icons\icons.qrc" />
     <CustomBuild Include="C:\code\sdltm_browser\src\translations\flags\flags.qrc" />
     <CustomBuild Include="C:\code\sdltm_browser\CMakeFiles\9b985c11677fece17e7e5f2752140b3f\sqlb_ar_SA.qm.rule">
