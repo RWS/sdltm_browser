@@ -4,7 +4,7 @@ set (CMAKE_SYSTEM_VERSION "10.0.22000.0" CACHE INTERNAL "")
 set(CMAKE_FIND_NO_INSTALL_PREFIX True)
 
 project(trados_sdltm
-    VERSION 1.0.62
+    VERSION 1.0.63
     DESCRIPTION "TM Fusion for Trados"
 )
 
@@ -230,6 +230,8 @@ target_sources(${PROJECT_NAME}
     src/sdltm/FuncThread.h
     src/sdltm/SdltmDbUpdate.h
     src/sdltm/SdltmSqlHistory.h
+    src/sdltm/export/CustomFieldValueService.h
+    src/sdltm/export/ExportSqlToTmx.h
 )
 
 target_sources(${PROJECT_NAME}
@@ -316,6 +318,8 @@ target_sources(${PROJECT_NAME}
     src/sdltm/FuncThread.cpp
     src/sdltm/SdltmDbUpdate.cpp
     src/sdltm/SdltmSqlHistory.cpp
+    src/sdltm/export/CustomFieldValueService.cpp
+    src/sdltm/export/ExportSqlToTmx.cpp
 )
 
 set(SQLB_FORMS

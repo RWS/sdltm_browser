@@ -191,6 +191,7 @@ public slots:
     void importCSVfiles(const std::vector<QString>& inputFiles, const QString& table = QString());
 
 private slots:
+	void OnSimpleTest();
 	void OnTickTryDbBackup();
 	void OnSqlHistoryIndexChanged();
     void createTreeContextMenu(const QPoint & qPoint);
@@ -277,6 +278,7 @@ private slots:
 
     void OnBatchEdit();
     void OnBatchDelete();
+	void OnBatchExport();
 };
 
 #endif

@@ -250,6 +250,12 @@
     <ClCompile Include="C:\code\sdltm_browser\src\sdltm\SdltmSqlHistory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\sdltm\export\CustomFieldValueService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\sdltm\export\ExportSqlToTmx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="C:\code\sdltm_browser\qrc_icons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -532,6 +538,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\code\sdltm_browser\src\sdltm\SdltmSqlHistory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\sdltm\export\CustomFieldValueService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\sdltm\export\ExportSqlToTmx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\code\sdltm_browser\ui_AboutDialog.h">

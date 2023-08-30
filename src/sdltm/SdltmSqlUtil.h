@@ -3,6 +3,8 @@
 
 // IMPORTANT: SQL UPDATE/DELETE functions are isolated in this file
 
+#include <sqlite3.h>
+
 #include "BatchEdit.h"
 #include "CustomFieldService.h"
 
@@ -11,6 +13,11 @@ class DBBrowserDB;
 class QString;
 std::vector<int> RunQueryGetIDs(const QString& sql, DBBrowserDB& db);
 int RunQueryGetCount(const QString& sql, DBBrowserDB& db);
+
+QString ReadSqlStringField(sqlite3_stmt* stmt, int index);
+QDateTime ReadSqlDateTimeField(sqlite3_stmt* stmt, int index);
+int ReadSqlIntField(sqlite3_stmt* stmt, int index);
+
 
 bool TryDelete(const SdltmFilter& filter, const std::vector<CustomField>& customFields, DBBrowserDB& db, QString & resultSql, int& error, QString& errorMsg);
 

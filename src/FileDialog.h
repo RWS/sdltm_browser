@@ -80,7 +80,9 @@ enum FileDialogTypes {
     OpenCertificateFile,
 
     CreateSettingsFile,
-    OpenSettingsFile
+    OpenSettingsFile,
+
+	ExportTmxFile,
 };
 
 class FileDialog : public QFileDialog

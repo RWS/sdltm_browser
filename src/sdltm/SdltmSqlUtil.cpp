@@ -41,6 +41,26 @@ int RunQueryGetCount(const QString& sql, DBBrowserDB& db) {
     return count;
 }
 
+QString ReadSqlStringField(sqlite3_stmt* stmt, int index) {
+	auto str = sqlite3_column_blob(stmt, index);
+	if (str == nullptr)
+		return {};
+
+	QByteArray blobSource(reinterpret_cast<const char*>(str), sqlite3_column_bytes(stmt, index));
+	QString content = QString::fromUtf8(blobSource);
+	return content;
+}
+
+QDateTime ReadSqlDateTimeField(sqlite3_stmt* stmt, int index) {
+	QByteArray blob(reinterpret_cast<const char*>(sqlite3_column_blob(stmt, index)), sqlite3_column_bytes(stmt, index));
+	QString content = QString::fromUtf8(blob);
+	auto time = QDateTime::fromString(content, "yyyy-MM-dd hh:mm:ss");
+	return time;
+}
+int ReadSqlIntField(sqlite3_stmt* stmt, int index) {
+	return sqlite3_column_int(stmt, index);
+}
+
 /*
  * We're updating the translation units table.
  *
@@ -841,7 +861,7 @@ namespace {
 		QVariant Value;
 	};
 	// how to know which type it is
-	std::vector<SqlCustomFieldValue> RunQueryGetValues(const QString& sql, sqlite3* pDb, SdltmFieldMetaType fieldType) {
+	std::vector<SqlCustomFieldValue> RunQueryGetValues(const QString& sql, sqlite3* pDb, SdltmFieldMetaType fieldType, int& error, QString& errorMsg) {
 
 		std::vector<SqlCustomFieldValue> result;
 
@@ -903,14 +923,14 @@ std::vector<CustomFieldValue> GetCustomFieldValues(DBBrowserDB& db, const std::v
 	QString sql;
 	auto idStr = QString::number(translationUnitId);
 	sql = "select attribute_id, value from numeric_attributes where translation_unit_id = " + idStr + " order by attribute_id";
-	auto numbers = RunQueryGetValues(sql, pDb.get(), SdltmFieldMetaType::Number);
+	auto numbers = RunQueryGetValues(sql, pDb.get(), SdltmFieldMetaType::Number, error, errorMsg);
 	sql = "select attribute_id, value from string_attributes where translation_unit_id = " + idStr + " order by attribute_id";
-	auto strings = RunQueryGetValues(sql, pDb.get(), SdltmFieldMetaType::Text);
+	auto strings = RunQueryGetValues(sql, pDb.get(), SdltmFieldMetaType::Text, error, errorMsg);
 
 	sql = "select attribute_id, datetime(value) from date_attributes where translation_unit_id = " + idStr + " order by attribute_id";
-	auto times = RunQueryGetValues(sql, pDb.get(), SdltmFieldMetaType::DateTime);
+	auto times = RunQueryGetValues(sql, pDb.get(), SdltmFieldMetaType::DateTime, error, errorMsg);
 	sql = "select picklist_value_id from picklist_attributes where translation_unit_id = " + idStr + " order by picklist_value_id";
-	auto picks = RunQueryGetValues(sql, pDb.get(), SdltmFieldMetaType::List);
+	auto picks = RunQueryGetValues(sql, pDb.get(), SdltmFieldMetaType::List, error, errorMsg);
 
 	// now, figure out which is which
 	// special cases Text & Multitext, List & Checklist

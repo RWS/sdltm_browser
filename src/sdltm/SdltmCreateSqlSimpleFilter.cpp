@@ -1,4 +1,5 @@
 #include "SdltmCreateSqlSimpleFilter.h"
+#include "SdltmCreateSqlSimpleFilter.h"
 
 #include "SdltmUtil.h"
 #include "SqlFilterBuilder.h"
@@ -508,10 +509,22 @@ namespace
 		}
 		return  customFields;
 	}
-
 }
 
-QString SdltmCreateSqlSimpleFilter::ToSqlFilter() const
+namespace  {
+	QString SqlPrefix(SdltmCreateSqlSimpleFilter::FilterType filterType) {
+		switch(filterType) {
+		case SdltmCreateSqlSimpleFilter::FilterType::UI:
+			return "t.id, sdltm_friendly_text(t.source_segment) as Source, sdltm_friendly_text(t.target_segment) as Target, t.source_segment, t.target_segment";
+		case SdltmCreateSqlSimpleFilter::FilterType::Export:
+			return "t.id, t.source_segment, t.target_segment, t.creation_date, t.creation_user, t.change_date, t.change_user, t.last_used_date, t.last_used_user";
+		default: assert(false);
+		}
+		return "";
+	}
+}
+
+QString SdltmCreateSqlSimpleFilter::ToSqlFilter(FilterType filterType) const
 {
 	const int MAX_LEVEL = 100000;
 	auto lowestIndent = std::min_element(_filter.FilterItems.begin(), _filter.FilterItems.end(), [MAX_LEVEL](const SdltmFilterItem& a, const SdltmFilterItem& b)
@@ -529,7 +542,7 @@ QString SdltmCreateSqlSimpleFilter::ToSqlFilter() const
 
 	// note: the raw source_segment + target_segment are needed, because if the user wants to edit any of them, we need the original source or target,
 	//       so that we can convert that into an "editable" html, so after the user makes their edits, we can convert them back to the original xml
-	QString sql = "SELECT t.id, sdltm_friendly_text(t.source_segment) as Source, sdltm_friendly_text(t.target_segment) as Target, t.source_segment, t.target_segment ";
+	QString sql = "SELECT " + SqlPrefix(filterType) + " ";
 	QString globalWhere;
 	sql += FieldValueQuery(
 				FilterCustomFields(_filter.FilterItems, SdltmFieldMetaType::Number), 
