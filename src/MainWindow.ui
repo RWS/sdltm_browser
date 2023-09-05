@@ -40,7 +40,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <property name="movable">
        <bool>true</bool>
@@ -186,8 +186,8 @@ You can drag SQL statements from an object row and drop them into other applicat
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>740</width>
-             <height>816</height>
+             <width>250</width>
+             <height>464</height>
             </rect>
            </property>
            <layout class="QFormLayout" name="formLayout">
@@ -938,6 +938,19 @@ You can drag SQL statements from an object row and drop them into other applicat
                         </property>
                         <property name="text">
                          <string>Export to TMX</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="batchImport">
+                        <property name="minimumSize">
+                         <size>
+                          <width>100</width>
+                          <height>32</height>
+                         </size>
+                        </property>
+                        <property name="text">
+                         <string>Import from TMX</string>
                         </property>
                        </widget>
                       </item>

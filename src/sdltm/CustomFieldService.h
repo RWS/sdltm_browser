@@ -20,6 +20,7 @@ struct CustomField
 	}
 
 	bool IsPresent() const { return ID > 0; }
+
 	int ID = 0;
 	QString FieldName;
 	SdltmFieldMetaType FieldType = SdltmFieldMetaType::Text;
@@ -32,6 +33,16 @@ struct CustomField
 		else
 			return -1;
 	}
+	int StringValueToIndex(const QString& val) const
+	{
+		auto it = std::find(Values.begin(), Values.end(), val);
+		if (it != Values.end())
+			return it - Values.begin();
+		else
+			return -1;
+	}
+
+	bool IsEquivalent(const CustomField& other) const;
 
 	// only when it's a list of strings 
 	std::vector<QString> Values;
@@ -83,6 +94,9 @@ public:
 
 	void Update();
 	const std::vector<CustomField>& GetFields() const;
+
+	int NextCustomFieldID() const;
+	int NextCustomFieldListvalueID() const;
 
 private:
 	DBBrowserDB* _db;

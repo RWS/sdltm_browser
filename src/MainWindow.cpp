@@ -64,6 +64,8 @@
 #include "ui_PlotDock.h"
 #include "export/CustomFieldValueService.h"
 #include "export/ExportSqlToTmx.h"
+#include "import/CustomFieldsTmxLoader.h"
+#include "import/ImportTmxToSql.h"
 
 int MainWindow::MaxRecentFiles;
 
@@ -136,6 +138,7 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->batchEdit, SIGNAL(clicked(bool)), this, SLOT(OnBatchEdit()));
     connect(ui->batchDelete, SIGNAL(clicked(bool)), this, SLOT(OnBatchDelete()));
 	connect(ui->batchExport, SIGNAL(clicked(bool)), this, SLOT(OnBatchExport()));
+	connect(ui->batchImport, SIGNAL(clicked(bool)), this, SLOT(OnBatchImport()));
 
     ui->batchEditCtrl->Back = [this]()
     {
@@ -280,16 +283,21 @@ MainWindow::MainWindow(QWidget* parent)
 
 	ui->dockEditCustomFields->raise();
 
+#ifndef NDEBUG
 	QTimer::singleShot(2000, this, SLOT(OnSimpleTest()));
+#endif
 }
 
 void MainWindow::OnSimpleTest() {
-	return;
 	QElapsedTimer timer;
 	timer.start();
 
-	ExportSqlToTmx cfs("D:\\john\\doc\\_rws\\out.txt", db, _customFieldService);
-	cfs.Export("select id, source_segment, target_segment, creation_date, creation_user, change_date, change_user, last_used_date, last_used_user from translation_units order by id");
+	//ExportSqlToTmx cfs("D:\\john\\doc\\_rws\\out.txt", db, _customFieldService);
+	//cfs.Export("select id, source_segment, target_segment, creation_date, creation_user, change_date, change_user, last_used_date, last_used_user from translation_units order by id");
+
+	//ImportTmxToSql cftl("D:\\john\\buff\\sdltm_browser\\tms\\testcopy3.tmx", db, _customFieldService);
+	//ImportTmxToSql cftl("D:\\john\\buff\\sdltm_browser\\tms\\export7.tmx", db, _customFieldService);
+	//cftl.Import();
 
 	auto elapsedMs = timer.elapsed();
 	SdltmLog("simple test complete " + QString::number(elapsedMs) + " millis");
@@ -343,7 +351,6 @@ void MainWindow::OnBatchDelete() {
 }
 
 void MainWindow::OnBatchExport() {
-
 	QString fileName = FileDialog::getSaveFileName(
 		ExportTmxFile,
 		this,
@@ -373,8 +380,39 @@ void MainWindow::OnBatchExport() {
 		QMessageBox::information(this, qApp->applicationName(), "Success! We've exported these translation units,\r\nin " + QString::number(elapsedMs / 1000) + " seconds.");
 	}
 	else
-		QMessageBox::warning(this, qApp->applicationName(), tr("Could not delete.\nReason: %1").arg(_sdltmDbUpdate.ErrorMsg()));
+		QMessageBox::warning(this, qApp->applicationName(), tr("Could not export.\nReason: %1").arg(_sdltmDbUpdate.ErrorMsg()));
+}
 
+void MainWindow::OnBatchImport() {
+	QString fileName = FileDialog::getOpenFileName(
+		ImportTmxFile,
+		this,
+		tr("Choose a .TMX file to import"),
+		"TMX Files (*.tmx)");
+	if (fileName.isEmpty())
+		return;
+
+	QApplication::setOverrideCursor(Qt::WaitCursor);
+	ui->editSdltmFilter->ForceSaveNow();
+
+	QElapsedTimer timer;
+	timer.start();
+
+	ImportTmxToSql cftl(fileName, db, _customFieldService);
+	cftl.Import();
+
+	bool ok = true;
+	auto elapsedMs = timer.elapsed();
+
+	QApplication::restoreOverrideCursor();
+	if (ok) {
+		QMessageBox::information(this, qApp->applicationName(), "Success! We've imported this TMX file\r\nin " + QString::number(elapsedMs / 1000) + " seconds.");
+	}
+	else
+		QMessageBox::warning(this, qApp->applicationName(), tr("Could not export.\nReason: %1").arg(_sdltmDbUpdate.ErrorMsg()));
+
+	// the idea: we have imported records -- show those that match the filter
+	ui->editSdltmFilter->ReapplyFilter();
 }
 
 void MainWindow::init()

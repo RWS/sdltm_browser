@@ -30,10 +30,7 @@ void ExportSqlToTmx::Export(const QString& sql) {
 
 namespace  {
 	QString DateToTmx(QDateTime dt) {
-		// FIXME
-		// creationdate="20230407T055447Z"
 		return dt.toString("yyyyMMddThhmmssZ");
-		//return dt.toString(Qt::ISODate);
 	}
 
 	QString FieldTypeToTmx(SdltmFieldMetaType fieldType) {

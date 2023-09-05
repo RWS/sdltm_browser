@@ -279,6 +279,7 @@ private slots:
     void OnBatchEdit();
     void OnBatchDelete();
 	void OnBatchExport();
+	void OnBatchImport();
 };
 
 #endif

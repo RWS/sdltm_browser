@@ -33,3 +33,6 @@ bool TryUpdateTarget(DBBrowserDB& db, int translationUnitId, const QString& xml,
 bool TryUpdateCustomField(DBBrowserDB& db, int translationUnitId, const CustomFieldValue& oldValue, const CustomFieldValue& newValue, int& error, QString& errorMsg);
 
 std::vector<CustomFieldValue> GetCustomFieldValues(DBBrowserDB& db, const std::vector<CustomField>& customFields, int translationUnitId, int& error, QString& errorMsg);
+
+bool TryAddCustomField(DBBrowserDB& db, const CustomField& customField, int& error, QString& errorMsg);
+int GetNextTranslationUnitId(DBBrowserDB& db);

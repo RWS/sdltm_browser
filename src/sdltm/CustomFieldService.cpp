@@ -2,6 +2,22 @@
 
 #include <QTextCodec>
 
+bool CustomField::IsEquivalent(const CustomField& other) const {
+	// check name + type
+	// for list/checklist -> check value strings, but NOT ids
+	if (FieldType != other.FieldType)
+		return false;
+	if (FieldName != other.FieldName)
+		return false;
+
+	if (FieldType == SdltmFieldMetaType::List || FieldType == SdltmFieldMetaType::CheckboxList) {
+		if (Values != other.Values)
+			return false;
+	}
+
+	return true;
+}
+
 CustomFieldValue::CustomFieldValue(const CustomField& cf) {
 	_field = cf;
 	if (_field.FieldType == SdltmFieldMetaType::CheckboxList)
@@ -167,4 +183,22 @@ void CustomFieldService::Update()
 const std::vector<CustomField>& CustomFieldService::GetFields() const
 {
 	return _fields;
+}
+
+int CustomFieldService::NextCustomFieldID() const {
+	int nextCustomFieldId = 0;
+	for (const auto& field : _fields)
+		if (nextCustomFieldId < field.ID)
+			nextCustomFieldId = field.ID;
+	return nextCustomFieldId + 1;
+}
+
+int CustomFieldService::NextCustomFieldListvalueID() const {
+	int nextPicklistId = 0;
+	for (const auto& field : _fields)
+		if (field.FieldType == SdltmFieldMetaType::List || field.FieldType == SdltmFieldMetaType::CheckboxList)
+			for (const auto & valueId : field.ValueToID)
+				if (nextPicklistId < valueId)
+					nextPicklistId = valueId;
+	return nextPicklistId + 1;
 }

@@ -1001,3 +1001,80 @@ std::vector<CustomFieldValue> GetCustomFieldValues(DBBrowserDB& db, const std::v
 	return fieldValues;
 }
 
+bool TryAddCustomField(DBBrowserDB& db, const CustomField& customField, int& error, QString& errorMsg) {
+	assert(customField.ID > 0);
+
+	int type = 0;
+	switch (customField.FieldType) {
+	case SdltmFieldMetaType::Int:
+	case SdltmFieldMetaType::Double:
+	case SdltmFieldMetaType::Number:
+		type = 6;
+		break;
+	case SdltmFieldMetaType::Text:
+		type = 1;
+		break;
+	case SdltmFieldMetaType::MultiText:
+		type = 2;
+		break;
+	case SdltmFieldMetaType::List:
+		type = 4;
+		break;
+	case SdltmFieldMetaType::CheckboxList:
+		type = 5;
+		break;
+	case SdltmFieldMetaType::DateTime:
+		type = 3;
+		break;
+	default: assert(false);
+	}
+
+	std::vector<QString> sqls;
+	sqls.push_back("INSERT INTO attributes(id,name,guid,type,tm_id) values(" 
+		+ QString::number(customField.ID) + ",'" + EscapeXmlAndSql(customField.FieldName) 
+		+ "','" + EscapeXmlAndSql(customField.FieldName) + "'," + QString::number(type) + ",1)" 
+	);
+
+	switch(customField.FieldType) {
+	case SdltmFieldMetaType::List:
+	case SdltmFieldMetaType::CheckboxList:
+		for (int i = 0; i < customField.Values.size(); ++i) {
+			auto id = customField.ValueToID[i];
+			assert(id > 0);
+			auto value = customField.Values[i];
+			sqls.push_back("INSERT INTO picklist_values(id,guid,value,attribute_id) values(" 
+				+ QString::number(id) + ",'" + EscapeXmlAndSql(value)
+				+ "','" + EscapeXmlAndSql(value) + "'," + QString::number(customField.ID) + ")"
+			);
+		}
+		break;
+	}
+
+	auto forceWait = true;
+	auto pDb = db.get("add custom field", forceWait);
+
+	for (const auto& sql : sqls)
+		if (!RunExecuteQuery(sql, pDb.get(), error, errorMsg))
+			return false;
+
+	return true;
+}
+
+int GetNextTranslationUnitId(DBBrowserDB& db) {
+	auto forceWait = true;
+	auto pDb = db.get("get custom field values", forceWait);
+	QString sql = "select max(id) from translation_units;";
+
+		sqlite3_stmt* stmt;
+	int status = sqlite3_prepare_v2(pDb.get(), sql.toStdString().c_str(), static_cast<int>(sql.size()), &stmt, nullptr);
+	int maxId = 0;
+	if (status == SQLITE_OK) {
+		if (sqlite3_step(stmt) == SQLITE_ROW) {
+			maxId = sqlite3_column_int(stmt, 0);
+		}
+		sqlite3_finalize(stmt);
+	}
+	return maxId + 1;
+}
+
+
