@@ -133,7 +133,7 @@ namespace {
 		static TagOrText ParseTag(const QString & tagXml) {
 			TagOrText tag;
 			auto xml = SimpleXmlNode::Parse(tagXml);
-			tag.TagType = xml.Value;
+			tag.TagType = xml.Name;
 			xml.ReadAttribute("i", tag.Anchor);
 			xml.ReadAttribute("x", tag.AlignmentAnchor);
 			xml.ReadAttribute("type", tag.TagID);

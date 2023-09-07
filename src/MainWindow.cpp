@@ -292,12 +292,7 @@ void MainWindow::OnSimpleTest() {
 	QElapsedTimer timer;
 	timer.start();
 
-	//ExportSqlToTmx cfs("D:\\john\\doc\\_rws\\out.txt", db, _customFieldService);
-	//cfs.Export("select id, source_segment, target_segment, creation_date, creation_user, change_date, change_user, last_used_date, last_used_user from translation_units order by id");
-
-	//ImportTmxToSql cftl("D:\\john\\buff\\sdltm_browser\\tms\\testcopy3.tmx", db, _customFieldService);
-	//ImportTmxToSql cftl("D:\\john\\buff\\sdltm_browser\\tms\\export7.tmx", db, _customFieldService);
-	//cftl.Import();
+    // put your test here
 
 	auto elapsedMs = timer.elapsed();
 	SdltmLog("simple test complete " + QString::number(elapsedMs) + " millis");
