@@ -4,7 +4,7 @@ set (CMAKE_SYSTEM_VERSION "10.0.22000.0" CACHE INTERNAL "")
 set(CMAKE_FIND_NO_INSTALL_PREFIX True)
 
 project(trados_sdltm
-    VERSION 1.0.66
+    VERSION 1.0.68
     DESCRIPTION "TM Fusion for Trados"
 )
 

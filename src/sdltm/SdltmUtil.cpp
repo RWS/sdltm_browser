@@ -243,22 +243,29 @@ void LoadSqliteRegexExtensions(DBBrowserDB& db) {
 
 namespace {
     QString StartTag = QString::fromWCharArray(L"\u23E9");
+    QString OtherTag = QString::fromWCharArray(L"\u23F8");
     QString EndTag = QString::fromWCharArray(L"\u23EA");
+
     QString ConvertXmlToSimpleTags(const QString & txt) {
         QString simple;
         auto idxStart = 0;
         while(true) {
             auto idxNextStartTag = txt.indexOf("<Type>Start</Type>", idxStart);
             auto idxNextEndTag = txt.indexOf("<Type>End</Type>", idxStart);
-            if (idxNextStartTag < 0 && idxNextEndTag < 0)
+            auto idxNextStandaloneTag = txt.indexOf("<Type>Standalone</Type>", idxStart);
+            if (idxNextStartTag < 0 && idxNextEndTag < 0 && idxNextStandaloneTag < 0)
                 break;
             if (idxNextStartTag < 0)
                 idxNextStartTag = INT_MAX;
             if (idxNextEndTag < 0)
                 idxNextEndTag = INT_MAX;
-            auto minIsStart = idxNextStartTag < idxNextEndTag;
-            simple += minIsStart ? StartTag : EndTag;
-            idxStart = (minIsStart ? idxNextStartTag : idxNextEndTag) + 1;
+            if (idxNextStandaloneTag < 0)
+                idxNextStandaloneTag = INT_MAX;
+
+            auto idxNext = std::min(idxNextStartTag, std::min(idxNextEndTag, idxNextStandaloneTag));
+            auto nextTag = idxNext == idxNextStartTag ? StartTag : (idxNext == idxNextEndTag ? EndTag : OtherTag);
+			simple += nextTag;
+			idxStart = idxNext + 1;
         }
         return simple;
     }

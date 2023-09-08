@@ -883,19 +883,6 @@ namespace  {
 		return result;
 	}
 
-	void RemoveOtherTagsAdjacentToStartEndTags(std::vector<SubText> & result) {
-		for (int i = 0; i < result.size(); ++i)
-			if (result[i].Type == SubTextType::Tag && result[i].TagType == SubTextTagType::Other) {
-				// don't show "Other" tags if they're next to a Start or End, it's simply visually displeasing
-				auto prevAdjacent = i > 0 && result[i - 1].Type == SubTextType::Tag && result[i - 1].TagType != SubTextTagType::Other;
-				auto nextAdjacent = i < result.size() - 1 && result[i + 1].Type == SubTextType::Tag && result[i + 1].TagType != SubTextTagType::Other;
-				if (prevAdjacent || nextAdjacent) {
-					result.erase(result.begin() + i);
-					--i;
-				}
-			}
-
-	}
 
 	/*
 	 * Note: this doesn't work, QT doesn't support setting tooltips like this:
@@ -939,7 +926,6 @@ namespace  {
 
 	QString ToHtml(const QString & inputTextXml) {
 		auto split = SplitIntoSubTexts(inputTextXml);
-		RemoveOtherTagsAdjacentToStartEndTags(split);
 
 		QString outputText = HTML_PREFIX;
 
