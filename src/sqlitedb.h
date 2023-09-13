@@ -73,7 +73,7 @@ private:
             std::unique_lock<std::mutex> lk(pParent->m);
             pParent->db_used = false;
             lk.unlock();
-            emit pParent->databaseInUseChanged(false, QString());
+            //emit pParent->databaseInUseChanged(false, QString());
             pParent->cv.notify_one();
         }
     };

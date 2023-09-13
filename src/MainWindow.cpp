@@ -58,6 +58,8 @@
 
 #include <limits>
 
+#include "BackgroundProgressDialog.h"
+#include "MainThreadProgressDialog.h"
 #include "SdltmCreateSqlSimpleFilter.h"
 #include "SdltmSqlUtil.h"
 #include "SdltmUtil.h"
@@ -355,22 +357,29 @@ void MainWindow::OnBatchExport() {
 	if (fileName.isEmpty())
 		return;
 
-	QApplication::setOverrideCursor(Qt::WaitCursor);
 	ui->editSdltmFilter->ForceSaveNow();
 
 	auto filter = ui->filtersList->GetEditFilter();
 	auto sql = SdltmCreateSqlSimpleFilter(filter, _customFieldService.GetFields()).ToSqlFilter(SdltmCreateSqlSimpleFilter::FilterType::Export);
+    auto sqlCount = SdltmCreateSqlSimpleFilter(filter, _customFieldService.GetFields()).ToSqlFilter(SdltmCreateSqlSimpleFilter::FilterType::Count);
 
 	QElapsedTimer timer;
 	timer.start();
 
-	ExportSqlToTmx exportTmx(fileName, db, _customFieldService);
-	exportTmx.Export(sql);
+    std::function<void(BackgroundProgressDialog::CallbackFunc)> f = [=](BackgroundProgressDialog::CallbackFunc callback)
+        {
+            ExportSqlToTmx exportTmx(fileName, db, _customFieldService);
+            exportTmx.Export(sql, sqlCount, callback);
+        };
+
+	{ BackgroundProgressDialog dlg(f);
+    dlg.TaskName = "Exporting to TMX ...";
+    dlg.ShowDialog();
+    }
 
 	bool ok = true;
 	auto elapsedMs = timer.elapsed();
 
-	QApplication::restoreOverrideCursor();
 	if (ok) {
 		QMessageBox::information(this, qApp->applicationName(), "Success! We've exported these translation units,\r\nin " + QString::number(elapsedMs / 1000) + " seconds.");
 	}
@@ -393,8 +402,16 @@ void MainWindow::OnBatchImport() {
 	QElapsedTimer timer;
 	timer.start();
 
-	ImportTmxToSql cftl(fileName, db, _customFieldService);
-	cftl.Import();
+    std::function<void(BackgroundProgressDialog::CallbackFunc)> f = [=](BackgroundProgressDialog::CallbackFunc callback)
+        {
+            ImportTmxToSql cftl(fileName, db, _customFieldService);
+            cftl.Import(callback);
+        };
+    { BackgroundProgressDialog dlg(f);
+    dlg.TaskName = "Importing from TMX ...";
+    dlg.ShowDialog();
+    }
+
 
 	bool ok = true;
 	auto elapsedMs = timer.elapsed();
@@ -765,7 +782,7 @@ void MainWindow::init()
     connect(ui->actionDropSelectQueryCheck, &QAction::toggled, dbStructureModel, &DbStructureModel::setDropSelectQuery);
     connect(ui->actionDropQualifiedCheck, &QAction::toggled, dbStructureModel, &DbStructureModel::setDropQualifiedNames);
     connect(ui->actionEnquoteNamesCheck, &QAction::toggled, dbStructureModel, &DbStructureModel::setDropEnquotedNames);
-    connect(&db, &DBBrowserDB::databaseInUseChanged, this, &MainWindow::updateDatabaseBusyStatus);
+    //connect(&db, &DBBrowserDB::databaseInUseChanged, this, &MainWindow::updateDatabaseBusyStatus);
 
     ui->actionDropSelectQueryCheck->setChecked(Settings::getValue("SchemaDock", "dropSelectQuery").toBool());
     ui->actionDropQualifiedCheck->setChecked(Settings::getValue("SchemaDock", "dropQualifiedNames").toBool());

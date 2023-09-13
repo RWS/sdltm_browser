@@ -3,9 +3,9 @@
 #define GEN_VERSION_H
 #define MAJOR_VERSION 1
 #define MINOR_VERSION 0
-#define PATCH_VERSION 68
+#define PATCH_VERSION 70
 
-#define APP_VERSION "1.0.68"
+#define APP_VERSION "1.0.70"
 
 // If it is defined by the compiler, then it is a nightly build, and in the YYYYMMDD format.
 #ifndef BUILD_VERSION

@@ -10,6 +10,8 @@
 #include "SimpleXml.h"
 
 namespace  {
+	const int BLOCK_SIZE = 50;
+
 	QDateTime TmxToDate(const QString & s) {
 		return QDateTime::fromString(s, "yyyyMMddTHHmmssZ");
 	}
@@ -446,12 +448,16 @@ namespace {
 	};
 }
 
-void ImportTmxToSql::Import() {
+void ImportTmxToSql::Import(BackgroundProgressDialog::CallbackFunc callback) {
 	// first, parse the header for custom properties
 	CustomFieldsTmxLoader customFieldsLoader(_importFileName, _db, _customFieldService);
 	customFieldsLoader.SaveToDb();
 
 	int nextTranslationId = GetNextTranslationUnitId(_db);
+
+	auto fileSize = QFileInfo(_importFileName).size();
+	// note: I really don't know how many records I'm importing, so just make a simple guesstimate (1 record = 1000 bytes)
+	auto guessRecordCount = fileSize / 1000;
 
 	// I need to also parse the header
 	QFile file(_importFileName);
@@ -493,6 +499,14 @@ void ImportTmxToSql::Import() {
 				bulkExecute.AddSql(sql);
 
 			++nextTranslationId;
+			++_importIndex;
+			if ((_importIndex % BLOCK_SIZE) == 0) {
+				// note: I really don't know how many records I'm importing, so just make a simple guesstimate (1 record = 1000 bytes)
+				auto percent = std::min((double)_importIndex / (double)guessRecordCount, 0.98);
+				if (!callback(percent))
+					break; // user cancelled
+			}
+
 		}
 		else
 			parseTu.ParseLine(line);

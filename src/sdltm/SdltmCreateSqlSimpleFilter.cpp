@@ -518,6 +518,8 @@ namespace  {
 			return "t.id, sdltm_friendly_text(t.source_segment) as Source, sdltm_friendly_text(t.target_segment) as Target, t.source_segment, t.target_segment";
 		case SdltmCreateSqlSimpleFilter::FilterType::Export:
 			return "t.id, t.source_segment, t.target_segment, t.creation_date, t.creation_user, t.change_date, t.change_user, t.last_used_date, t.last_used_user";
+		case SdltmCreateSqlSimpleFilter::FilterType::Count:
+			return "count(t.id)";
 		default: assert(false);
 		}
 		return "";

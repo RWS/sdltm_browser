@@ -268,6 +268,12 @@
     <ClCompile Include="C:\code\sdltm_browser\src\sdltm\import\SimpleXml.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\sdltm\BackgroundProgressDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\sdltm_browser\src\sdltm\MainThreadProgressDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="C:\code\sdltm_browser\qrc_icons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -568,6 +574,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\code\sdltm_browser\src\sdltm\import\SimpleXml.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\sdltm\BackgroundProgressDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\code\sdltm_browser\src\sdltm\MainThreadProgressDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\code\sdltm_browser\ui_AboutDialog.h">

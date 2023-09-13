@@ -3,6 +3,7 @@
 #include <QDomDocument>
 #include <QIODevice>
 #include <sqlite3.h>
+#include <version.h>
 
 #include "FileDialog.h"
 #include "SdltmSqlUtil.h"
@@ -17,13 +18,36 @@ ExportSqlToTmx::ExportSqlToTmx(const QString& fileName, DBBrowserDB& db, CustomF
 
 }
 
-void ExportSqlToTmx::Export(const QString& sql) {
+namespace  {
+	const int BLOCK_SIZE = 50;
+
+	int RunQueryGetValue0(const QString& countSql, DBBrowserDB& db) {
+		auto forceWait = true;
+		auto pDb = db.get("get count", forceWait);
+
+		int count = 0;
+		sqlite3_stmt* stmt;
+		int status = sqlite3_prepare_v2(pDb.get(), countSql.toStdString().c_str(), static_cast<int>(countSql.size()), &stmt, nullptr);
+		if (status == SQLITE_OK) {
+			if (sqlite3_step(stmt) == SQLITE_ROW) {
+				count = sqlite3_column_int(stmt, 0);
+			}
+			sqlite3_finalize(stmt);
+		}
+		return count;
+	}
+}
+
+void ExportSqlToTmx::Export(const QString& sql, const QString &sqlCount, BackgroundProgressDialog::CallbackFunc callback) {
+	_recordCount = RunQueryGetValue0(sqlCount, *_db);
+	_recordIndex = 0;
+
 	QFile file(_exportFileName);
 	if (file.open(QIODevice::WriteOnly)) {
 		file.write("<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<tmx version=\"1.4\">\r\n");
 		WriteHeader(file);
 		file.write("  <body>\r\n");
-		WriteBody(file, sql);
+		WriteBody(file, sql, callback);
 		file.write("  </body>\r\n</tmx>");
 	}
 }
@@ -72,7 +96,8 @@ void ExportSqlToTmx::WriteHeader(QFile& file) {
 			auto sourceLanguage = ReadSqlStringField(stmt, 2);
 			auto creationUser = ReadSqlStringField(stmt, 3);
 			auto creationDate = ReadSqlDateTimeField(stmt, 4);
-			header = "  <header creationtool=\"SDL Language Platform\" creationtoolversion=\"8.1\" o-tmf=\"SDL TM8 Format\" datatype=\"xml\" segtype=\"sentence\" ";
+			QString version = APP_VERSION;
+			header = "  <header creationtool=\"TM Fusion\" creationtoolversion=\"" + version + "\" o-tmf=\"SDL TM8 Format\" datatype=\"xml\" segtype=\"sentence\" ";
 			header += " adminlang=\"" + sourceLanguage + "\" srclang=\"" + sourceLanguage + "\"";
 			header += " creationdate=\"" + DateToTmx(creationDate) + "\" creationid=\"" + creationUser+ "\">\r\n";
 		}
@@ -135,7 +160,7 @@ void ExportSqlToTmx::WriteHeader(QFile& file) {
 	file.write("  </header>\r\n");
 }
 
-void ExportSqlToTmx::WriteBody(QFile& file, const QString& sql) {
+void ExportSqlToTmx::WriteBody(QFile& file, const QString& sql, BackgroundProgressDialog::CallbackFunc callback) {
 
 	auto forceWait = true;
 	auto pDb = _db->get("export sql", forceWait);
@@ -151,6 +176,12 @@ void ExportSqlToTmx::WriteBody(QFile& file, const QString& sql) {
 			WriteSegment(file, ReadSqlStringField(stmt, 2));
 
 			WriteTuEnd(file);
+			++_recordIndex;
+			if ((_recordIndex % BLOCK_SIZE) == 0) {
+				auto percent = (double)_recordIndex / (double)_recordCount;
+				if (!callback(percent))
+					break; // user cancelled
+			}
 		}
 		sqlite3_finalize(stmt);
 	}

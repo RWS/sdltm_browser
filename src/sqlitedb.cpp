@@ -877,7 +877,7 @@ DBBrowserDB::db_pointer_type DBBrowserDB::get(const QString& user, bool force_wa
 
     db_user = user;
     db_used = true;
-    emit databaseInUseChanged(true, user);
+    //emit databaseInUseChanged(true, user);
 
     return db_pointer_type(_db, DatabaseReleaser(this));
 }

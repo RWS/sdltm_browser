@@ -9,7 +9,7 @@ public:
 	SdltmCreateSqlSimpleFilter(const SdltmFilter& filter, const std::vector<CustomField> & customFields);
 
 	enum class FilterType {
-		UI, Export,
+		UI, Export, Count,
 	};
 
 	QString ToSqlFilter(FilterType filterType = FilterType::UI) const;
