@@ -31,6 +31,7 @@ public:
 
 	void SetIsEditingSdltmQuery(bool isEditingSdltmQuery);
 	bool IsEditingSourceOrTarget() const;
+    void OnDbChange();
 
 	// Id, Text, IsSource
 	std::function<void(int, const QString&, bool)> SaveSourceOrTargetFunc;

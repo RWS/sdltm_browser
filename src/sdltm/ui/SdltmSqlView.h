@@ -39,6 +39,8 @@ public:
 	void SetHightlightText(const FindAndReplaceTextInfo& highlight);
 	void Refresh();
 	void SetUpdateCache(const SdltmUpdateCache& updateCache);
+
+	void OnDbChange();
 private:
 	void OnVerticalScrollPosChanged();
 	void ResizeVisibleRows();

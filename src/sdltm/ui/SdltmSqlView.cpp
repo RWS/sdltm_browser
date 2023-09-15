@@ -136,6 +136,12 @@ void SdltmSqlView::SetUpdateCache(const SdltmUpdateCache& updateCache) {
 		model->SetUpdateCache(updateCache);
 }
 
+void SdltmSqlView::OnDbChange() {
+    _lastValidSql = "";
+    if (_model != nullptr)
+		_model->reset();
+}
+
 void SdltmSqlView::OnVerticalScrollPosChanged() {
     if (_ignoreUpdate > 0)
         return;

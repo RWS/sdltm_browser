@@ -157,6 +157,9 @@ bool EditDialog::IsEditingSourceOrTarget() const {
 	return false;
 }
 
+void EditDialog::OnDbChange() {
+}
+
 void EditDialog::SetCurrentIndex(const ExtendedTableWidget& widget, const SdltmUpdateCache& updateCache) {
 	auto index = widget.currentIndex();
 	if (_isEditingSdltmQuery) {

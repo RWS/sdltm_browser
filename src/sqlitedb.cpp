@@ -188,7 +188,11 @@ bool DBBrowserDB::getDirty() const
 
 bool DBBrowserDB::open(const QString& db, bool readOnly)
 {
-    if (isOpen()) close();
+    if (isOpen()) {
+        _ignoreDbChange = true;
+        close();
+        _ignoreDbChange = false;
+    }
 
     isEncrypted = false;
     disableStructureUpdateChecks = false;
@@ -338,6 +342,8 @@ bool DBBrowserDB::open(const QString& db, bool readOnly)
         int caseSensitiveLike = 0;
         setPragma("case_sensitive_like", 1, caseSensitiveLike);
 
+        if (OnDatabaseChanged)
+            OnDatabaseChanged();
         return true;
     } else {
         return false;
@@ -809,6 +815,9 @@ bool DBBrowserDB::close()
     emit dbChanged(getDirty());
     emit structureUpdated();
 
+    if (!_ignoreDbChange)
+        if (OnDatabaseChanged)
+            OnDatabaseChanged();
     // Return true to tell the calling function that the closing wasn't cancelled by the user
     return true;
 }

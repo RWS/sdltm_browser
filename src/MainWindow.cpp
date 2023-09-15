@@ -271,6 +271,14 @@ MainWindow::MainWindow(QWidget* parent)
 			QMessageBox::warning(this, qApp->applicationName(), tr("Could not run update Custom Field.\nReason: %1").arg(errorMsg));
 	};
 
+    db.OnDatabaseChanged = [=]()
+    {
+        _updateCache.Clear();
+        ui->sdltmSqlView->OnDbChange();
+        editDock->OnDbChange();
+        ui->editSdltmFilter->ReapplyFilter();
+    };
+
 	_sdltmBackupTimer = new QTimer(this);
 	_sdltmBackupTimer->setInterval(1000);
 	connect(_sdltmBackupTimer, SIGNAL(timeout()), this, SLOT(OnTickTryDbBackup()));
@@ -294,7 +302,6 @@ void MainWindow::OnSimpleTest() {
 	QElapsedTimer timer;
 	timer.start();
 
-    // put your test here
 
 	auto elapsedMs = timer.elapsed();
 	SdltmLog("simple test complete " + QString::number(elapsedMs) + " millis");
@@ -348,9 +355,7 @@ void MainWindow::OnBatchDelete() {
 }
 
 void MainWindow::OnBatchExport() {
-	QString fileName = FileDialog::getSaveFileName(
-		ExportTmxFile,
-		this,
+	QString fileName = FileDialog::getSaveFileName(ExportTmxFile, this,
 		tr("Choose a .TMX file to export to"),
 		"TMX Files (*.tmx)",
 		"export.tmx");
@@ -4407,3 +4412,4 @@ void MainWindow::newRowCountsTab()
 
     runSqlNewTab(sql, ui->actionRowCounts->text());
 }
+

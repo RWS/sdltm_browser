@@ -281,6 +281,8 @@ public:
 private:
     std::vector<std::pair<std::string, std::string> > queryColumnInformation(const std::string& schema_name, const std::string& object_name) const;
 
+    bool _ignoreDbChange = false;
+
 public:
     std::string generateSavepointName(const std::string& identifier = std::string()) const;
 
@@ -289,8 +291,12 @@ public:
 
     schemaMap schemata;
 
+    // called when the database changes (a new db is open and/or the current db closes)
+    std::function<void()> OnDatabaseChanged;
+
 signals:
     void sqlExecuted(QString sql, int msgtype) const;
+    // john.torjo - this is not what you'd think - it's insanely badly named - it's triggered on db updates
     void dbChanged(bool dirty);
     void structureUpdated();
     void requestCollation(QString name, int eTextRep);
@@ -298,7 +304,7 @@ signals:
 
 private:
     /// external code needs to go through get() to obtain access to the database
-    sqlite3 * _db;
+    sqlite3 * _db = nullptr;
     mutable std::mutex m;
     mutable std::condition_variable cv;
     bool db_used;
