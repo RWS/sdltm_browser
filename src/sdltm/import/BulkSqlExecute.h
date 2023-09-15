@@ -9,7 +9,7 @@
 class BulkSqlExecute
 {
 public:
-	explicit BulkSqlExecute(DBBrowserDB& db, int sqlCount = 1024);
+	explicit BulkSqlExecute(DBBrowserDB& db, int sqlCount = 64 * 1024);
 	~BulkSqlExecute();
 
 	void AddSql(const QString& sql);
