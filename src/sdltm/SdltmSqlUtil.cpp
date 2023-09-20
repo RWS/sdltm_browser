@@ -598,6 +598,7 @@ bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>
         source.StringComparison = StringComparisonType::Contains;
         source.FieldValue = info.Find;
         source.CaseSensitive = info.MatchCase;
+        source.UseRegex = info.UseRegex;
         findAndReplace.FilterItems.push_back(source);
     }
 
@@ -608,6 +609,7 @@ bool TryFindAndReplace(const SdltmFilter& filter, const std::vector<CustomField>
         target.StringComparison = StringComparisonType::Contains;
         target.FieldValue = info.Find;
         target.CaseSensitive = info.MatchCase;
+        target.UseRegex = info.UseRegex;
         findAndReplace.FilterItems.push_back(target);
     }
 

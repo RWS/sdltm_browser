@@ -355,14 +355,30 @@ namespace {
 
         return outputText;
     }
+
+    // QT has its own regex syntax.
+    // instead of $1, it uses \\1
+    QString ToRegexReplaceText(QString replace) {
+        auto idxStart = 0;
+        while (true) {
+            auto idxNext = replace.indexOf("$", idxStart);
+            if (idxNext < 0)
+                break;
+            if (idxNext + 1 < replace.size() && replace[idxNext + 1].isDigit())
+                replace[idxNext] = '\\';
+            idxStart = idxNext + 1;
+        }
+        return replace;
+    }
+
     QString GetSdltmRegexReplacedText(const QString& inputTextXml, const QString& regexSearch, const QString& replace) {
         auto findResult = GetNonXmlTextDetails(inputTextXml);
         QString outputText;
-
+        auto regexReplace = ToRegexReplaceText(replace);
         for (int i = 0; i < findResult.size(); ++i) {
             auto prevEndIdx = i > 0 ? findResult[i - 1].FindPosition + findResult[i - 1].FindLength : 0;
             outputText += inputTextXml.mid(prevEndIdx, findResult[i].FindPosition - prevEndIdx);
-            outputText += findResult[i].FindText.replace(QRegularExpression(regexSearch), replace);
+            outputText += findResult[i].FindText.replace(QRegularExpression(regexSearch), regexReplace);
         }
 
         if (findResult.size() > 0) {
@@ -439,23 +455,41 @@ void SdltmRegexReplaceText(sqlite3_context* ctx, int num_arguments, sqlite3_valu
     sqlite3_result_text(ctx, asUtf8.begin(), asUtf8.size(), SQLITE_TRANSIENT);
 }
 
+namespace  {
+	void EscapeExtendedAscii(QString & str) {
+		for (int i = 0; i < str.size(); ++i) {
+            auto uni = str[i].unicode();
+            if (uni >= 127 && uni <= 255) {
+                QString encoded = uni == 160 ? "&nbsp;" : ("&#" + QString::number(uni) + ";");
+                str = str.left(i) + encoded + str.mid(i + 1);
+            }
+		}
+	}
+}
 
 QString EscapeXml(const QString& str) {
     auto copy = str;
     copy.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;");
+    auto hasExtendedAscii = std::find_if(copy.begin(), copy.end(), [](const QChar& ch)
+    {
+        auto uni = ch.unicode();
+        return uni >= 127 && uni <= 255;
+    });
+    if (hasExtendedAscii)
+        EscapeExtendedAscii(copy);
     return copy;
 }
 
 QString EscapeXmlAndSql(const QString& str) {
-	auto copy = str;
+	auto copy = EscapeXml(str);
 	// extra besides EscapeXml - escape quote (') as double-quote
-	copy.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;").replace("'", "''");
+	copy.replace("'", "''");
 	return copy;
 }
 
 QString UnescapeXml(const QString& str) {
     auto copy = str;
-    copy.replace("&gt;", ">").replace("&lt;", "<").replace("&amp;", "&").replace("&nbsp;", " ").replace("&quot;", "\"");
+    copy.replace("&gt;", ">").replace("&lt;", "<").replace("&amp;", "&").replace("&quot;", "\"");
     return copy;
 }
 

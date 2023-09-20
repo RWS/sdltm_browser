@@ -4,6 +4,7 @@
 #include "Application.h"
 #include "sqlite.h"
 #include <QMessageBox>
+#include <QRegularExpression>
 #include <qsslsocket.h>
 
 #include "SdltmUtil.h"
@@ -32,6 +33,7 @@ void boxMessageOutput(QtMsgType, const QMessageLogContext &, const QString &msg)
 {
     message += msg + "\n";
 }
+
 
 int main( int argc, char ** argv )
 {

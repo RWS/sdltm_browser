@@ -302,6 +302,7 @@ void MainWindow::OnSimpleTest() {
 	QElapsedTimer timer;
 	timer.start();
 
+    // put your test code here
 
 	auto elapsedMs = timer.elapsed();
 	SdltmLog("simple test complete " + QString::number(elapsedMs) + " millis");
@@ -4412,4 +4413,3 @@ void MainWindow::newRowCountsTab()
 
     runSqlNewTab(sql, ui->actionRowCounts->text());
 }
-
