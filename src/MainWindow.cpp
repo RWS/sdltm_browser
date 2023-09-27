@@ -293,6 +293,8 @@ MainWindow::MainWindow(QWidget* parent)
 
 	ui->dockEditCustomFields->raise();
 
+    connect(ui->actionRecoverCorruptFile, SIGNAL(triggered(bool)), this, SLOT(OnRecoverCorruptDatabase()));
+
 #ifndef NDEBUG
 	QTimer::singleShot(2000, this, SLOT(OnSimpleTest()));
 #endif
@@ -431,6 +433,93 @@ void MainWindow::OnBatchImport() {
 
 	// the idea: we have imported records -- show those that match the filter
 	ui->editSdltmFilter->ReapplyFilter();
+}
+
+namespace  {
+
+    bool completed = false;
+    bool databaseIntegrityOk = false;
+    bool recoverOk = false;
+    QString recoverError;
+}
+
+void MainWindow::OnRecoverCorruptDatabase() {
+    QMessageBox::information(this, qApp->applicationName(), "Recovering a Corrupt SDLTM File workflow:\r\n1: You browse for the corrupt file.\r\n2. The recovering process starts. It can take a few minutes.\r\n3. At the end, we'll let you know if the process was successful.\r\n4. In case of success, the recovered database is opened.\r\n\r\nPress OK to start..." );
+    QString fileName = FileDialog::getOpenFileName(OpenDatabaseFile, this,
+        tr("Choose an SDLTM file to recover"),
+        "SDLTM Files (*.sdltm)");
+    if (fileName.isEmpty())
+        return;
+
+    auto oldFileName = db.isOpen() ? db.currentFile() : "";
+    fileClose();
+
+    // basically, we can't really know how long the process will take, so just assume 100Mb takes 1 minute
+    auto expectedTimeMins = (double)QFile(fileName).size() / (100. * 1024* 1024);
+    auto expectedTimeSecs = (int)(expectedTimeMins * 60);
+
+    QElapsedTimer timer;
+    timer.start();
+
+    completed = databaseIntegrityOk = recoverOk = false;
+    recoverError = "";
+
+    std::function<void(BackgroundProgressDialog::CallbackFunc)> f = [=](BackgroundProgressDialog::CallbackFunc callback) mutable
+        {
+            auto thread = new FuncThread();
+            thread->Func = [=]() mutable
+            {
+	            if (TestDatabaseIntegrity(fileName)) {
+                    databaseIntegrityOk = true;
+                    recoverOk = true;
+                    completed = true;
+                    return;
+	            }
+                int error = 0;
+                recoverOk = RecoverDatabase(fileName, error, recoverError);
+                completed =  true;
+            };
+            thread->start();
+
+			//... the idea - never get to 100%
+            auto MaxValue = .98;
+			for (int i = 0; i < expectedTimeSecs; ++i) {
+                ::Sleep(1000);
+                callback(std::min((double)i / (double)expectedTimeSecs,  MaxValue));
+
+                if (completed)
+                    break;
+            }
+
+			// ... just in case we haven't finished yet
+			while (true) {
+                ::Sleep(1000);
+                callback(MaxValue);
+                if (completed)
+                    break;
+            }
+        };
+
+    { BackgroundProgressDialog dlg(f);
+    dlg.TaskName = "Recovering SDLTM file ...";
+    dlg.ShowDialog();
+    }
+
+    auto elapsedMs = timer.elapsed();
+
+    if (recoverOk) {
+	    if (databaseIntegrityOk)
+            QMessageBox::information(this, qApp->applicationName(), "Success! Your SDLTM file was already ok!");
+        else
+			QMessageBox::information(this, qApp->applicationName(), "Success! We've recovered the SDLTM file, nin " + QString::number(elapsedMs / 1000)
+            + " seconds.\r\nWe'll open the file now. Please inspect it, since it's possible not everything could be recovered.");
+
+        fileOpen(fileName);
+    }
+    else {
+        QMessageBox::information(this, qApp->applicationName(), tr("Failed recovering the SDLTM file.\nReason: %1").arg(recoverError));
+        fileOpen(oldFileName);
+    }
 }
 
 void MainWindow::init()

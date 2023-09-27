@@ -186,8 +186,8 @@ You can drag SQL statements from an object row and drop them into other applicat
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>250</width>
-             <height>464</height>
+             <width>740</width>
+             <height>816</height>
             </rect>
            </property>
            <layout class="QFormLayout" name="formLayout">
@@ -1110,6 +1110,8 @@ You can drag SQL statements from an object row and drop them into other applicat
     <addaction name="actionForeignKeyCheck"/>
     <addaction name="actionOptimize"/>
     <addaction name="actionRowCounts"/>
+    <addaction name="separator"/>
+    <addaction name="actionRecoverCorruptFile"/>
    </widget>
    <addaction name="fileMenu"/>
    <addaction name="editMenu"/>
@@ -2597,6 +2599,11 @@ You can drag SQL statements from the Schema column and drop them into the SQL ed
    </property>
    <property name="toolTip">
     <string>Reverts any updates/deletions you've made since you opened the database</string>
+   </property>
+  </action>
+  <action name="actionRecoverCorruptFile">
+   <property name="text">
+    <string>Recover Corrupt SDLTM File</string>
    </property>
   </action>
  </widget>

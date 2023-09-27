@@ -6,3 +6,6 @@ Please read this document as you're building the app.
 2. Downloading OpenSSL : from https://slproweb.com/download/Win64OpenSSL-1_1_1t.msi 
 IMPORTANT: this needs to be 1.1.1, otherwise, QT won't properly work with it. 
 At install location, specify C:\dev\OpenSSL-Win64
+
+3. Installing Sqlite:
+cl sqlite3.c -DSQLITE_API=__declspec(dllexport) -DSQLITE_ENABLE_DBPAGE_VTAB -link -dll -out:sqlite3.dll

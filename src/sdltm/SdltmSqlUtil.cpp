@@ -2,8 +2,11 @@
 
 #include <QVariant>
 
+#include "FileDialog.h"
 #include "SdltmCreateSqlSimpleFilter.h"
 #include "SdltmUtil.h"
+#include "import/BulkSqlExecute.h"
+#include "sqlite_recover/sqlite3recover.h"
 
 std::vector<int> RunQueryGetIDs(const QString& sql, DBBrowserDB& db) {
     auto forceWait = true;
@@ -1080,3 +1083,136 @@ int GetNextTranslationUnitId(DBBrowserDB& db) {
 }
 
 
+namespace {
+    // taken from https://sqlite.org/src/info/30475c820dc5ab8a8?ln=999,1026
+    // and adjusted for our project
+
+    std::vector<QString> _recoverSqls;
+
+    /*
+	** This function is used as a callback by the recover extension. Simply
+	** print the supplied SQL statement to stdout.
+	*/
+    int recoverSqlCb(void* pCtx, const char* zSql) {
+        QString sql = zSql;
+        // BEGIN + COMMIT - we automatically do it
+        if (sql != "BEGIN" && sql != "COMMIT")
+			_recoverSqls.push_back(sql);
+        return SQLITE_OK;
+    }
+
+    /*
+	** This function is called to recover data from the database.
+	*/
+    bool recoverDatabaseRaw(sqlite3* db, int& error, QString& errorMsg) {
+        int rc;                                 /* Return code from this routine */
+        const char* zLAF = "lost_and_found";    /* Name of "lost_and_found" table */
+        int bFreelist = 1;                      /* True to scan the freelist */
+        int bRowids = 1;                        /* True to restore ROWID values */
+        sqlite3_recover* p;                     /* The recovery object */
+
+        p = sqlite3_recover_init_sql(db, "main", recoverSqlCb, 0);
+        sqlite3_recover_config(p, SQLITE_RECOVER_LOST_AND_FOUND, (void*)zLAF);
+        sqlite3_recover_config(p, SQLITE_RECOVER_ROWIDS, (void*)&bRowids);
+        sqlite3_recover_config(p, SQLITE_RECOVER_FREELIST_CORRUPT, (void*)&bFreelist);
+        sqlite3_recover_run(p);
+        if (sqlite3_recover_errcode(p) != SQLITE_OK) {
+            const char* zErr = sqlite3_recover_errmsg(p);
+            int errCode = sqlite3_recover_errcode(p);
+            error = errCode;
+            errorMsg = zErr;
+        }
+
+        rc = sqlite3_recover_finish(p);
+        if (rc) {
+            error = rc;
+            errorMsg = "recovery returns error code " + QString::number(error);
+        }
+        return rc == 0;
+    }
+
+    void RestoreDatabase(const QString & dbName, const std::vector<QString> & sqls) {
+        QFile::remove(dbName);
+        DBBrowserDB db;
+        db.create(dbName);
+        {
+            BulkSqlExecute execute(db, 16 * 1024 * 1024);
+            for (const auto& sql : sqls)
+                execute.AddSql(sql);
+        }
+        db.close();
+    }
+}
+
+
+bool RecoverDatabase(const QString & dbName, int& error, QString& errorMsg) {
+    auto offset = 0;
+    QString backup;
+    while (true) {
+        backup = dbName + ".bak" + (offset > 0 ? "." + QString::number(offset) : "");
+        if (!QFile::exists(backup))
+            break;
+        ++offset;
+    }
+    // always do a backup first
+    if(!QFile::copy(dbName, backup)) {
+        error = -1;
+        errorMsg = "Can't create backup of original database";
+        return false;
+    }
+    _recoverSqls.clear();
+
+    // Open database file
+    sqlite3* db = nullptr;
+    if (sqlite3_open_v2(dbName.toUtf8(), &db, SQLITE_OPEN_READWRITE, nullptr) != SQLITE_OK)
+    {
+        error = sqlite3_errcode(db);
+        errorMsg = QString::fromUtf8(sqlite3_errmsg(db));
+        return false;
+    }
+
+    auto ok = recoverDatabaseRaw(db, error, errorMsg);
+    sqlite3_close_v2(db);
+
+    // at this point, i need the SQLs and execute them one by one
+    if (_recoverSqls.empty())
+        // nothing to recover?
+        ok = false;
+    if (ok)
+        RestoreDatabase(dbName, _recoverSqls);
+    return ok;
+}
+
+namespace  {
+    std::vector<QString> RunQueryGetFirstColumn(const QString& sql, DBBrowserDB& db) {
+        auto forceWait = true;
+        auto pDb = db.get("run sql get first column", forceWait);
+
+        std::vector<QString> result;
+
+        sqlite3_stmt* stmt;
+        int status = sqlite3_prepare_v2(pDb.get(), sql.toStdString().c_str(), static_cast<int>(sql.size()), &stmt, nullptr);
+        if (status == SQLITE_OK) {
+            while (sqlite3_step(stmt) == SQLITE_ROW) {
+                result.push_back( ReadSqlStringField(stmt, 0));
+            }
+            sqlite3_finalize(stmt);
+        }
+
+        return result;
+    }
+
+}
+
+// returns true if all's good, false otherwise
+bool TestDatabaseIntegrity(const QString& dbName) {
+    DBBrowserDB db;
+    if (!db.open(dbName))
+        return false;
+
+    auto integrityCheck = RunQueryGetFirstColumn("PRAGMA integrity_check;", db);
+    auto fkIntegrityCheck = RunQueryGetFirstColumn("PRAGMA foreign_key_check;", db);
+    db.close();
+    auto ok = integrityCheck.size() == 1 && integrityCheck[0] == "ok" && fkIntegrityCheck.empty();
+    return ok;
+}

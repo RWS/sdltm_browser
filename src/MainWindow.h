@@ -280,6 +280,7 @@ private slots:
     void OnBatchDelete();
 	void OnBatchExport();
 	void OnBatchImport();
+    void OnRecoverCorruptDatabase();
 };
 
 #endif

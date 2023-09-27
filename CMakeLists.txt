@@ -4,7 +4,7 @@ set (CMAKE_SYSTEM_VERSION "10.0.22000.0" CACHE INTERNAL "")
 set(CMAKE_FIND_NO_INSTALL_PREFIX True)
 
 project(trados_sdltm
-    VERSION 1.0.73
+    VERSION 1.0.76
     DESCRIPTION "TM Fusion for Trados"
 )
 
@@ -238,6 +238,7 @@ target_sources(${PROJECT_NAME}
     src/sdltm/import/SimpleXml.h
     src/sdltm/BackgroundProgressDialog.h
     src/sdltm/MainThreadProgressDialog.h
+    src/sdltm/sqlite_recover/sqlite3recover.h
 )
 
 target_sources(${PROJECT_NAME}
@@ -332,6 +333,8 @@ target_sources(${PROJECT_NAME}
     src/sdltm/import/SimpleXml.cpp
     src/sdltm/BackgroundProgressDialog.cpp
     src/sdltm/MainThreadProgressDialog.cpp
+    src/sdltm/sqlite_recover/sqlite3recover.c
+    src/sdltm/sqlite_recover/dbdata.c
 )
 
 set(SQLB_FORMS

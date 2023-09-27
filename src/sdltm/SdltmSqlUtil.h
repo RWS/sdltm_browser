@@ -36,3 +36,8 @@ std::vector<CustomFieldValue> GetCustomFieldValues(DBBrowserDB& db, const std::v
 
 bool TryAddCustomField(DBBrowserDB& db, const CustomField& customField, int& error, QString& errorMsg);
 int GetNextTranslationUnitId(DBBrowserDB& db);
+
+bool RecoverDatabase(const QString& dbName, int& error, QString& errorMsg);
+bool TestDatabaseIntegrity(const QString& dbName);
+
+

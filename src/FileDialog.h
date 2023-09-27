@@ -84,6 +84,7 @@ enum FileDialogTypes {
 
 	ExportTmxFile,
 	ImportTmxFile,
+
 };
 
 class FileDialog : public QFileDialog
